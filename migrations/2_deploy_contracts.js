@@ -1,5 +1,5 @@
-const Greeter = artifacts.require("Greeter");
+const Cheemscoin = artifacts.require("Cheemscoin");
 
 module.exports = function (deployer) {
-  deployer.deploy(Greeter);
+  deployer.deploy(Cheemscoin);
 };
