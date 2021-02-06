@@ -6,6 +6,7 @@
     "build": "next build && next export",
     "start": "next start",
     "deploy": "gh-pages -d out",
+    "surge": "surge ./out/ cheemscoin.surge.sh",
     "compile": "truffle compile",
     "migrate": "truffle migrate",
     "xdai": "truffle migrate --network xdai",

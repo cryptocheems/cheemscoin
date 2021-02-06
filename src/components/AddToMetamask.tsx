@@ -12,10 +12,15 @@ export const AddToMetamask: React.FC = () => {
           address: "0x16471F90e21ACF55f4F7ed8247b7759E7f7003Eb", // TODO Use xDai address
           symbol: "CHEEMS",
           decimals: 18,
-          image: "https://i.imgur.com/3O6Wtcq.png", // TODO Make this link the one on github and make it smaller
+          image:
+            "https://raw.githubusercontent.com/kowasaur/cheemscoin/main/public/cheemscoinSmall.png",
         },
       },
     });
   }
-  return <Button onClick={add}>Add To Metamask</Button>;
+  return (
+    <Button onClick={add} colorScheme="orange">
+      Add To Metamask
+    </Button>
+  );
 };

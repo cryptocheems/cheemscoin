@@ -1,4 +1,4 @@
-import { Flex, Text, useColorMode } from "@chakra-ui/react";
+import { Flex, useColorMode } from "@chakra-ui/react";
 import React from "react";
 import { DarkModeSwitch } from "./DarkModeSwitch";
 // @ts-ignore
@@ -14,17 +14,17 @@ export const NavBar: React.FC = ({}) => {
 
   return (
     <Flex
-      bg={isDark ? "green.200" : "green.500"}
+      bg={isDark ? "orange.200" : "orange.500"}
       p={4}
       w="100%"
       color={isDark ? "#1A202C" : "white"}
       align="center"
       justify="right"
     >
-      <Text d="inline" mr={4}>
-        {/* {state.accounts[0]} */}
+      {/* <Text d="inline" mr={4}>
+        {state.accounts[0]}
         test
-      </Text>
+      </Text> */}
       <DarkModeSwitch />
     </Flex>
   );

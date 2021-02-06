@@ -1,6 +1,5 @@
-import { Box, useColorMode } from "@chakra-ui/react";
+import { Heading, Image, useColorMode } from "@chakra-ui/react";
 
-// import { Hero } from "../components/Hero";
 import { Container } from "../components/Container";
 import { Main } from "../components/Main";
 import { CTA } from "../components/CTA";
@@ -25,26 +24,12 @@ const Index = () => {
   return (
     <Container height="100vh">
       <NavBar />
-      {/* <Hero
-        title={
-          <ContractData contract="Greeter" method="get" drizzle={drizzle} drizzleState={state} />
-        }
-      /> */}
-      <Main>
-        <Box
-          p="2rem"
-          borderWidth="2px"
-          borderRadius="xl"
-          borderColor={isDark ? "green.200" : "green.500"}
-        >
-          {/* <ContractForm
-            contract="Greeter"
-            method="set"
-            labels={["Greeting"]}
-            drizzle={drizzle}
-            drizzleState={state}
-          /> */}
-        </Box>
+
+      <Main alignItems="center" mt="10" height="100%">
+        <Heading color={isDark ? "orange.300" : "orange.400"} size="4xl">
+          Cheemscoin
+        </Heading>
+        <Image src="cheemscoin.png" maxBlockSize="20rem" />
         <AddToMetamask />
       </Main>
       <CTA />
