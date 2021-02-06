@@ -4,13 +4,13 @@ import { DarkModeSwitch } from "./DarkModeSwitch";
 // @ts-ignore
 import { drizzleReactHooks } from "@drizzle/react-plugin";
 
-const { useDrizzleState } = drizzleReactHooks;
+// const { useDrizzleState } = drizzleReactHooks;
 
 export const NavBar: React.FC = ({}) => {
   const { colorMode } = useColorMode();
   const isDark = colorMode === "dark";
 
-  const state = useDrizzleState((state: any) => state);
+  // const state = useDrizzleState((state: any) => state);
 
   return (
     <Flex
@@ -22,7 +22,8 @@ export const NavBar: React.FC = ({}) => {
       justify="right"
     >
       <Text d="inline" mr={4}>
-        {state.accounts[0]}
+        {/* {state.accounts[0]} */}
+        test
       </Text>
       <DarkModeSwitch />
     </Flex>

@@ -1,22 +1,23 @@
 import { Box, useColorMode } from "@chakra-ui/react";
 
-import { Hero } from "../components/Hero";
+// import { Hero } from "../components/Hero";
 import { Container } from "../components/Container";
 import { Main } from "../components/Main";
 import { CTA } from "../components/CTA";
 import { NavBar } from "../components/NavBar";
 
-import { newContextComponents } from "@drizzle/react-components";
+// import { newContextComponents } from "@drizzle/react-components";
 // TODO: Make these types
 // @ts-ignore
 import { drizzleReactHooks } from "@drizzle/react-plugin";
+import { AddToMetamask } from "../components/AddToMetamask";
 
-const { useDrizzle, useDrizzleState } = drizzleReactHooks;
-const { ContractData, ContractForm } = newContextComponents;
+// const { useDrizzle, useDrizzleState } = drizzleReactHooks;
+// const { ContractData, ContractForm } = newContextComponents;
 
 const Index = () => {
-  const { drizzle } = useDrizzle();
-  const state = useDrizzleState((state: any) => state);
+  // const { drizzle } = useDrizzle();
+  // const state = useDrizzleState((state: any) => state);
 
   const { colorMode } = useColorMode();
   const isDark = colorMode === "dark";
@@ -24,11 +25,11 @@ const Index = () => {
   return (
     <Container height="100vh">
       <NavBar />
-      <Hero
+      {/* <Hero
         title={
           <ContractData contract="Greeter" method="get" drizzle={drizzle} drizzleState={state} />
         }
-      />
+      /> */}
       <Main>
         <Box
           p="2rem"
@@ -36,14 +37,15 @@ const Index = () => {
           borderRadius="xl"
           borderColor={isDark ? "green.200" : "green.500"}
         >
-          <ContractForm
+          {/* <ContractForm
             contract="Greeter"
             method="set"
             labels={["Greeting"]}
             drizzle={drizzle}
             drizzleState={state}
-          />
+          /> */}
         </Box>
+        <AddToMetamask />
       </Main>
       <CTA />
     </Container>

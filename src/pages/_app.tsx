@@ -3,30 +3,30 @@ import { ChakraProvider } from "@chakra-ui/react";
 import theme from "../theme";
 import { AppProps } from "next/app";
 
-import { Drizzle, IDrizzleOptions } from "@drizzle/store";
+// import { Drizzle, IDrizzleOptions } from "@drizzle/store";
 // @ts-ignore
 import { drizzleReactHooks } from "@drizzle/react-plugin";
-import { IContract } from "@drizzle/store/types/IContract";
-import { LoadingContainer } from "../components/LoadingContainer";
+// import { IContract } from "@drizzle/store/types/IContract";
+// import { LoadingContainer } from "../components/LoadingContainer";
 
-import Greeter from "../artifacts/Greeter.json";
+// import Cheemscoin from "../artifacts/Cheemscoin.json";
 
-const drizzleOptions: IDrizzleOptions = {
-  contracts: [(Greeter as unknown) as IContract],
-};
+// const drizzleOptions: IDrizzleOptions = {
+//   contracts: [(Cheemscoin as unknown) as IContract],
+// };
 
-const drizzle = new Drizzle(drizzleOptions);
-const { DrizzleProvider } = drizzleReactHooks;
+// const drizzle = new Drizzle(drizzleOptions);
+// const { DrizzleProvider } = drizzleReactHooks;
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <DrizzleProvider drizzle={drizzle}>
-      <ChakraProvider resetCSS theme={theme}>
-        <LoadingContainer>
-          <Component {...pageProps} />
-        </LoadingContainer>
-      </ChakraProvider>
-    </DrizzleProvider>
+    // <DrizzleProvider drizzle={drizzle}>
+    <ChakraProvider resetCSS theme={theme}>
+      {/* <LoadingContainer> */}
+      <Component {...pageProps} />
+      {/* </LoadingContainer> */}
+    </ChakraProvider>
+    // </DrizzleProvider>
   );
 }
 
