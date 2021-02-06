@@ -1,0 +1,15 @@
+{
+  "ignore": ["README.md"],
+  "commands": {
+    "Run dev client": "npm run dev",
+    "Build client": "npm run build",
+    "Deploy client to gh-pages": "npm run deploy",
+    "Compile contracts": "truffle compile",
+    "Migrate contracts": "truffle migrate",
+    "Deploy to xDai": "truffle migrate --network xdai",
+    "Test contracts": "truffle test"
+  },
+  "hooks": {
+    "post-unpack": "npm install"
+  }
+}
