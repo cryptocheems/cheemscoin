@@ -9,7 +9,7 @@ export const AddToMetamask: React.FC = () => {
       params: {
         type: "ERC20",
         options: {
-          address: "0x16471F90e21ACF55f4F7ed8247b7759E7f7003Eb", // TODO Use xDai address
+          address: "0xEaF7B3376173DF8BC0C22Ad6126943cC8353C1Ee",
           symbol: "CHEEMS",
           decimals: 18,
           image:

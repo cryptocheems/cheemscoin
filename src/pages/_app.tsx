@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="shortcut icon" href="/cheemscoin/favicon.ico" />
         <title>Cheemscoin</title>
       </Head>
       {/* <DrizzleProvider drizzle={drizzle}> */}

@@ -24,10 +24,12 @@ module.exports = {
     },
     xdai: {
       provider: function () {
-        return new HDWalletProvider(process.env.MNEMONIC, "https://dai.poa.network");
+        // * other one wasnt working
+        return new HDWalletProvider(process.env.MNEMONIC, "https://xdai.1hive.org/");
       },
       network_id: 100,
-      gas: 500000,
+      // ! idk if I shoulda messed with this but it said I didnt have enough gas
+      gas: 5000000,
       gasPrice: 1000000000,
     },
   },

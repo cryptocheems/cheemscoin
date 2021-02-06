@@ -21,13 +21,13 @@ contract("Cheemscoin", ([owner, randoAddress]) => {
       const symbol = await cheemsCoin.symbol();
       assert.equal(symbol, "CHEEMS");
     });
-    it("has 69,420,000 in total", async () => {
+    it("has 690,420 in total", async () => {
       const supply = await cheemsCoin.totalSupply();
-      assert.equal(supply, wei("69420000"));
+      assert.equal(supply, wei("690420"));
     });
     it("has correct owner balance", async () => {
       const balance = await cheemsCoin.balanceOf(owner);
-      assert.equal(balance, wei("69420000"));
+      assert.equal(balance, wei("690420"));
     });
   });
 
@@ -37,7 +37,7 @@ contract("Cheemscoin", ([owner, randoAddress]) => {
       const ownerBefore = await cheemsCoin.balanceOf(owner);
 
       assert.equal(randoBefore, "0");
-      assert.equal(ownerBefore, wei("69420000"));
+      assert.equal(ownerBefore, wei("690420"));
 
       await cheemsCoin.transfer(randoAddress, wei("6.9"), { from: owner });
 
@@ -45,7 +45,7 @@ contract("Cheemscoin", ([owner, randoAddress]) => {
       const ownerAfter = await cheemsCoin.balanceOf(owner);
 
       assert.equal(randoAfter, wei("6.9"));
-      assert.equal(ownerAfter, wei("69419993.1"));
+      assert.equal(ownerAfter, wei("690413.1"));
     });
   });
 });
