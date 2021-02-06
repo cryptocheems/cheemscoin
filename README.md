@@ -2,6 +2,8 @@
 
 Cheemscoin is an ERC20 token on the [xDai Chain](https://www.xdaichain.com/) (an Ethereum sidechain).
 
+[**Discord**](https://discord.gg/wdt6swb3H8)
+
 **Website:**  
 https://cheemscoin.surge.sh/  
 or  
@@ -11,7 +13,7 @@ https://kowasaur.github.io/cheemscoin/
 
 1. Install [Metamask](https://metamask.io/)
 2. Add xDai to Metamask as shown [here](https://www.xdaichain.com/for-users/wallets/metamask/metamask-setup#setting-up-metamask-for-xdai)
-3. Message either kowasaur on Discord or [u/FlyingTurtle_kdk](https://www.reddit.com/user/FlyingTurtle_kdk) on Reddit your Metamask wallet address (the one starting with 0x) and your reddit username if you're messaging via Discord.
+3. Message either kowasaur on [Discord](https://discord.gg/wdt6swb3H8) or [u/FlyingTurtle_kdk](https://www.reddit.com/user/FlyingTurtle_kdk) on Reddit your Metamask wallet address (the one starting with 0x) and your reddit username if you're messaging via Discord.
 4. (Make sure your currently selected network in Metamask is xDai) Go to https://kowasaur.github.io/cheemscoin/ and click `Add To Metamask` then `Add Token` to be able to see your coins. I'll let you know when I've sent them to you
 
 ## Token Info
