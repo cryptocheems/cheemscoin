@@ -13,7 +13,12 @@ export const CTA = () => (
   >
     <ChakraLink isExternal href="https://github.com/kowasaur/cheemscoin" flexGrow={1} mx={2} mt="5">
       <Button width="100%" variant="outline" colorScheme="orange">
-        View Repo
+        Github
+      </Button>
+    </ChakraLink>
+    <ChakraLink isExternal href="https://discord.gg/wdt6swb3H8" flexGrow={1} mx={2} mt="5">
+      <Button width="100%" colorScheme="orange" variant="outline">
+        Discord
       </Button>
     </ChakraLink>
   </Container>

@@ -19,11 +19,18 @@ https://kowasaur.github.io/cheemscoin/
 ## Token Info
 
 | Name         |                                                                                                                                      Cheemscoin |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------: |
+| :----------- | ----------------------------------------------------------------------------------------------------------------------------------------------: |
 | Symbol       |                                                                                                                                          CHEEMS |
 | Decimals     |                                                                                                                                              18 |
 | Address      | [0xEaF7B3376173DF8BC0C22Ad6126943cC8353C1Ee](https://blockscout.com/poa/xdai/tokens/0xEaF7B3376173DF8BC0C22Ad6126943cC8353C1Ee/token-transfers) |
 | Total Supply |                                                                                                                                         690,420 |
+
+# Contributers
+
+- [u/captainjawz](https://www.reddit.com/user/captainjawz) - Making bot that messages everyone the instructions to claim
+- [u/theSpeciamOne](https://www.reddit.com/user/theSpeciamOne/) - Creating the original post
+- [u/amaclittle](https://www.reddit.com/user/amaclittle) - Editing the logo
+- [u/SeamanTheSailor](https://www.reddit.com/user/SeamanTheSailor) - ["Cheemscoin Founder"](https://www.reddit.com/r/dogelore/comments/lcwgj7/all_new_and_innovative_idea/gm3v4sl/)
 
 # To Do
 
