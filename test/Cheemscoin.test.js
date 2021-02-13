@@ -1,8 +1,6 @@
 const Cheemscoin = artifacts.require("Cheemscoin");
 
-function wei(n) {
-  return web3.utils.toWei(n, "ether");
-}
+const wei = require("./utility");
 
 contract("Cheemscoin", ([owner, randoAddress]) => {
   let cheemsCoin;
