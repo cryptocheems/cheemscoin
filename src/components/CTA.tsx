@@ -22,5 +22,10 @@ export const CTA = () => (
         Discord
       </Button>
     </Link>
+    <Link isExternal href="https://app.honeyswap.org/#/swap" flexGrow={1} mx={2}>
+      <Button width="100%" colorScheme="orange" variant="outline">
+        Trade on Honeyswap
+      </Button>
+    </Link>
   </Container>
 );
