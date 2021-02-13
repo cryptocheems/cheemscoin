@@ -1,4 +1,4 @@
-import { Heading, Image, useColorMode } from "@chakra-ui/react";
+import { Heading, Image, useColorMode, Text, Link } from "@chakra-ui/react";
 
 import { Container } from "../components/Container";
 import { Main } from "../components/Main";
@@ -10,6 +10,7 @@ import { NavBar } from "../components/NavBar";
 // @ts-ignore
 import { drizzleReactHooks } from "@drizzle/react-plugin";
 import { AddToMetamask } from "../components/AddToMetamask";
+import { useState } from "react";
 
 // const { useDrizzle, useDrizzleState } = drizzleReactHooks;
 // const { ContractData, ContractForm } = newContextComponents;
@@ -21,6 +22,9 @@ const Index = () => {
   const { colorMode } = useColorMode();
   const isDark = colorMode === "dark";
 
+  const [doSpin, setDoSpin] = useState(false);
+  const [animationTime, setAnimationTime] = useState(1 / 0.9);
+
   return (
     <Container height="100vh">
       <NavBar />
@@ -29,8 +33,28 @@ const Index = () => {
         <Heading color={isDark ? "orange.300" : "orange.400"} size="4xl">
           Cheemscoin
         </Heading>
-        <Image src="cheemscoin.png" maxBlockSize="20rem" />
+        <Image
+          src="cheemscoin.png"
+          maxBlockSize="20rem"
+          animation={doSpin ? `spin ${animationTime}s ease-in-out` : undefined}
+          onClick={() => {
+            setDoSpin(true);
+            setAnimationTime(a => a * 0.9);
+          }}
+          onAnimationEnd={() => setDoSpin(false)}
+          cursor="pointer"
+        />
         <AddToMetamask />
+        <Text>
+          More information{" "}
+          <Link
+            href="https://www.cryptocheems.com/"
+            color={isDark ? "orange.200" : "orange.500"}
+            isExternal
+          >
+            here
+          </Link>
+        </Text>
       </Main>
       <CTA />
     </Container>
