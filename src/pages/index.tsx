@@ -46,6 +46,17 @@ const Index = () => {
         />
         <AddToMetamask />
         <Text>
+          Cheemscoin is an ERC20 token based on the{" "}
+          <Link
+            href="https://www.xdaichain.com/"
+            color={isDark ? "orange.200" : "orange.500"}
+            isExternal
+           >
+            xDai sidechain
+          </Link>
+          .
+        </Text>
+        <Text>
           More information{" "}
           <Link
             href="https://www.cryptocheems.com/"
@@ -54,6 +65,7 @@ const Index = () => {
           >
             here
           </Link>
+          .
         </Text>
       </Main>
       <CTA />
