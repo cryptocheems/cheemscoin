@@ -18,7 +18,7 @@ https://kowasaur.github.io/cheemscoin/
 3. If you have replied to the [original post](https://www.reddit.com/r/dogelore/comments/lcwgj7/all_new_and_innovative_idea/gm42mx7/?context=3), message either kowasaur on [Discord](https://discord.gg/wdt6swb3H8) or [u/FlyingTurtle_kdk](https://www.reddit.com/user/FlyingTurtle_kdk) on Reddit your Metamask wallet address (the string that goes 0x...) and your Reddit username if you're messaging via Discord.
 4. (Make sure your currently selected network in Metamask is xDai) Go to https://kowasaur.github.io/cheemscoin/ and click `Add To Metamask` then `Add Token` to be able to see your coins. I'll let you know when I've sent them to you.
 
-If you haven't replied to the original post, Cheemscoin can also be obtained by converting native xDai tokens from the Chain into Cheemscoin via [Honeyswap](https://app.honeyswap.org/#/swap).
+If you haven't replied to the original post, Cheemscoin can also be obtained by converting native xDai tokens from the Chain into Cheemscoin via [Honeyswap](https://app.honeyswap.org/#/swap?outputCurrency=0xeaf7b3376173df8bc0c22ad6126943cc8353c1ee).
 
 ## Token Info
 
