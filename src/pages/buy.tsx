@@ -1,6 +1,6 @@
 import React from "react";
 
-const Buy: React.FC = ({}) => {
+const Buy: React.FC = () => {
   return <p>unfinished</p>;
 };
 

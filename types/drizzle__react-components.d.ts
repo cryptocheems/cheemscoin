@@ -41,7 +41,7 @@ declare module "@drizzle/react-components" {
       inputTypes: string[];
       inputs: { internalType: string; name: string; type: string }[];
       state: object;
-    }) => ReactElement;
+    }) => ReactElement | ReactElement[];
   }
 
   export const newContextComponents = {
