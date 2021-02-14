@@ -1,6 +1,8 @@
 # Cheemscoin
 
-Cheemscoin is an ERC20 token on the [xDai Chain](https://www.xdaichain.com/) (an Ethereum sidechain).
+Cheemscoin is an ERC20 token based on the [xDai Chain](https://www.xdaichain.com/) (an Ethereum sidechain).
+
+## Links
 
 [**Discord**](https://discord.gg/wdt6swb3H8)
 
@@ -16,6 +18,10 @@ https://kowasaur.github.io/cheemscoin/
 3. Message either kowasaur on [Discord](https://discord.gg/wdt6swb3H8) or [u/FlyingTurtle_kdk](https://www.reddit.com/user/FlyingTurtle_kdk) on Reddit your Metamask wallet address (the string that goes 0x...) and your Reddit username if you're messaging via Discord.
 4. (Make sure your currently selected network in Metamask is xDai) Go to https://kowasaur.github.io/cheemscoin/ and click `Add To Metamask` then `Add Token` to be able to see your coins. I'll let you know when I've sent them to you.
 
+## How to obtain
+
+Cheemscoin can currently be obtained by converting native xDai tokens from the Chain into Cheemscoin via [Honeyswap](https://app.honeyswap.org/#/swap).  
+
 ## Token Info
 
 | Name         |                                                                                                                                      Cheemscoin |
@@ -23,7 +29,7 @@ https://kowasaur.github.io/cheemscoin/
 | Symbol       |                                                                                                                                          CHEEMS |
 | Decimals     |                                                                                                                                              18 |
 | Address      | [0xEaF7B3376173DF8BC0C22Ad6126943cC8353C1Ee](https://blockscout.com/poa/xdai/tokens/0xEaF7B3376173DF8BC0C22Ad6126943cC8353C1Ee/token-transfers) |
-| Total Supply |                                                                                                                      690,420 (the funny number) |
+| Total Supply |                                                                                                                                         690,420 |
 
 # Contributors
 
@@ -34,6 +40,6 @@ https://kowasaur.github.io/cheemscoin/
 
 # To-do
 
-- Verify contract on blockscout
-- Create ability to buy Cheemscoin
+- Verify contract on Blockscout
+- Create ability to properly buy Cheemscoin
 - Implement staking
