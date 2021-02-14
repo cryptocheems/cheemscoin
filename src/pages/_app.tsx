@@ -2,11 +2,13 @@ import { ChakraProvider } from "@chakra-ui/react";
 import "../styles.css";
 import theme from "../theme";
 import { AppProps } from "next/app";
+import { Container } from "../components/Container";
+import { NavBar } from "../components/NavBar";
 import Head from "next/head";
 
 // import { Drizzle, IDrizzleOptions } from "@drizzle/store";
 // @ts-ignore
-import { drizzleReactHooks } from "@drizzle/react-plugin";
+// import { drizzleReactHooks } from "@drizzle/react-plugin";
 // import { IContract } from "@drizzle/store/types/IContract";
 
 // import Cheemscoin from "../artifacts/Cheemscoin.json";
@@ -25,11 +27,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="shortcut icon" href="/cheemscoin/favicon.ico" />
         <title>Cheemscoin</title>
       </Head>
-      {/* <DrizzleProvider drizzle={drizzle}> */}
       <ChakraProvider resetCSS theme={theme}>
-        <Component {...pageProps} />
+        <Container height="100vh">
+          <NavBar />
+          <Component {...pageProps} />
+        </Container>
       </ChakraProvider>
-      {/* </DrizzleProvider> */}
     </>
   );
 }

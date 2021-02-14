@@ -1,9 +1,6 @@
 import { Heading, Image, useColorMode, Text, Link } from "@chakra-ui/react";
-
-import { Container } from "../components/Container";
 import { Main } from "../components/Main";
 import { CTA } from "../components/CTA";
-import { NavBar } from "../components/NavBar";
 
 // import { newContextComponents } from "@drizzle/react-components";
 // TODO: Make these types
@@ -26,9 +23,7 @@ const Index = () => {
   const [animationTime, setAnimationTime] = useState(1 / 0.9);
 
   return (
-    <Container height="100vh">
-      <NavBar />
-
+    <>
       <Main alignItems="center" mt="10" height="100%">
         <Heading color={isDark ? "orange.300" : "orange.400"} size="4xl">
           Cheemscoin
@@ -57,7 +52,7 @@ const Index = () => {
         </Text>
       </Main>
       <CTA />
-    </Container>
+    </>
   );
 };
 
