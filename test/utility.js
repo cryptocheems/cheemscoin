@@ -1,3 +1,8 @@
-module.exports = function wei(n) {
-  return web3.utils.toWei(n, "ether");
+module.exports = {
+  wei: n => {
+    return web3.utils.toWei(n, "ether");
+  },
+  fromWei: n => {
+    return web3.utils.fromWei(n);
+  },
 };

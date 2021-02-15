@@ -32,4 +32,14 @@ contract Exchange {
     require(msg.sender == dev, "Price can only be set by dev address");
     price = _newPrice;
   }
+
+  // Withdraws all Cheemscoin to dev address
+  // Purpose is so exchange funds can be allocated elsewhere if needed
+  function withdraw() public {
+    require(msg.sender == dev, "Only dev can withdraw");
+    uint256 exchangeBalance = cheemscoin.balanceOf(address(this));
+    require(exchangeBalance > 0, "Exchange has no funds");
+
+    cheemscoin.transfer(dev, exchangeBalance);
+  }
 }

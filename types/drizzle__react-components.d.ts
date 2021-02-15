@@ -20,7 +20,7 @@ declare module "@drizzle/react-components" {
   }
 
   interface newContractDataProps extends contractProps {
-    methodArgs?: [];
+    methodArgs?: any[];
     hideIndicator?: boolean;
     toUtf8?: boolean;
     toAscii?: boolean;

@@ -2,9 +2,9 @@ const Exchange = artifacts.require("Exchange");
 const Cheemscoin = artifacts.require("Cheemscoin");
 
 require("chai").use(require("chai-as-promised")).should();
-const wei = require("./utility");
+const { wei, fromWei } = require("./utility");
 
-contract("Exchange", ([owner, randoAddress]) => {
+contract("Exchange", ([owner, , randoAddress]) => {
   let cheemsCoin;
   let exchange;
 
@@ -35,7 +35,6 @@ contract("Exchange", ([owner, randoAddress]) => {
       await cheemsCoin.transfer(exchange.address, wei("1"), { from: owner });
 
       await exchange.buy({ from: randoAddress, value: wei("1") }).should.be.rejected;
-      // console.log(web3.utils.fromWei(await cheemsCoin.balanceOf(exchange.address)));
       const randoCheemsBal = await cheemsCoin.balanceOf(randoAddress);
       assert.equal(randoCheemsBal, 0);
     });
@@ -77,7 +76,28 @@ contract("Exchange", ([owner, randoAddress]) => {
       await exchange.buy({ from: randoAddress, value: wei("10") });
 
       const randoCheemsBal = await cheemsCoin.balanceOf(randoAddress);
-      assert.equal(web3.utils.fromWei(randoCheemsBal), "1500");
+      assert.equal(fromWei(randoCheemsBal), "1500");
+    });
+  });
+
+  describe("Withdrawing", async () => {
+    it("doesn't work for everyone else", async () => {
+      await exchange.withdraw({ from: randoAddress }).should.be.rejected;
+    });
+    it("withdraws exchange balance to dev", async () => {
+      const beforeOwnerBal = await cheemsCoin.balanceOf(owner);
+      const beforeExchangeBal = await cheemsCoin.balanceOf(exchange.address);
+
+      const shouldAfterOwnerBal =
+        Number(fromWei(beforeOwnerBal)) + Number(fromWei(beforeExchangeBal));
+
+      await exchange.withdraw({ from: owner });
+
+      const afterExchangeBal = await cheemsCoin.balanceOf(exchange.address);
+      assert.equal(afterExchangeBal, "0");
+
+      const afterOwnerBal = await cheemsCoin.balanceOf(owner);
+      assert.equal(fromWei(afterOwnerBal), shouldAfterOwnerBal);
     });
   });
 });

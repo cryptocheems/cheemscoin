@@ -1,6 +1,6 @@
 const Cheemscoin = artifacts.require("Cheemscoin");
 
-const wei = require("./utility");
+const { wei } = require("./utility");
 
 contract("Cheemscoin", ([owner, randoAddress]) => {
   let cheemsCoin;
