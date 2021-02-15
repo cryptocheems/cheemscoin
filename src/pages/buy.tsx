@@ -4,7 +4,6 @@ import {
   Button,
   Container,
   Flex,
-  FormErrorMessage,
   FormHelperText,
   FormLabel,
   Image,
@@ -28,6 +27,7 @@ const Buy: React.FC = () => {
   const state = useDrizzleState((state: any) => state);
   const account = state.accounts[0];
 
+  // TODO: Round numbers
   const priceRef = useRef<HTMLSpanElement>(null);
   const contractBalRef = useRef<HTMLDivElement>(null);
 
@@ -66,6 +66,7 @@ const Buy: React.FC = () => {
                 // TODO: Throw error if cheems exceeds contract bal
               }}
               onSubmit={async ({ xDaiAmount }) => {
+                // TODO: Show transaction hashes
                 drizzle.contracts.Exchange.methods.buy.cacheSend({ value: toWei(xDaiAmount) });
               }}
             >

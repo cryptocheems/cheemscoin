@@ -4,7 +4,7 @@ const Cheemscoin = artifacts.require("Cheemscoin");
 require("chai").use(require("chai-as-promised")).should();
 const { wei, fromWei } = require("./utility");
 
-contract("Exchange", ([owner, , , randoAddress]) => {
+contract("Exchange", ([owner, , , , randoAddress]) => {
   let cheemsCoin;
   let exchange;
 
