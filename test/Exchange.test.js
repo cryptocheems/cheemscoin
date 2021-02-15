@@ -4,7 +4,7 @@ const Cheemscoin = artifacts.require("Cheemscoin");
 require("chai").use(require("chai-as-promised")).should();
 const { wei, fromWei } = require("./utility");
 
-contract("Exchange", ([owner, , randoAddress]) => {
+contract("Exchange", ([owner, , , randoAddress]) => {
   let cheemsCoin;
   let exchange;
 
@@ -58,6 +58,12 @@ contract("Exchange", ([owner, , randoAddress]) => {
       randoCheemsBal = await cheemsCoin.balanceOf(randoAddress);
       assert.equal(randoCheemsBal, wei("1000"));
     });
+
+    it("can buy fractions of CHEEMS", async () => {
+      await cheemsCoin.transfer(exchange.address, wei("1"), { from: owner });
+
+      await exchange.buy({ from: randoAddress, value: wei("0.001") });
+    });
   });
 
   describe("Setting Price", async () => {
@@ -76,7 +82,7 @@ contract("Exchange", ([owner, , randoAddress]) => {
       await exchange.buy({ from: randoAddress, value: wei("10") });
 
       const randoCheemsBal = await cheemsCoin.balanceOf(randoAddress);
-      assert.equal(fromWei(randoCheemsBal), "1500");
+      assert.equal(fromWei(randoCheemsBal), "1500.1");
     });
   });
 

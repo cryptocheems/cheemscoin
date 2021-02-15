@@ -5,8 +5,6 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 
 contract Exchange {
-  // TODO: Add events
-
   // Price in wei
   uint256 public price = 0.01 * 10**18;
   address payable public dev = msg.sender;
@@ -17,8 +15,9 @@ contract Exchange {
   }
 
   function buy() public payable {
-    uint256 cheemsAmount = SafeMath.div(msg.value, price) * 10**18;
+    uint256 cheemsAmount = SafeMath.div(msg.value * 10**18, price);
 
+    require(cheemsAmount > 0, "A positive value is necessary");
     require(
       cheemsAmount <= cheemscoin.balanceOf(address(this)),
       "Contract doesn't have enough funds"
