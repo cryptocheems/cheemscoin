@@ -15,7 +15,9 @@ const Index = () => {
           Cheemscoin
         </Heading>
         <Image
-          src="cheemscoin.png"
+          // ! This is only a temporary fix
+          // TODO: Fix image
+          src="https://cdn.statically.io/gh/kowasaur/cheemscoin/gh-pages/cheemscoin.png"
           maxBlockSize="20rem"
           animation={doSpin ? `spin ${animationTime}s ease-in-out` : undefined}
           onClick={() => {

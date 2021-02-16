@@ -80,7 +80,14 @@ const Buy: React.FC = () => {
                           max={Number(fromWei(state.accountBalances[account]))}
                         >
                           <FormLabel alignItems="center" display="flex">
-                            <Image src="xdai.png" h="7" display="inline" mr="2" />
+                            <Image
+                              // ! Temporary fix
+                              // TODO: make this work normally
+                              src="https://cdn.statically.io/gh/kowasaur/cheemscoin/gh-pages/xdai.png"
+                              h="7"
+                              display="inline"
+                              mr="2"
+                            />
                             xDAI
                           </FormLabel>
                           <NumberInputField {...field} placeholder="0.00" />
@@ -96,7 +103,13 @@ const Buy: React.FC = () => {
                           value={Number(field.value) / Number(priceRef.current?.textContent) || ""}
                         >
                           <FormLabel alignItems="center" display="flex">
-                            <Image src="cheemscoinSmall.png" h="7" display="inline" mr="2" />
+                            <Image
+                              // TODO: This as well
+                              src="https://cdn.statically.io/gh/kowasaur/cheemscoin/gh-pages/cheemscoinSmall.png"
+                              h="7"
+                              display="inline"
+                              mr="2"
+                            />
                             CHEEMS
                           </FormLabel>
                           <NumberInputField placeholder="0.00" />
