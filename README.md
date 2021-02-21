@@ -2,21 +2,18 @@
 
 Cheemscoin is an ERC20 token on the [xDai Chain](https://www.xdaichain.com/) (an Ethereum sidechain).
 
-[**Discord**](https://discord.gg/wdt6swb3H8)  
-[**Reddit**](https://www.reddit.com/r/cryptocheems/)
-
-**Website:**  
-https://cheemscoin.surge.sh/  
-or  
-https://kowasaur.github.io/cheemscoin/
+- [**Website**](https://cheemsco.in)
+- [**Discord**](https://discord.gg/wdt6swb3H8)
+- [**Reddit**](https://www.reddit.com/r/cryptocheems/)
+- [**Twitter**](https://twitter.com/RealCheemsCoin/)
 
 ## How to Buy
 
 1. Install [Metamask](https://metamask.io/)
 2. Configure xDai for Metamask as shown [here](https://www.xdaichain.com/for-users/wallets/metamask/metamask-setup#setting-up-metamask-for-xdai)
-3. (Make sure your currently selected network in Metamask is xDai) Go to https://kowasaur.github.io/cheemscoin/ and click `Add To Metamask` then `Add Token` to be able to see your coins.
+3. (Make sure your currently selected network in Metamask is xDai) Go to https://cheemsco.in/ and click `Add To Metamask` then `Add Token` to be able to see your coins.
 4. Buy xDai with one of the methods shown [here](https://www.xdaichain.com/for-users/get-xdai-tokens/buying-xdai-with-fiat)
-5. Buy Cheemscoin using xDai [here](https://kowasaur.github.io/cheemscoin/buy) (preferred) or on [Honeyswap](https://app.honeyswap.org/#/swap?outputCurrency=0xeaf7b3376173df8bc0c22ad6126943cc8353c1ee)
+5. Buy Cheemscoin using xDai [here](https://cheemsco.in/buy) (preferred) or on [Honeyswap](https://app.honeyswap.org/#/swap?outputCurrency=0xeaf7b3376173df8bc0c22ad6126943cc8353c1ee)
 
 ## Token Info
 
