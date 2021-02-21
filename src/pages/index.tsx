@@ -29,6 +29,7 @@ const Index = () => {
         />
         <AddToMetamask />
         <Text>
+          Cheemscoin is an ERC20 token on the xDai chain.
           More information{" "}
           <Link
             href="https://www.cryptocheems.com/"
