@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <DrizzleProvider drizzle={drizzle}>
       <Head>
-        <link rel="shortcut icon" href="/cheemscoin/favicon.ico" />
+        <link rel="shortcut icon" href="/favicon.ico" />
         <title>Cheemscoin</title>
         <meta name="description" content="Crympto" />
       </Head>

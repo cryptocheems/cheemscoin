@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import React, { ChangeEvent, FormEvent } from "react";
 
+import { version } from "../../package.json";
 import { fromWei, toWei } from "../utility";
 import { newContextComponents } from "@drizzle/react-components";
 // @ts-ignore
@@ -67,6 +68,8 @@ const Dev: React.FC = () => {
       )}
 
       <pre style={{ fontSize: "11px" }}>{JSON.stringify(state, undefined, 3)}</pre>
+
+      <Text>Version {version}</Text>
     </>
   );
 };

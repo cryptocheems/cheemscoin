@@ -10,14 +10,12 @@ const Index = () => {
 
   return (
     <>
-      <Main alignItems="center" mt="10" height="100%">
+      <Main alignItems="center" mt="10" height="100%" textAlign="center">
         <Heading color={useColorModeValue("orange.400", "orange.300")} size="4xl">
           Cheemscoin
         </Heading>
         <Image
-          // ! This is only a temporary fix
-          // TODO: Fix image
-          src="https://cdn.statically.io/gh/kowasaur/cheemscoin/gh-pages/cheemscoin.png"
+          src="cheemscoin.png"
           maxBlockSize="20rem"
           animation={doSpin ? `spin ${animationTime}s ease-in-out` : undefined}
           onClick={() => {
@@ -29,7 +27,7 @@ const Index = () => {
         />
         <AddToMetamask />
         <Text>
-          Cheemscoin is an ERC20 token on the xDai chain.
+          <Text mb="2">Cheemscoin is an ERC20 token on the xDai Chain.</Text>
           More information{" "}
           <Link
             href="https://www.cryptocheems.com/"

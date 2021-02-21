@@ -1,11 +1,11 @@
 {
   "name": "cheemscoin",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "scripts": {
     "dev": "next",
     "build": "next build && next export",
     "start": "next start",
-    "deploy": "gh-pages -d out",
+    "deploy": "echo cheemsco.in >> out/CNAME && gh-pages -d out",
     "compile": "truffle compile",
     "migrate": "truffle migrate",
     "xdai": "truffle migrate --network xdai",
@@ -47,7 +47,7 @@
   "author": {
     "name": "kowasaur"
   },
-  "homepage": "https://kowasaur.github.io/cheemscoin",
+  "homepage": "https://cheemsco.in",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kowasaur/cheemscoin.git"
