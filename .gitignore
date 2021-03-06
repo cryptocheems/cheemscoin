@@ -37,3 +37,4 @@ yarn-error.log*
 # other
 /src/artifacts
 /fah/*.txt
+/fah/*.csv
