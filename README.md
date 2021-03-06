@@ -36,6 +36,7 @@ Cheemscoin is an ERC20 token on the [xDai Chain](https://www.xdaichain.com/) (an
 # To-do
 
 - "Mining" through f@h (like https://www.dogecoinfah.com/)
+- Create custom 404 page
 - Verify contracts on Blockscout
 - Implement staking (liquidity mining)
 - Create "meme board" where people can tip/stake (I haven't decided yet) their CHEEMS to boost images to the top

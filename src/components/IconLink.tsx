@@ -11,7 +11,7 @@ interface IconLinkProps {
 export const IconLink: React.FC<IconLinkProps> = ({ href, label, icon }) => {
   return (
     <Link href={href}>
-      <IconButton icon={icon} aria-label={label} color="#1A202C" />
+      <IconButton icon={icon} aria-label={label} color="#1A202C" title={label} />
     </Link>
   );
 };

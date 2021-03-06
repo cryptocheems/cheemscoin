@@ -10,6 +10,7 @@ export const DarkModeSwitch = () => {
       icon={useColorModeValue(<SunIcon boxSize="5" />, <MoonIcon boxSize="5" />)}
       onClick={toggleColorMode}
       aria-label="toggle nightmode"
+      title="toggle nightmode"
     />
   );
 };

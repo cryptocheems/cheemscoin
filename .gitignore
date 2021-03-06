@@ -34,4 +34,6 @@ yarn-error.log*
 # vercel
 .vercel
 
+# other
 /src/artifacts
+/fah/*.txt
