@@ -19,7 +19,7 @@ contract Fah {
 
   function distribute(uint256 _total, User[] memory _users) public {
     require(msg.sender == dev, "Only dev address can distribute");
-    require(_total >= cheemscoin.balanceOf(address(this)), "Contract doesn't have enough funds");
+    require(_total <= cheemscoin.balanceOf(address(this)), "Contract doesn't have enough funds");
 
     for (uint32 i = 0; i < _users.length; i++) {
       cheemscoin.transfer(_users[i].account, _users[i].amount);
