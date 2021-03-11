@@ -3,9 +3,10 @@ from csv import DictWriter
 from cryptoaddress import EthereumAddress
 
 TEAMID = "1060762"
-# ! remember to change this
-TOTALCHEEMS = 5000
-# TODO: Consider a minimum amount of CHEEMS per user
+# ! remember to change these
+TOTALCHEEMS = 7000
+MINCHEEMS = 5
+RATE = 1/5000
 # TODO: Also consider giving a bonus to people that have supplied liquidity
 
 with open('fah/previous.txt', 'r') as file:
@@ -33,10 +34,13 @@ with open('fah/previous.txt', 'w') as file:
 weekScores = {k: v - oldScores.get(k, 0) for (k, v) in validScores.items() if v > oldScores.get(k, 0)}
 totalPoints = sum(weekScores.values())
 
+totalMin = MINCHEEMS * len(weekScores)
+maxPoints = (TOTALCHEEMS - totalMin) / RATE
+
 cheemsAmounts = list(map((lambda user: {
   "address": user[0],
   "points": user[1],
-  "cheems": user[1] / totalPoints * TOTALCHEEMS
+  "cheems": (user[1] / totalPoints * (TOTALCHEEMS - totalMin) if totalPoints > maxPoints else user[1] * RATE) + MINCHEEMS
 }), weekScores.items()))
 
 with open("fah/payout.csv", 'w', encoding="utf8", newline="") as output:
