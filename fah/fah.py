@@ -35,12 +35,12 @@ weekScores = {k: v - oldScores.get(k, 0) for (k, v) in validScores.items() if v 
 totalPoints = sum(weekScores.values())
 
 totalMin = MINCHEEMS * len(weekScores)
-maxPoints = (TOTALCHEEMS - totalMin) / RATE
+totalAmount = totalPoints * RATE + totalMin
 
 cheemsAmounts = list(map((lambda user: {
   "address": user[0],
   "points": user[1],
-  "cheems": (user[1] / totalPoints * (TOTALCHEEMS - totalMin) if totalPoints > maxPoints else user[1] * RATE) + MINCHEEMS
+  "cheems": (user[1] / totalPoints * (TOTALCHEEMS - totalMin) if totalAmount > TOTALCHEEMS else user[1] * RATE) + MINCHEEMS
 }), weekScores.items()))
 
 with open("fah/payout.csv", 'w', encoding="utf8", newline="") as output:
@@ -62,4 +62,4 @@ with open("fah/payout.txt", "w", encoding="utf8") as file:
   file.write(
 f'''const fah = await Fah.deployed()
 
-await fah.distribute('{TOTALCHEEMS * 10 ** 18}', {formatedAmounts})''')
+await fah.distribute('{str(int((TOTALCHEEMS if totalAmount > TOTALCHEEMS else totalAmount) * 10 ** 18))}', {formatedAmounts})''')
