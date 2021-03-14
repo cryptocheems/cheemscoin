@@ -54,12 +54,14 @@ print(invalidUsers)
 # What this is doing is making it into code I can use in truffle console
 # This is a pretty bad way of going about this
 formatedAmounts = list(map((lambda user: {
-  "account": user[0],
-  "amount": str(int(user[1] / totalPoints * TOTALCHEEMS * 10 ** 18))
-}), weekScores.items()))
+  "account": user["address"],
+  "amount": str(int(user["cheems"] * 10 ** 18))
+}), cheemsAmounts))
 
 with open("fah/payout.txt", "w", encoding="utf8") as file:
   file.write(
 f'''const fah = await Fah.deployed()
 
 await fah.distribute('{str(int((TOTALCHEEMS if totalAmount > TOTALCHEEMS else totalAmount) * 10 ** 18))}', {formatedAmounts})''')
+
+# TODO: Backup the produced files
