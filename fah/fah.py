@@ -1,4 +1,5 @@
 import requests
+from math import log
 from csv import DictWriter
 from cryptoaddress import EthereumAddress
 
@@ -7,7 +8,7 @@ TEAMID = "1060762"
 TOTALCHEEMS = 7000
 MINCHEEMS = 5
 RATE = 1/5000
-# TODO: Also consider giving a bonus to people that have supplied liquidity
+# TODO: Make backup automatically
 
 with open('fah/previous.txt', 'r') as file:
   oldScores = eval(file.read())
@@ -31,7 +32,12 @@ if validScores == oldScores:
 with open('fah/previous.txt', 'w') as file:
   file.write(str(validScores))
 
-weekScores = {k: v - oldScores.get(k, 0) for (k, v) in validScores.items() if v > oldScores.get(k, 0)}
+# Adjust points https://www.desmos.com/calculator/c9q5f46aea
+def adjust(score):
+  # // return score if score < 2_000_000 else 2_063_000 * log(score + 65000) - 27_997_342
+  return (score, score if score < 1_000_000 else 1_800_000 * log(score + 1_000_000) - 25_115_584)
+
+weekScores = {k: adjust(v - oldScores.get(k, 0)) for (k, v) in validScores.items() if v > oldScores.get(k, 0)}
 totalPoints = sum(weekScores.values())
 
 totalMin = MINCHEEMS * len(weekScores)
@@ -39,8 +45,9 @@ totalAmount = totalPoints * RATE + totalMin
 
 cheemsAmounts = list(map((lambda user: {
   "address": user[0],
-  "points": user[1],
-  "cheems": (user[1] / totalPoints * (TOTALCHEEMS - totalMin) if totalAmount > TOTALCHEEMS else user[1] * RATE) + MINCHEEMS
+  "points": user[1][0],
+  "adjusted points": user[1][1],
+  "cheems": (user[1][1] / totalPoints * (TOTALCHEEMS - totalMin) if totalAmount > TOTALCHEEMS else user[1][1] * RATE) + MINCHEEMS
 }), weekScores.items()))
 
 with open("fah/payout.csv", 'w', encoding="utf8", newline="") as output:
