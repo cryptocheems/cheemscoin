@@ -38,7 +38,7 @@ def adjust(score):
   return (score, score if score < 1_000_000 else 1_800_000 * log(score + 1_000_000) - 25_115_584)
 
 weekScores = {k: adjust(v - oldScores.get(k, 0)) for (k, v) in validScores.items() if v > oldScores.get(k, 0)}
-totalPoints = sum([tup[0] for tup in weekScores.values()])
+totalPoints = sum([tup[1] for tup in weekScores.values()])
 
 totalMin = MINCHEEMS * len(weekScores)
 totalAmount = totalPoints * RATE + totalMin
