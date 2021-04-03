@@ -33,10 +33,4 @@ Cheemscoin is an ERC20 token on the [xDai Chain](https://www.xdaichain.com/) (an
 - [u/Souliousery](https://www.reddit.com/user/Souliousery) - Helping out on the server
 - [u/SeamanTheSailor](https://www.reddit.com/user/SeamanTheSailor) - ["Cheemscoin Founder"](https://www.reddit.com/r/dogelore/comments/lcwgj7/all_new_and_innovative_idea/gm3v4sl/)
 
-# To-do
-
-- Make F@H reward estimator
-- Add a lot more information about Cheemscoin to the website
-- Create custom 404 page
-- Implement staking (liquidity mining)
-- Create "meme board" where people can tip/stake (I haven't decided yet) their CHEEMS to boost images to the top
+# [To Do](https://github.com/cryptocheems/cheemscoin/projects/1)

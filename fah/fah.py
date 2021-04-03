@@ -4,11 +4,10 @@ from csv import DictWriter
 from cryptoaddress import EthereumAddress
 
 TEAMID = "1060762"
-# ! remember to change these
+
 TOTALCHEEMS = 7000
 MINCHEEMS = 5
 RATE = 1/5000
-# TODO: Make backup automatically
 
 with open('fah/previous.txt', 'r') as file:
   oldScores = eval(file.read())
@@ -34,7 +33,6 @@ with open('fah/previous.txt', 'w') as file:
 
 # Adjust points https://www.desmos.com/calculator/c9q5f46aea
 def adjust(score):
-  # // return score if score < 2_000_000 else 2_063_000 * log(score + 65000) - 27_997_342
   return (score, score if score < 1_000_000 else 1_800_000 * log(score + 1_000_000) - 25_115_584)
 
 weekScores = {k: adjust(v - oldScores.get(k, 0)) for (k, v) in validScores.items() if v > oldScores.get(k, 0)}
