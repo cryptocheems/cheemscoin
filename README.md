@@ -1,4 +1,4 @@
-# Cheemscoin
+# Cheemscoin [![CodeQL](https://github.com/cryptocheems/cheemscoin/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/cryptocheems/cheemscoin/actions/workflows/codeql-analysis.yml)
 
 Cheemscoin is an ERC20 token on the [xDai Chain](https://www.xdaichain.com/) (an Ethereum sidechain).
 
