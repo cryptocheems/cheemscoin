@@ -72,24 +72,25 @@ jobs:
         # Folder with CSS
         folder: src
         
-    - name: Solidity
+    # This doesn't work, commented out. - SoulRepo
+    #- name: Solidity
   # You may pin to the exact commit or the version.
   # uses: luisfontes19/slither-static-analysis-action@3c78987717472c10d6687add9f828e217f43a2e1
-      uses: luisfontes19/slither-static-analysis-action@v0.3.2
-      with:
+      #uses: luisfontes19/slither-static-analysis-action@v0.3.2
+      #with:
         # By default the action will run npm install on the source folder. Set this variable as false to disable it
-        run-npm-install: true
+        #run-npm-install: true
         # Specify slither version to use. It will download it from official github project.
-        slither-version: '0.6.14'
+        #slither-version: '0.6.14'
         # Action will fail if the number of High findings is equal or bigger then this value (0 to disable)
-        high-threshold: 1
+        #high-threshold: 1
         # Action will fail if the number of Medium findings is equal or bigger then this value (0 to disable)
-        medium-threshold: 1
+        #medium-threshold: 1
         # Action will fail if the number of Low findings is equal or bigger then this value (0 to disable)
-        low-threshold: 1
+        #low-threshold: 1
         # Action will fail if then number of Informative findings is equal or bigger then this value (0 to disable)
-        informative-threshold: 10
+        #informative-threshold: 10
         # Action will fail if then number of Optimization findings is equal or bigger then this value (0 to disable)
-        optimization-threshold: 1
+        #optimization-threshold: 1
         # The path for the smart contracts' project.
-        projectPath: "contracts"
+       # projectPath: "contracts"
