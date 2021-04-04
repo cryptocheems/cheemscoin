@@ -34,3 +34,4 @@ Cheemscoin is an ERC20 token on the [xDai Chain](https://www.xdaichain.com/) (an
 - [u/SeamanTheSailor](https://www.reddit.com/user/SeamanTheSailor) - ["Cheemscoin Founder"](https://www.reddit.com/r/dogelore/comments/lcwgj7/all_new_and_innovative_idea/gm3v4sl/)
 
 # [To Do](https://github.com/cryptocheems/cheemscoin/projects/1)
+The link above goes to a project that shows the pipeline of ideas to be implemented.
