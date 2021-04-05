@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // https://cheemsco.in
-pragma solidity 0.7.4;
+pragma solidity ^0.7.4;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -62,8 +62,6 @@ contract TokenLock is Ownable {
   /// @param lockIndex index of the lock in locks
   /// @param durationExtension time to be added to the lock
   function extendLock(uint256 lockIndex, uint256 durationExtension) external onlyOwner {
-    lock memory l = locks[lockIndex];
-    l.requestTime.add(durationExtension);
-    locks[lockIndex] = l;
+    locks[lockIndex].requestTime = locks[lockIndex].requestTime.add(durationExtension);
   }
 }

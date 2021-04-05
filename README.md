@@ -30,8 +30,9 @@ Cheemscoin is an ERC20 token on the [xDai Chain](https://www.xdaichain.com/) (an
 - [u/theSpeciamOne](https://www.reddit.com/user/theSpeciamOne/) - Creating the original post
 - [u/amaclittle](https://www.reddit.com/user/amaclittle) - Editing the logo
 - [u/ShellGoldfish0](https://www.reddit.com/user/ShellGoldfish0) - Created [r/cryptocheems](https://www.reddit.com/r/cryptocheems/), made [cryptocheems.com](https://www.cryptocheems.com/) and running events on the server
-- [u/Souliousery](https://www.reddit.com/user/Souliousery) - Helping out on the server
+- [u/Souliousery](https://www.reddit.com/user/Souliousery) - Helping out on the server and contributing to this repo
 - [u/SeamanTheSailor](https://www.reddit.com/user/SeamanTheSailor) - ["Cheemscoin Founder"](https://www.reddit.com/r/dogelore/comments/lcwgj7/all_new_and_innovative_idea/gm3v4sl/)
 
 # [To Do](https://github.com/cryptocheems/cheemscoin/projects/1)
+
 The link above goes to a project that shows the pipeline of ideas to be implemented.
