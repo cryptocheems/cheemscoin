@@ -15,10 +15,11 @@ import { fromWei, toWei } from "../utility";
 import { newContextComponents } from "@drizzle/react-components";
 // @ts-ignore
 import { drizzleReactHooks } from "@drizzle/react-plugin";
+import { DrizzleProv } from "../components/DrizzleProv";
 const { useDrizzle, useDrizzleState } = drizzleReactHooks;
 const { ContractData, ContractForm } = newContextComponents;
 
-const Dev: React.FC = () => {
+const DevPage: React.FC = () => {
   const { drizzle } = useDrizzle();
   const state = useDrizzleState((state: any) => state);
 
@@ -73,5 +74,11 @@ const Dev: React.FC = () => {
     </>
   );
 };
+
+const Dev: React.FC = () => (
+  <DrizzleProv>
+    <DevPage />
+  </DrizzleProv>
+);
 
 export default Dev;

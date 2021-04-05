@@ -21,8 +21,9 @@ const { ContractData, ContractForm } = newContextComponents;
 import { drizzleReactHooks } from "@drizzle/react-plugin";
 import { ArrowDownIcon } from "@chakra-ui/icons";
 const { useDrizzle, useDrizzleState } = drizzleReactHooks;
+import { DrizzleProv } from "../components/DrizzleProv";
 
-const Buy: React.FC = () => {
+const BuyPage: React.FC = () => {
   const { drizzle } = useDrizzle();
   const state = useDrizzleState((state: any) => state);
   const account = state.accounts[0];
@@ -163,4 +164,10 @@ const Buy: React.FC = () => {
   );
 };
 
+// * I did this so I can use useDapp for other pages and continue to use Drizzle for this
+const Buy: React.FC = () => (
+  <DrizzleProv>
+    <BuyPage />
+  </DrizzleProv>
+);
 export default Buy;

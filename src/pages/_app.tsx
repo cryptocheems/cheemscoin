@@ -6,36 +6,19 @@ import { Container } from "../components/Container";
 import { NavBar } from "../components/NavBar";
 import Head from "next/head";
 
-import { Drizzle, IDrizzleOptions } from "@drizzle/store";
-// @ts-ignore
-import { drizzleReactHooks } from "@drizzle/react-plugin";
-import { IContract } from "@drizzle/store/types/IContract";
-
-import Cheemscoin from "../artifacts/Cheemscoin.json";
-import Exchange from "../artifacts/Exchange.json";
-
-const drizzleOptions: IDrizzleOptions = {
-  contracts: [(Cheemscoin as unknown) as IContract, (Exchange as unknown) as IContract],
-};
-
-const drizzle = new Drizzle(drizzleOptions);
-const { DrizzleProvider } = drizzleReactHooks;
-
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <DrizzleProvider drizzle={drizzle}>
+    <ChakraProvider resetCSS theme={theme}>
       <Head>
         <link rel="shortcut icon" href="/favicon.ico" />
         <title>Cheemscoin</title>
         <meta name="description" content="Crympto" />
       </Head>
-      <ChakraProvider resetCSS theme={theme}>
-        <Container height="100vh">
-          <NavBar />
-          <Component {...pageProps} />
-        </Container>
-      </ChakraProvider>
-    </DrizzleProvider>
+      <Container height="100vh">
+        <NavBar />
+        <Component {...pageProps} />
+      </Container>
+    </ChakraProvider>
   );
 }
 
