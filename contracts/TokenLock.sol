@@ -25,7 +25,7 @@ uint256 constant BUFFER = 3 days;
 /// @author kowasaur
 /// @notice Owner can lock tokens for specified period of time (lock meaning they can't withdraw)
 /// @notice There's a 3 day buffer between requesting to unlock and being able to
-/// @dev all time is in seconds
+/// @dev all time in this contract is in seconds
 contract TokenLock is Ownable {
   using SafeMath for uint256;
 
@@ -33,6 +33,16 @@ contract TokenLock is Ownable {
   lock[] public locks;
   /// @notice These can be withdrawn as long as the buffer has past
   request[] public requests;
+
+  event LockCreated(IERC20 token, uint256 amount, uint256 requestTime);
+  event UnlockRequested(IERC20 token, uint256 amount, uint256 unlockTime, address recipient);
+  event TokenUnlocked(IERC20 token, uint256 amount, address recipient);
+  event LockTimeExtended(
+    IERC20 token,
+    uint256 amount,
+    uint256 durationExtension,
+    uint256 newRequestTime
+  );
 
   /// @notice Locks a token for the specified duration
   /// @param token an ERC20 token
@@ -44,7 +54,9 @@ contract TokenLock is Ownable {
     uint256 duration
   ) external onlyOwner {
     token.transferFrom(msg.sender, address(this), amount);
-    locks.push(lock(token, amount, block.timestamp.add(duration)));
+    uint256 requestTime = block.timestamp.add(duration);
+    locks.push(lock(token, amount, requestTime));
+    emit LockCreated(token, amount, requestTime);
   }
 
   /// @notice If the lock duration is over, requests the tokens be moved to the recipient
@@ -55,8 +67,10 @@ contract TokenLock is Ownable {
     lock memory l = locks[lockIndex];
     require(block.timestamp >= l.requestTime, "Can not request early");
 
-    requests.push(request(l.token, l.amount, block.timestamp.add(BUFFER), recipient));
+    uint256 unlockTime = block.timestamp.add(BUFFER);
+    requests.push(request(l.token, l.amount, unlockTime, recipient));
     delete locks[lockIndex];
+    emit UnlockRequested(l.token, l.amount, unlockTime, recipient);
   }
 
   /// @notice Enacts the request if at least 3 days has passed
@@ -67,12 +81,17 @@ contract TokenLock is Ownable {
 
     r.token.transfer(r.recipient, r.amount);
     delete requests[requestIndex];
+    emit TokenUnlocked(r.token, r.amount, r.recipient);
   }
 
   /// @notice Adds time to a lock
   /// @param lockIndex index of the lock in locks
   /// @param durationExtension time to be added to the lock
   function extendLock(uint256 lockIndex, uint256 durationExtension) external onlyOwner {
-    locks[lockIndex].requestTime = locks[lockIndex].requestTime.add(durationExtension);
+    lock memory l = locks[lockIndex];
+    uint256 newRequestTime = l.requestTime.add(durationExtension);
+
+    locks[lockIndex].requestTime = newRequestTime;
+    emit LockTimeExtended(l.token, l.amount, durationExtension, newRequestTime);
   }
 }
