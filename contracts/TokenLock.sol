@@ -10,7 +10,13 @@ struct lock {
   IERC20 token;
   uint256 amount;
   uint256 requestTime;
+}
+
+struct request {
+  IERC20 token;
+  uint256 amount;
   uint256 unlockTime;
+  address recipient;
 }
 
 uint256 constant BUFFER = 3 days;
@@ -23,7 +29,10 @@ uint256 constant BUFFER = 3 days;
 contract TokenLock is Ownable {
   using SafeMath for uint256;
 
+  /// @notice After the lock duration, these can be added to requests
   lock[] public locks;
+  /// @notice These can be withdrawn as long as the buffer has past
+  request[] public requests;
 
   /// @notice Locks a token for the specified duration
   /// @param token an ERC20 token
@@ -35,27 +44,29 @@ contract TokenLock is Ownable {
     uint256 duration
   ) external onlyOwner {
     token.transferFrom(msg.sender, address(this), amount);
-    locks.push(lock(token, amount, block.timestamp.add(duration), 0));
+    locks.push(lock(token, amount, block.timestamp.add(duration)));
   }
 
-  /** 
-    @notice Sends the locked tokens to the recipient if the 3 day buffer has passed.
-    If the owner hasn't requested to unlock, it creates the 3 day buffer instead. 
-    If the lock duration hasn't finished, it fails. 
-  */
+  /// @notice If the lock duration is over, requests the tokens be moved to the recipient
+  /// This can then be be done with unlock() after 3 days
   /// @param lockIndex index of the lock in locks
-  /// @param recipient the address of who receives the tokens
-  function unlock(uint256 lockIndex, address recipient) external onlyOwner {
+  /// @param recipient address that will receive the tokens
+  function requestLock(uint256 lockIndex, address recipient) external onlyOwner {
     lock memory l = locks[lockIndex];
-    require(block.timestamp >= l.requestTime, "Can not unlock early");
+    require(block.timestamp >= l.requestTime, "Can not request early");
 
-    if (l.unlockTime == 0) {
-      l.unlockTime = block.timestamp.add(BUFFER);
-      locks[lockIndex] = l;
-    } else {
-      require(block.timestamp >= l.unlockTime, "Buffer not over");
-      l.token.transfer(recipient, l.amount);
-    }
+    requests.push(request(l.token, l.amount, block.timestamp.add(BUFFER), recipient));
+    delete locks[lockIndex];
+  }
+
+  /// @notice Enacts the request if at least 3 days has passed
+  /// @param requestIndex index of the request in locks
+  function unlock(uint256 requestIndex) external onlyOwner {
+    request memory r = requests[requestIndex];
+    require(block.timestamp >= r.unlockTime, "Can not unlock early");
+
+    r.token.transfer(r.recipient, r.amount);
+    delete requests[requestIndex];
   }
 
   /// @notice Adds time to a lock
