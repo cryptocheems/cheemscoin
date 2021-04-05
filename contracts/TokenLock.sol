@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // https://cheemsco.in
 pragma solidity ^0.7.4;
+pragma experimental ABIEncoderV2;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -93,5 +94,15 @@ contract TokenLock is Ownable {
 
     locks[lockIndex].requestTime = newRequestTime;
     emit LockTimeExtended(l.token, l.amount, durationExtension, newRequestTime);
+  }
+
+  /// @dev These are needed since the default getter for arrays get indivdual elements
+
+  function getLocks() external view returns (lock[] memory) {
+    return locks;
+  }
+
+  function getRequests() external view returns (request[] memory) {
+    return requests;
   }
 }
