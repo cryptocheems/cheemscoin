@@ -38,7 +38,7 @@ contract("TokenLock", ([owner, rando]) => {
     });
   });
 
-  describe("Unlocking", () => {
+  describe("Requesting", () => {
     it("fails when early", async () => await tokenLock.requestLock(0, owner).should.be.rejected);
     it("requests correctly", async () => {
       await time.increase(1600);
@@ -50,6 +50,19 @@ contract("TokenLock", ([owner, rando]) => {
       assert.equal(locks[0].amount, 0);
       assert.equal(requests.length, 1);
       assert.equal(round(requests[0].unlockTime), now() + 3 * 24 * 60 * 60 + 1600);
+    });
+  });
+
+  describe("Unlocking", () => {
+    it("fails when early", async () => await tokenLock.unlock(0).should.be.rejected);
+    it("unlocks correctly", async () => {
+      await time.increase(time.duration.days(3));
+      await tokenLock.unlock(0);
+
+      const requests = await tokenLock.getRequests();
+      assert.equal(requests[0].amount, 0);
+
+      assert.equal(await cheemsCoin.balanceOf(owner), wei("690419"));
     });
   });
 });
