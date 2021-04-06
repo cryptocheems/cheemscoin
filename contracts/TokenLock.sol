@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// https://cheemsco.in
+// https://cheemsco.in/locks
 pragma solidity ^0.7.4;
 pragma experimental ABIEncoderV2;
 

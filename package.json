@@ -6,7 +6,6 @@
     "build": "next build",
     "export": "next export",
     "start": "next start",
-    "deploy": "echo cheemsco.in >> out/CNAME && gh-pages -d out",
     "compile": "truffle compile",
     "migrate": "truffle migrate",
     "xdai": "truffle migrate --network xdai",
