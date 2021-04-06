@@ -34,8 +34,14 @@ yarn-error.log*
 # vercel
 .vercel
 
-# other
+# artifacts
 /src/artifacts
+!/src/artifacts/Cheemscoin.json
+!/src/artifacts/Exchange.json
+!/src/artifacts/IERC20.json
+!/src/artifacts/TokenLock.json
+
+# folding
 /fah/*.txt
 /fah/*.csv
 /fah/backups
