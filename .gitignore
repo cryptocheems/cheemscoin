@@ -35,7 +35,7 @@ yarn-error.log*
 .vercel
 
 # artifacts
-/src/artifacts
+/src/artifacts/*
 !/src/artifacts/Cheemscoin.json
 !/src/artifacts/Exchange.json
 !/src/artifacts/IERC20.json
