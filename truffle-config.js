@@ -1,16 +1,3 @@
-/**
- * trufflesuite.com/docs/advanced/configuration
- *
- * To deploy via Infura you'll need a wallet provider (like @truffle/hdwallet-provider)
- * to sign your transactions before they're sent to a remote public node. Infura accounts
- * are available for free at: infura.io/register.
- *
- * You'll also need a mnemonic - the twelve word phrase the wallet uses to generate
- * public/private key pairs. If you're publishing your code to GitHub make sure you load this
- * phrase from a file you've .gitignored so it doesn't accidentally become public.
- *
- */
-
 require("dotenv").config();
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
@@ -23,14 +10,16 @@ module.exports = {
       network_id: "*",
     },
     xdai: {
-      provider: function () {
-        // * other one wasnt working
-        return new HDWalletProvider(process.env.MNEMONIC, "https://xdai.1hive.org/");
-      },
+      provider: () => new HDWalletProvider(process.env.MNEMONIC, "https://xdai.1hive.org/"),
       network_id: 100,
-      // ! idk if I shoulda messed with this but it said I didnt have enough gas
       gas: 5000000,
       gasPrice: 1000000000,
+    },
+    rinkeby: {
+      provider: () => new HDWalletProvider(process.env.MNEMONIC, process.env.ALCHEMY),
+      network_id: 4,
+      gasPrice: 10e9,
+      skipDryRun: true,
     },
   },
   compilers: {
