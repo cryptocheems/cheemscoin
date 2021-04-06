@@ -3,6 +3,7 @@ import React from "react";
 import { DarkModeSwitch } from "./DarkModeSwitch";
 import { AiFillDollarCircle } from "react-icons/ai";
 import { IconLink } from "./IconLink";
+import { LockIcon } from "@chakra-ui/icons";
 
 export const NavBar: React.FC = ({}) => (
   <Flex
@@ -46,6 +47,7 @@ export const NavBar: React.FC = ({}) => (
       }
     />
     <IconLink href="/buy" label="buy" icon={<Icon as={AiFillDollarCircle} boxSize="6" />} />
+    <IconLink href="/locks" label="locks" icon={<LockIcon />} />
     <DarkModeSwitch />
   </Flex>
 );

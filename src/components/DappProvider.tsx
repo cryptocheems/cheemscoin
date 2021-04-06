@@ -5,6 +5,7 @@ const config: Config = {
   readOnlyUrls: {
     [ChainId.xDai]: "https://rpc.xdaichain.com/",
   },
+  supportedChains: [ChainId.xDai, ChainId.Rinkeby],
 };
 
 export const DappProvider: React.FC = props => {
