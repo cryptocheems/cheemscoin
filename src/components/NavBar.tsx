@@ -14,6 +14,7 @@ export const NavBar: React.FC = ({}) => (
     // // color={useColorModeValue("white", "#1A202C")}
     align="center"
     justify="space-between"
+    as="nav"
   >
     <IconLink
       href="/"

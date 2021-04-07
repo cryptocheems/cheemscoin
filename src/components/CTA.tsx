@@ -13,7 +13,7 @@ export const CTA = () => (
     mt={5}
     px={1}
   >
-    <Link isExternal href="https://github.com/kowasaur/cheemscoin" flexGrow={1} mx={1}>
+    <Link isExternal href="https://github.com/cryptocheems/cheemscoin" flexGrow={1} mx={1}>
       <Button width="100%" variant="outline" colorScheme="orange">
         Github
       </Button>

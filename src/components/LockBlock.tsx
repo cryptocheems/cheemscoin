@@ -2,7 +2,6 @@ import { Stat, StatHelpText, StatLabel, StatNumber, Link } from "@chakra-ui/reac
 import { BigNumberish } from "@ethersproject/bignumber";
 import { formatEther } from "@ethersproject/units";
 
-// TODO: Make these xDai accurate and do LP Tokens
 const tokenNames: { [key: string]: string | undefined } = {
   "0x060153C56952571389507AA373FC39343607373f": "Cheemscoin",
   "0xce5382ff31b7a6F24797A46c307351FDE135C0Fd": "Cheemscoin LP Token",
