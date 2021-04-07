@@ -1,33 +1,35 @@
-import { Flex, Icon, useColorModeValue } from "@chakra-ui/react";
-import React from "react";
+import { Box, Flex, Icon, useColorModeValue } from "@chakra-ui/react";
 import { DarkModeSwitch } from "./DarkModeSwitch";
-import { AiFillDollarCircle } from "react-icons/ai";
 import { IconLink } from "./IconLink";
-import { LockIcon } from "@chakra-ui/icons";
+import { FaDiscord } from "react-icons/fa";
+import { NavLink } from "./NavLink";
 
 export const NavBar: React.FC = ({}) => (
   <Flex
     bg={useColorModeValue("orange.500", "orange.200")}
     p={4}
     w="100%"
-    // * won't need unless text is added
-    // // color={useColorModeValue("white", "#1A202C")}
+    color={useColorModeValue("white", "#1A202C")}
     align="center"
     justify="space-between"
     as="nav"
+    shadow="md"
   >
-    <IconLink
-      href="/"
-      label="home"
-      icon={
-        <Icon viewBox="0 0 240 200" boxSize="6">
-          <g
-            transform="translate(0.000000,198.000000) scale(0.100000,-0.100000)"
-            fill="#1A202C"
-            stroke="none"
-          >
-            <path
-              d="M590 1891 c-5 -11 -10 -45 -10 -75 0 -32 -4 -56 -10 -56 -14 0 -60
+    <Box>
+      <IconLink
+        mr="1.2rem"
+        href="/"
+        borderRadius="full"
+        aria-label="Home"
+        icon={
+          <Icon viewBox="0 0 240 200" boxSize="8">
+            <g
+              transform="translate(0.000000,198.000000) scale(0.100000,-0.100000)"
+              fill="#1A202C"
+              stroke="none"
+            >
+              <path
+                d="M590 1891 c-5 -11 -10 -45 -10 -75 0 -32 -4 -56 -10 -56 -14 0 -60
 -46 -60 -60 0 -5 -5 -10 -11 -10 -27 0 -103 -114 -147 -220 -6 -14 -13 -47
 -16 -75 -3 -27 -12 -87 -19 -132 l-12 -81 -83 -81 c-45 -44 -82 -87 -82 -95 0
 -9 -11 -23 -24 -31 -25 -17 -43 -64 -29 -74 4 -3 15 -19 24 -35 11 -19 34 -36
@@ -42,13 +44,22 @@ export const NavBar: React.FC = ({}) => (
 -69 66 -26 17 -70 51 -97 78 -27 26 -68 57 -90 68 -37 19 -51 20 -141 14 -58
 -4 -102 -4 -106 2 -3 5 -46 14 -95 20 -48 6 -92 16 -96 23 -5 9 -59 12 -201
 12 -149 0 -199 3 -216 14 -13 8 -48 14 -82 14 -49 0 -62 -4 -71 -19z"
-            />
-          </g>
-        </Icon>
-      }
-    />
-    <IconLink href="/buy" label="buy" icon={<Icon as={AiFillDollarCircle} boxSize="6" />} />
-    <IconLink href="/locks" label="locks" icon={<LockIcon />} />
-    <DarkModeSwitch />
+              />
+            </g>
+          </Icon>
+        }
+      />
+      <NavLink href="/buy">Buy</NavLink>
+      <NavLink href="/locks">Locks</NavLink>
+    </Box>
+    <Box>
+      <IconLink
+        href="http://discord.cheemsco.in"
+        icon={<FaDiscord size="25" />}
+        aria-label="Discord"
+        mr="3"
+      />
+      <DarkModeSwitch />
+    </Box>
   </Flex>
 );

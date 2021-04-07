@@ -3,7 +3,7 @@ import "../styles.css";
 import theme from "../theme";
 import { AppProps } from "next/app";
 import { Container } from "../components/Container";
-import { NavBar } from "../components/NavBar";
+import { NavBar } from "../components/navbar/NavBar";
 import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {

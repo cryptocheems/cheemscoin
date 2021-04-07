@@ -27,7 +27,7 @@ const Index = () => {
         <Heading color={useColorModeValue("orange.400", "orange.300")} size="4xl" as="h1">
           Cheemscoin
         </Heading>
-        <Heading mt="1">Making meme dreams into reality</Heading>
+        <Heading mt="1">Making Meme Dreams into Reality</Heading>
 
         <Popover isOpen={isOpen} placement="top" onClose={setIsOpen.off}>
           <PopoverTrigger>
@@ -48,7 +48,7 @@ const Index = () => {
             />
           </PopoverTrigger>
           <PopoverContent>
-            <PopoverHeader>whamt the fumk</PopoverHeader>
+            <PopoverHeader textAlign="center">whamt the fumk</PopoverHeader>
             <PopoverArrow />
             <PopoverCloseButton />
           </PopoverContent>
