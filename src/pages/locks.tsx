@@ -5,8 +5,7 @@ import TokenLock from "../artifacts/TokenLock.json";
 import { Interface } from "@ethersproject/abi";
 import { LockBlock, iLock } from "../components/LockBlock";
 
-// TODO: Change this for xDai
-const lAddress = "0xCc6566066b6b241A3a10231A01B22AF8B1509830";
+const lAddress = "0x81DcF68dB2a0E03BAB0d4705E14282C4cDec64B8";
 
 const LocksPage: React.FC = () => {
   const { activateBrowserWallet, account, deactivate } = useEthers();
@@ -43,8 +42,10 @@ const LocksPage: React.FC = () => {
       </Heading>
       <Text mx="1">
         These tokens are locked in{" "}
-        <Link href={"https://blockscout.com/xdai/mainnet/address/" + lAddress}>{lAddress}</Link> and
-        can not be withdrawn until the date shown
+        <Link href={"https://blockscout.com/xdai/mainnet/address/" + lAddress} isExternal>
+          the TokenLock contract
+        </Link>{" "}
+        and can not be withdrawn until the dates shown
       </Text>
 
       <Flex mt="10">

@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <link rel="shortcut icon" href="/favicon.ico" />
         <title>Cheemscoin</title>
-        <meta name="description" content="Crympto" />
+        <meta name="description" content="Making meme dreams into reality" />
       </Head>
       <Container height="100vh">
         <NavBar />

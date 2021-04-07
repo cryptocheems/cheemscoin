@@ -1,4 +1,4 @@
-import { Heading, Image, Text, Link, useColorModeValue } from "@chakra-ui/react";
+import { Heading, Image, Text, useColorModeValue } from "@chakra-ui/react";
 import { Main } from "../components/Main";
 import { CTA } from "../components/CTA";
 import { AddToMetamask } from "../components/AddToMetamask";
@@ -26,17 +26,7 @@ const Index = () => {
           cursor="pointer"
         />
         <AddToMetamask />
-        <Text>
-          <Text mb="2">Cheemscoin is an ERC20 token on the xDai Chain.</Text>
-          More information{" "}
-          <Link
-            href="https://www.cryptocheems.com/"
-            color={useColorModeValue("orange.500", "orange.200")}
-            isExternal
-          >
-            here
-          </Link>
-        </Text>
+        <Text>Making meme dreams into reality</Text>
       </Main>
       <CTA />
     </>
