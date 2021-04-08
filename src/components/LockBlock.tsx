@@ -3,7 +3,7 @@ import { BigNumberish } from "@ethersproject/bignumber";
 import { formatEther } from "@ethersproject/units";
 
 const tokenNames: { [key: string]: string | undefined } = {
-  "0x060153C56952571389507AA373FC39343607373f": "Cheemscoin",
+  "0xEaF7B3376173DF8BC0C22Ad6126943cC8353C1Ee": "Cheemscoin",
   "0xce5382ff31b7a6F24797A46c307351FDE135C0Fd": "Cheemscoin LP Token",
 };
 
@@ -21,6 +21,7 @@ export const LockBlock: React.FC<LockBlockProps> = ({ lock, type }) =>
       p="1em"
       borderRadius="2xl"
       mx="1"
+      mb="2"
       backgroundColor={lock[3] ? "rgba(255, 20, 0, 0.2)" : undefined}
     >
       <StatLabel>

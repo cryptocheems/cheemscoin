@@ -48,7 +48,7 @@ const LocksPage: React.FC = () => {
         and can not be withdrawn until the dates shown
       </Text>
 
-      <Flex mt="10">
+      <Flex mt="10" flexWrap="wrap">
         {requests?.map((l: iLock, i: number) => (
           <LockBlock lock={l} key={i} type="Unlockable" />
         ))}
