@@ -37,7 +37,7 @@ const Index = () => {
             <Image
               my="7"
               src="cheemscoin.png"
-              maxBlockSize="20rem"
+              maxBlockSize="24rem"
               animation={doSpin ? `spin ${animationTime}s ease-in-out` : undefined}
               draggable="false"
               onClick={() => {

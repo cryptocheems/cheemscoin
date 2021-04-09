@@ -19,7 +19,7 @@ export const AddToMetamask: React.FC = () => {
     });
   }
   return (
-    <Button onClick={add} colorScheme="orange">
+    <Button onClick={add} colorScheme="orange" variant="outline">
       Add To Metamask
     </Button>
   );

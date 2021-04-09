@@ -1,4 +1,4 @@
-import { Flex, Heading, Link, Text, Button, Spinner } from "@chakra-ui/react";
+import { Flex, Heading, Link, Text, Button, Spinner, Box } from "@chakra-ui/react";
 import { useContractCall, useEthers } from "@usedapp/core";
 import { DappProvider } from "../components/DappProvider";
 import TokenLock from "../artifacts/TokenLock.json";
@@ -28,12 +28,12 @@ const LocksPage: React.FC = () => {
     }) ?? [];
 
   return (
-    <>
+    <Box p="1" textAlign="center">
       <Button
         onClick={account ? deactivate : activateBrowserWallet}
         right="5px"
         top="20"
-        position="fixed"
+        position="absolute"
       >
         {account || "Connect Wallet"}
       </Button>
@@ -58,7 +58,7 @@ const LocksPage: React.FC = () => {
           <Spinner />
         )}
       </Flex>
-    </>
+    </Box>
   );
 };
 

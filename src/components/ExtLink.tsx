@@ -1,15 +1,23 @@
 import { useColorModeValue } from "@chakra-ui/color-mode";
 import { Link, LinkProps } from "@chakra-ui/layout";
 
-export const ExtLink: React.FC<LinkProps> = props => {
+interface ExtLinkProps extends LinkProps {
+  plainbg?: boolean;
+}
+
+export const ExtLink: React.FC<ExtLinkProps> = ({ plainbg, children, ...props }) => {
   return (
     <Link
-      color={useColorModeValue("yellow", "orangered" /*or crimson*/)}
+      color={
+        plainbg
+          ? useColorModeValue("orange.500", "orange.300")
+          : useColorModeValue("yellow", "orangered" /*or crimson*/)
+      }
       fontWeight="500"
       isExternal
       {...props}
     >
-      {props.children}
+      {children}
     </Link>
   );
 };
