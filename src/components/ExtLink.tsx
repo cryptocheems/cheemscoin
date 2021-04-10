@@ -11,7 +11,7 @@ export const ExtLink: React.FC<ExtLinkProps> = ({ plainbg, children, ...props })
       color={
         plainbg
           ? useColorModeValue("orange.500", "orange.300")
-          : useColorModeValue("yellow", "orangered" /*or crimson*/)
+          : useColorModeValue("yellow", "orangered")
       }
       fontWeight="500"
       isExternal

@@ -17,6 +17,7 @@ import { CTA } from "../components/CTA";
 import { AddToMetamask } from "../components/AddToMetamask";
 import { useState } from "react";
 import { ExtLink } from "../components/ExtLink";
+import { Section } from "../components/Section";
 
 const Index = () => {
   const [doSpin, setDoSpin] = useState(false);
@@ -26,7 +27,7 @@ const Index = () => {
 
   return (
     <>
-      <Flex alignItems="center" my="10" height="100%" direction="column" textAlign="center">
+      <Flex alignItems="center" mt="10" mb="14" height="100%" direction="column" textAlign="center">
         <Heading color={useColorModeValue("orange.400", "orange.300")} size="4xl" as="h1">
           Cheemscoin
         </Heading>
@@ -58,20 +59,7 @@ const Index = () => {
         </Popover>
         <AddToMetamask />
       </Flex>
-      <Flex
-        // TODO: Make line up with navbar
-        // TODO: Consider using SimpleGrid instead
-        mt="4"
-        color={useColorModeValue("white", "#1A202C")}
-        bgColor={useColorModeValue("orange.500", "orange.200")}
-        w="100%"
-        py="10"
-        px="5"
-        justifyContent="space-evenly"
-        alignItems="center"
-        flexWrap="wrap-reverse"
-        boxShadow="0 0 6px 6px rgba(0, 0, 0, 0.1),0 0 4px 3px rgba(0, 0, 0, 0.06)"
-      >
+      <Section colored>
         <iframe
           src="https://discord.com/widget?id=807526182677512202"
           width="300"
@@ -85,9 +73,7 @@ const Index = () => {
             <ExtLink href="https://www.reddit.com/r/dogelore/comments/lcwgj7/all_new_and_innovative_idea/">
               meme
             </ExtLink>{" "}
-            posted on Reddit. A commenter,{" "}
-            <ExtLink href="https://github.com/kowasaur">kowasaur</ExtLink>, quickly developed the
-            ERC20 token and deployed it on the{" "}
+            posted on Reddit. A commenter quickly developed the ERC20 token and deployed it on the{" "}
             <ExtLink href="https://www.xdaichain.com/">xDai Chain</ExtLink>. Within a few days, a
             vibrant community had begun and thousands of Cheemscoin were airdropped to community
             members. A <ExtLink href="https://www.reddit.com/r/cryptocheems">subreddit</ExtLink>,{" "}
@@ -99,7 +85,44 @@ const Index = () => {
             <ExtLink href="http://github.cheemsco.in">GitHub repository</ExtLink>.
           </Text>
         </Box>
-      </Flex>
+      </Section>
+      <Section>
+        <Box maxW="container.sm" mb="5" mx="2">
+          <Heading mb="1">Disease Fighting</Heading>
+          <Text>
+            Every week, thousands of Cheemscoin are distributed to people who fold to our
+            Folding@home team,{" "}
+            <ExtLink href="https://stats.foldingathome.org/team/1060762" plainbg>
+              1060762
+            </ExtLink>
+            . Folding@home is a distributed computing project that helps scientists create
+            therapeutics for a variety of diseases by simlutating proteins folding. Basically, you
+            run a program on your computer and it helps fight diseases like Alzheimer's, Cancer and
+            even COVID-19. Go{" "}
+            <ExtLink href="https://foldingathome.org/home/" plainbg>
+              here
+            </ExtLink>{" "}
+            to learn more. To insentavise people to participate, we reward them with Cheemscoin.
+            This means you, yes you reading this, can earn Cheemscoin for FREE right now. Learn how{" "}
+            <ExtLink
+              // TODO: Make this on publish0x, medium or on this website
+              href="https://www.reddit.com/r/cryptocheems/comments/m2ob9x/how_to_fold_for_cheemscoin_mining/"
+              plainbg
+            >
+              here
+            </ExtLink>{" "}
+            and view past payouts{" "}
+            <ExtLink href="http://sheets.cheemsco.in/" plainbg>
+              here
+            </ExtLink>
+            .
+          </Text>
+        </Box>
+        <Text>
+          [Image of cheems in a lab coat saying "mumch sciemce" and another saying "yems" here]
+        </Text>
+      </Section>
+
       <CTA />
     </>
   );

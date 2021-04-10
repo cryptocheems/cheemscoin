@@ -12,7 +12,7 @@ RATE = 1/5000
 with open('fah/previous.txt', 'r') as file:
   oldScores = eval(file.read())
 
-response = requests.get("https://stats.foldingathome.org/api/team/" + TEAMID)
+response = requests.get("https://statsclassic.foldingathome.org/api/team/" + TEAMID)
 scores = response.json()["donors"]
 
 validScores = {}
