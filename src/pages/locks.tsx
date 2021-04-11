@@ -28,7 +28,7 @@ const LocksPage: React.FC = () => {
     }) ?? [];
 
   return (
-    <Box p="1" textAlign="center">
+    <Box p="1" textAlign="center" h="100%">
       <Button
         onClick={account ? deactivate : activateBrowserWallet}
         right="5px"

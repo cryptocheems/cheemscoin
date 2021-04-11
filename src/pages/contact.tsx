@@ -31,7 +31,7 @@ const ContactDetails: React.FC<ContactDetailsProps> = ({ type, value, href, chil
 
 export const Contact: React.FC = () => {
   return (
-    <Box mt="10" textAlign="center" w="100%" p="2" maxW="25rem">
+    <Box mt="10" textAlign="center" w="100%" p="2" maxW="25rem" h="100%">
       <Heading>Contact Us</Heading>
       <Table mt="4">
         <Tbody>
@@ -50,6 +50,7 @@ export const Contact: React.FC = () => {
                     <ExtLink
                       plainbg
                       onClick={() => {
+                        // TODO: Handle exceptions
                         navigator.clipboard?.writeText("kowasaur#2095");
                       }}
                     >

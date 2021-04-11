@@ -33,14 +33,14 @@ const BuyPage: React.FC = () => {
   const contractBalRef = useRef<HTMLDivElement>(null);
 
   return !state.contracts.Exchange.initialized ? (
-    <Box m="6">
+    <Box m="6" h="100%">
       <Text>
         To use the exchange, ensure you have xDAI selected as the current network on Metamask.
       </Text>
       <Text>Then refresh the page and connect Metamask.</Text>
     </Box>
   ) : (
-    <Container mt="10">
+    <Container mt="10" h="100%">
       <Text right="0" position="relative" textAlign="right" color="orange">
         {account}
       </Text>

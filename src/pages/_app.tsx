@@ -5,6 +5,7 @@ import { AppProps } from "next/app";
 import { Container } from "../components/Container";
 import { NavBar } from "../components/navbar/NavBar";
 import Head from "next/head";
+import { Footer } from "../components/Footer";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -17,6 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Container height="100vh">
         <NavBar />
         <Component {...pageProps} />
+        <Footer />
       </Container>
     </ChakraProvider>
   );

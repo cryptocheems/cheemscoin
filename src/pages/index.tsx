@@ -13,7 +13,6 @@ import {
   Box,
   Text,
 } from "@chakra-ui/react";
-import { CTA } from "../components/CTA";
 import { AddToMetamask } from "../components/AddToMetamask";
 import { useState } from "react";
 import { ExtLink } from "../components/ExtLink";
@@ -138,7 +137,7 @@ const Index = () => {
           </Text>
         </Box>
       </Section>
-      <CTA />
+      {/* // TODO: Stats like price, max supply, circulating supply, etc  */}
     </>
   );
 };
