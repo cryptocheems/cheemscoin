@@ -5,7 +5,7 @@ from cryptoaddress import EthereumAddress
 
 TEAMID = "1060762"
 
-TOTALCHEEMS = 7000
+TOTALCHEEMS = 4000
 MINCHEEMS = 5
 RATE = 1/5000
 

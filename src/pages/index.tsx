@@ -67,7 +67,7 @@ const Index = () => {
           sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
         />
         <Box maxW="container.sm" mb="5" mx="2">
-          <Heading mb="1">Community at Heart</Heading>
+          <Heading mb="1">Community</Heading>
           <Text>
             Cheemscoin was born from a{" "}
             <ExtLink href="https://www.reddit.com/r/dogelore/comments/lcwgj7/all_new_and_innovative_idea/">
@@ -118,11 +118,26 @@ const Index = () => {
             .
           </Text>
         </Box>
-        <Text>
-          [Image of cheems in a lab coat saying "mumch sciemce" and another saying "yems" here]
-        </Text>
+        <Image src="mumchsciemce.webp" borderRadius="md" maxBlockSize="20rem" />
       </Section>
-
+      <Section colored>
+        <Image src="traditional.jpg" borderRadius="md" maxBlockSize="20rem" />
+        <Box maxW="container.sm" mb="5" mx="2">
+          <Heading d="flex" alignItems="center">
+            Yield Farming and More
+            <Text ml="2" fontSize="sm">
+              Coming Soon
+            </Text>
+          </Heading>
+          <Text>
+            There's many new features in development including yield farming. This would be where
+            you can deposit Cheemscoin Liquidity Provider Tokens into a contract and you earn
+            Cheemscoin on it. You're also going to be able to use Cheemscoin to receive airdrops of
+            new tokens the dev creates. You can see everything planned and in progress{" "}
+            <ExtLink href="https://github.com/cryptocheems/cheemscoin/projects/1">here</ExtLink>.
+          </Text>
+        </Box>
+      </Section>
       <CTA />
     </>
   );
