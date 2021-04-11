@@ -13,7 +13,7 @@ const FooterLink: React.FC<FooterLink> = props => (
     color={useColorModeValue("white", "#1A202C")}
     fontSize="1.05em"
   >
-    <a href={props.href} target="_blank">
+    <a href={props.href} target="_blank" rel="noopener noreferrer">
       {props.children}
     </a>
   </Button>
