@@ -101,7 +101,7 @@ const Index = () => {
             <ExtLink href="https://foldingathome.org/home/" plainbg>
               here
             </ExtLink>{" "}
-            to learn more. To insentavise people to participate, we reward them with Cheemscoin.
+            to learn more. To incentivise people to participate, we reward them with Cheemscoin.
             This means you, yes you reading this, can earn Cheemscoin for FREE right now. Learn how{" "}
             <ExtLink
               // TODO: Make this on publish0x, medium or on this website
