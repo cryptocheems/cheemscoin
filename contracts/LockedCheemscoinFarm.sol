@@ -24,7 +24,6 @@ uint256 constant BASEREWARD = 5 * 10**10;
 uint256 constant MINDURATION = 7 days;
 
 // TODO: make it so other erc20 tokens can be added for staking (by owner)
-// Also rename this file
 
 /// @title Transferable Cheemscoin LP Token Staker
 /// @author kowasaur
@@ -32,7 +31,7 @@ uint256 constant MINDURATION = 7 days;
  * @notice Lock up Cheemscoin LP Tokens and earn Cheemscoin
  * Each "stake" is represented as an ERC721 so you can transfer them
  */
-contract LockedCheemscoinLpFarm is ERC721("Locked Cheemscoin LP", "lchLP") {
+contract LockedCheemscoinFarm is ERC721("Locked Cheemscoin", "chLOCK") {
   using SafeMath for uint256;
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
