@@ -10,17 +10,17 @@ module.exports = async (deployer, network) => {
     await deployer.deploy(LpTokenMock, { overwrite: false });
     lpToken = await LpTokenMock.deployed();
   } else {
-    lpToken = "0xce5382ff31b7a6F24797A46c307351FDE135C0Fd";
+    lpToken.address = "0xce5382ff31b7a6F24797A46c307351FDE135C0Fd";
   }
-  const lpAddress = lpToken.address;
+
   const cheemscoin = Cheemscoin.deployed();
 
-  await deployer.deploy(LockedCheemscoinLpFarm, cheemscoin.address, lpAddress, {
+  await deployer.deploy(LockedCheemscoinLpFarm, cheemscoin.address, lpToken.address, {
     overwrite: false,
   });
 
   // Add initial amount of Cheemscoin
   const lpFarm = await LockedCheemscoinLpFarm.deployed();
-  await cheemscoin.approve(lpAddress, wei(345210));
-  await lpFarm.donate(wei(345210));
+  await cheemscoin.approve(lpFarm.address, wei(172605));
+  await lpFarm.donate(wei(172605));
 };

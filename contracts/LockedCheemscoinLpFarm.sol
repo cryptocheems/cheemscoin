@@ -7,6 +7,8 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 
+/// @dev all time throughout this file is in seconds
+
 struct stake {
   // In LP tokens
   uint256 amount;
@@ -21,28 +23,30 @@ struct stake {
 uint256 constant BASEREWARD = 5 * 10**10;
 uint256 constant MINDURATION = 7 days;
 
+// TODO: make it so other erc20 tokens can be added for staking (by owner)
+// Also rename this file
+
 /// @title Transferable Cheemscoin LP Token Staker
 /// @author kowasaur
 /**
  * @notice Lock up Cheemscoin LP Tokens and earn Cheemscoin
  * Each "stake" is represented as an ERC721 so you can transfer them
  */
-/// @dev all time is in seconds
-contract LockedCheemscoinLpFarm is ERC721 {
+contract LockedCheemscoinLpFarm is ERC721("Locked Cheemscoin LP", "lchLP") {
   using SafeMath for uint256;
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
-  uint256 private _startTime = block.timestamp;
-  IERC20 private _lp;
-  IERC20 private _cheemscoin;
+  uint256 private immutable _startTime = block.timestamp;
+  IERC20 private immutable _lp;
+  IERC20 private immutable _cheemscoin;
 
   /// @notice The stake information for each token
   mapping(uint256 => stake) public stakes;
   /// @notice Amount of Cheemscoin that hasn't been allocated yet
   uint256 public availableCheems = 0;
 
-  constructor(IERC20 cheemscoin, IERC20 lpToken) ERC721("Locked Cheemscoin LP", "lchLP") {
+  constructor(IERC20 cheemscoin, IERC20 lpToken) {
     _cheemscoin = cheemscoin;
     _lp = lpToken;
   }
