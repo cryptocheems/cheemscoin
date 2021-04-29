@@ -12,16 +12,21 @@ RATE = 1/5000
 with open('fah/previous.txt', 'r') as file:
   oldScores = eval(file.read())
 
-response = requests.get("https://statsclassic.foldingathome.org/api/team/" + TEAMID)
-scores = response.json()["donors"]
+response = requests.get(f"https://api.foldingathome.org/team/{TEAMID}/members" )
+scores = response.json()
 
 validScores = {}
 invalidUsers = []
 
-for user in scores:
+# This skips the first element which is just ['name', 'id', 'rank', 'score', 'wus']
+for i in range(1, len(scores) ):
+  user = scores[i]
+  name = user[0]
+  credit = user[3]
+
   try:
-    EthereumAddress(user["name"])
-    validScores[user["name"]] = user["credit"]
+    EthereumAddress(name)
+    validScores[name] = credit
   except ValueError:
     invalidUsers.append(user)
 
