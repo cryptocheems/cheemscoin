@@ -24,11 +24,14 @@ uint256 constant BASEREWARD = 5 * 10**10;
 uint256 constant MINDURATION = 7 days;
 
 // TODO: make it so other erc20 tokens can be added for staking (by owner)
+// TODO: Add flash loans
+// TODO: Format this file https://docs.soliditylang.org/en/v0.7.4/style-guide.html
+// TODO: Add events
 
-/// @title Transferable Cheemscoin LP Token Staker
+/// @title Transferable Token Staker
 /// @author kowasaur
 /**
- * @notice Lock up Cheemscoin LP Tokens and earn Cheemscoin
+ * @notice Lock up Cheemscoin and LP Tokens and earn Cheemscoin
  * Each "stake" is represented as an ERC721 so you can transfer them
  */
 contract LockedCheemscoinFarm is ERC721("Locked Cheemscoin", "chLOCK") {
@@ -40,10 +43,10 @@ contract LockedCheemscoinFarm is ERC721("Locked Cheemscoin", "chLOCK") {
   IERC20 private immutable _lp;
   IERC20 private immutable _cheemscoin;
 
+  uint256 private _reservedCheems = 0;
+
   /// @notice The stake information for each token
   mapping(uint256 => stake) public stakes;
-  /// @notice Amount of Cheemscoin that hasn't been allocated yet
-  uint256 public availableCheems = 0;
 
   constructor(IERC20 cheemscoin, IERC20 lpToken) {
     _cheemscoin = cheemscoin;
@@ -52,6 +55,11 @@ contract LockedCheemscoinFarm is ERC721("Locked Cheemscoin", "chLOCK") {
 
   function timeFromStart() public view returns (uint256) {
     return block.timestamp - _startTime;
+  }
+
+  /// @notice Amount of Cheemscoin that hasn't been allocated yet
+  function availableCheems() public view returns (uint256) {
+    return _cheemscoin.balanceOf(address(this)).sub(_reservedCheems);
   }
 
   /// @notice Calculates how much Cheemscoin should be rewarded
@@ -83,13 +91,13 @@ contract LockedCheemscoinFarm is ERC721("Locked Cheemscoin", "chLOCK") {
     require(duration > MINDURATION, "Duration too short");
 
     uint256 reward = calcReward(amount, duration, isHard);
-    require(availableCheems >= reward, "Not enough Cheemscoin in contract");
+    require(availableCheems() >= reward, "Not enough Cheemscoin in contract");
 
     _lp.transferFrom(msg.sender, address(this), amount);
     _tokenIds.increment();
     uint256 newId = _tokenIds.current();
     _safeMint(msg.sender, newId);
-    availableCheems -= reward;
+    _reservedCheems += reward;
     stakes[newId] = stake(amount, reward, block.timestamp.add(duration), isHard);
   }
 
@@ -102,20 +110,10 @@ contract LockedCheemscoinFarm is ERC721("Locked Cheemscoin", "chLOCK") {
     if (token.isHard) require(notEarly, "Can not redeem early");
 
     if (notEarly) _cheemscoin.transfer(msg.sender, token.reward);
-    else availableCheems += token.reward;
+    else _reservedCheems -= token.reward;
 
     _lp.transfer(msg.sender, token.amount);
     _burn(id);
     delete stakes[id];
-  }
-
-  /**
-   * @notice If you wish to donate, please use this function instead of transfering
-   * directly to the contract, otherwise the funds will be lost forever.
-   */
-  /// @param amount amount of Cheemscoin to be donated
-  function donate(uint256 amount) external {
-    _cheemscoin.transferFrom(msg.sender, address(this), amount);
-    availableCheems += amount;
   }
 }

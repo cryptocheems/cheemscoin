@@ -21,6 +21,5 @@ module.exports = async (deployer, network) => {
 
   // Add initial amount of Cheemscoin
   const lpFarm = await LockedCheemscoinLpFarm.deployed();
-  await cheemscoin.approve(lpFarm.address, wei(172605));
-  await lpFarm.donate(wei(172605));
+  await cheemscoin.transfer(lpFarm.address, wei(172605));
 };
