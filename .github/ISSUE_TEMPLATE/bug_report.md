@@ -38,4 +38,4 @@ If applicable, add screenshots to help explain your problem.
 **Additional context**
 Add any other context about the problem here.
 
-[ ] By checking this, you have read the Contributing Guidelines page.
+- [ ] By checking this, you have read the Contributing Guidelines page.

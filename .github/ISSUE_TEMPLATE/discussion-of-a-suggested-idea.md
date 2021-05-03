@@ -16,4 +16,4 @@ Add some potential solutions for creating this idea. For example, some recommend
 **Additional context**
 Add any other context or screenshots about the idea here.
 
-[ ] By checking this, you have read the Contributing Guidelines page.
+- [ ] By checking this, you have read the Contributing Guidelines page.

@@ -22,4 +22,4 @@ List some potential applications that can be used to speed up the development of
 **Additional context**
 Add any other context or screenshots about the feature request here.
 
-[ ] By checking this, you have read the Contributing Guidelines page.
+- [ ] By checking this, you have read the Contributing Guidelines page.
