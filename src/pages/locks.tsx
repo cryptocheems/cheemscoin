@@ -1,9 +1,10 @@
-import { Flex, Heading, Link, Text, Button, Spinner, Box } from "@chakra-ui/react";
+import { Flex, Heading, Link, Text, Button, Spinner } from "@chakra-ui/react";
 import { useContractCall, useEthers } from "@usedapp/core";
 import { DappProvider } from "../components/DappProvider";
 import TokenLock from "../artifacts/TokenLock.json";
 import { Interface } from "@ethersproject/abi";
 import { LockBlock, iLock } from "../components/LockBlock";
+import { Container } from "../components/Container";
 
 const lAddress = "0x81DcF68dB2a0E03BAB0d4705E14282C4cDec64B8";
 
@@ -28,7 +29,7 @@ const LocksPage: React.FC = () => {
     }) ?? [];
 
   return (
-    <Box p="1" textAlign="center" h="100%">
+    <Container p="1" textAlign="center">
       <Button
         onClick={account ? deactivate : activateBrowserWallet}
         right="5px"
@@ -37,9 +38,7 @@ const LocksPage: React.FC = () => {
       >
         {account || "Connect Wallet"}
       </Button>
-      <Heading mt="2em" mb="2">
-        Token Locks
-      </Heading>
+      <Heading mb="2">Token Locks</Heading>
       <Text mx="1">
         These tokens are locked in{" "}
         <Link href={"https://blockscout.com/xdai/mainnet/address/" + lAddress} isExternal>
@@ -58,7 +57,7 @@ const LocksPage: React.FC = () => {
           <Spinner />
         )}
       </Flex>
-    </Box>
+    </Container>
   );
 };
 

@@ -3,6 +3,7 @@ import { DarkModeSwitch } from "./DarkModeSwitch";
 import { IconLink } from "./IconLink";
 import { FaDiscord } from "react-icons/fa";
 import { NavLink } from "./NavLink";
+import { buyLink } from "../../constants";
 
 export const NavBar: React.FC = ({}) => (
   <Flex
@@ -12,6 +13,7 @@ export const NavBar: React.FC = ({}) => (
     shadow="md"
     as="header"
     justifyContent="center"
+    mb="10"
   >
     <Flex
       color={useColorModeValue("white", "#1A202C")}
@@ -55,7 +57,8 @@ export const NavBar: React.FC = ({}) => (
             </Icon>
           }
         />
-        <NavLink href="/buy">Buy</NavLink>
+        {/* TODO: Change back */}
+        <NavLink href={buyLink}>Buy</NavLink>
         <NavLink href="/locks">Locks</NavLink>
       </Box>
       <Box>

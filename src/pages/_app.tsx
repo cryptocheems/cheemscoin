@@ -1,4 +1,4 @@
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, useColorMode } from "@chakra-ui/react";
 import "../styles.css";
 import theme from "../theme";
 import { AppProps } from "next/app";
@@ -8,6 +8,9 @@ import Head from "next/head";
 import { Footer } from "../components/Footer";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const { colorMode } = useColorMode();
+  const color = { light: "black", dark: "white" };
+
   return (
     <ChakraProvider resetCSS theme={theme}>
       <Head>
@@ -15,7 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <title>Cheemscoin</title>
         <meta name="description" content="Making meme dreams into reality" />
       </Head>
-      <Container height="100vh">
+      <Container height="100vh" color={color[colorMode]}>
         <NavBar />
         <Component {...pageProps} />
         <Footer />

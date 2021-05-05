@@ -1,5 +1,6 @@
 import { Flex, useColorModeValue, Button, ButtonProps, Stack } from "@chakra-ui/react";
 import { FaDiscord, FaGithub, FaReddit, FaTwitter } from "react-icons/fa";
+import { buyLink } from "../constants";
 
 interface FooterLink extends ButtonProps {
   href: string;
@@ -47,7 +48,8 @@ export const Footer: React.FC = () => (
     </Stack>
     <Stack>
       <FooterLink href="/contact">Contact</FooterLink>
-      <FooterLink href="/buy">Buy</FooterLink>
+      {/* TODO: Change back */}
+      <FooterLink href={buyLink}>Buy</FooterLink>
       <FooterLink href="/locks">Token Locks</FooterLink>
       <FooterLink href="https://info.honeyswap.org/token/0xeaf7b3376173df8bc0c22ad6126943cc8353c1ee">
         Honeyswap

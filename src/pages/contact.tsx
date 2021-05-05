@@ -1,4 +1,4 @@
-import { Box, Heading } from "@chakra-ui/layout";
+import { Heading } from "@chakra-ui/layout";
 import {
   Popover,
   PopoverTrigger,
@@ -7,6 +7,7 @@ import {
   PopoverHeader,
 } from "@chakra-ui/popover";
 import { Table, Tbody, Td, Tr } from "@chakra-ui/table";
+import { Container } from "../components/Container";
 import { ExtLink } from "../components/ExtLink";
 
 interface ContactDetailsProps {
@@ -31,9 +32,9 @@ const ContactDetails: React.FC<ContactDetailsProps> = ({ type, value, href, chil
 
 export const Contact: React.FC = () => {
   return (
-    <Box mt="10" textAlign="center" w="100%" p="2" maxW="25rem" h="100%">
+    <Container w="100%" maxW="25rem" justifyContent="center">
       <Heading>Contact Us</Heading>
-      <Table mt="4">
+      <Table my="4">
         <Tbody>
           <ContactDetails type="Email" value="dev@cheemsco.in" href="mailto:dev@cheemsco.in" />
           <ContactDetails
@@ -67,7 +68,7 @@ export const Contact: React.FC = () => {
           </Tr>
         </Tbody>
       </Table>
-    </Box>
+    </Container>
   );
 };
 

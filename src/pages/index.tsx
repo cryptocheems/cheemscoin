@@ -9,7 +9,6 @@ import {
   PopoverTrigger,
   useBoolean,
   useColorModeValue,
-  Flex,
   Box,
   Text,
 } from "@chakra-ui/react";
@@ -17,6 +16,7 @@ import { AddToMetamask } from "../components/AddToMetamask";
 import { useState } from "react";
 import { ExtLink } from "../components/ExtLink";
 import { Section } from "../components/Section";
+import { Container } from "../components/Container";
 
 const Index = () => {
   const [doSpin, setDoSpin] = useState(false);
@@ -26,7 +26,7 @@ const Index = () => {
 
   return (
     <>
-      <Flex alignItems="center" mt="10" mb="14" height="100%" direction="column" textAlign="center">
+      <Container mb="14" textAlign="center">
         <Heading color={useColorModeValue("orange.400", "orange.300")} size="4xl" as="h1">
           Cheemscoin
         </Heading>
@@ -57,7 +57,7 @@ const Index = () => {
           </PopoverContent>
         </Popover>
         <AddToMetamask />
-      </Flex>
+      </Container>
       <Section colored>
         <iframe
           src="https://discord.com/widget?id=807526182677512202"
