@@ -1,9 +1,9 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import React from "react";
 
-export const AddToMetamask: React.FC = () => {
+const AddCheemsToMetamask: React.FC = () => {
   async function add() {
-    // @ts-ignore
+    // @ts-expect-error
     await window.ethereum.request({
       method: "wallet_watchAsset",
       params: {
@@ -19,8 +19,51 @@ export const AddToMetamask: React.FC = () => {
     });
   }
   return (
-    <Button onClick={add} colorScheme="orange" variant="outline">
-      Add To Metamask
+    <Button onClick={add} colorScheme="orange">
+      Add Cheemscoin To Metamask
     </Button>
   );
 };
+
+const AddXdaiToMetamask: React.FC = () => {
+  async function add() {
+    // @ts-expect-error
+    await window.ethereum.request({
+      method: "wallet_addEthereumChain",
+      params: [
+        {
+          chainId: "0x64",
+          chainName: "xDai Chain",
+          nativeCurrency: {
+            name: "xDai",
+            symbol: "xDAI",
+            decimals: 18,
+          },
+          rpcUrls: [
+            "https://rpc.xdaichain.com/",
+            "https://xdai.1hive.org/",
+            "https://dai.poa.network/",
+            "https://xdai.poanetwork.dev/",
+          ],
+          blockExplorerUrls: ["https://blockscout.com/xdai/mainnet"],
+          iconUrls: [
+            "https://assets.coingecko.com/coins/images/14584/small/1_evbI9uxxj2OkBaWNpWcssw.png",
+          ],
+        },
+      ],
+    });
+  }
+
+  return (
+    <Button onClick={add} colorScheme="orange" variant="outline" mb="3">
+      Add xDai to Metamask
+    </Button>
+  );
+};
+
+export const AddToMetamask: React.FC = () => (
+  <Flex flexDirection="column">
+    <AddXdaiToMetamask />
+    <AddCheemsToMetamask />
+  </Flex>
+);
