@@ -5,8 +5,8 @@ from cryptoaddress import EthereumAddress
 
 TEAMID = "1060762"
 
-TOTALCHEEMS = 4000
-MINCHEEMS = 5
+TOTALCHEEMS = 3000
+MINCHEEMS = 3
 RATE = 1/5000
 
 with open('fah/previous.txt', 'r') as file:
