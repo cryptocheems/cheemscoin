@@ -9,7 +9,13 @@ interface IconLinkProps extends IconButtonProps {
 export const IconLink: React.FC<IconLinkProps> = ({ href, icon, ...props }) => {
   return (
     <Link href={href}>
-      <IconButton icon={icon} color="#1A202C" title={props["aria-label"]} {...props} />
+      <IconButton
+        icon={icon}
+        color="#1A202C"
+        title={props["aria-label"]}
+        borderRadius="md"
+        {...props}
+      />
     </Link>
   );
 };

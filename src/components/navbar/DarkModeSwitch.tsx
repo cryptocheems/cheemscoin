@@ -11,6 +11,7 @@ export const DarkModeSwitch = () => {
       onClick={toggleColorMode}
       aria-label="toggle nightmode"
       title="Toggle Nightmode"
+      borderRadius="md"
     />
   );
 };

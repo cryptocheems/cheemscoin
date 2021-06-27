@@ -1,15 +1,14 @@
-import { Flex, Heading, Link, Text, Button, Spinner } from "@chakra-ui/react";
-import { useContractCall, useEthers } from "@usedapp/core";
+import { Flex, Heading, Link, Text, Spinner } from "@chakra-ui/react";
+import { useContractCall } from "@usedapp/core";
 import TokenLock from "../artifacts/TokenLock.json";
 import { Interface } from "@ethersproject/abi";
 import { LockBlock, iLock } from "../components/LockBlock";
 import { Container } from "../components/Container";
+import { ConnectWallet } from "../components/ConnectWallet";
 
 const lAddress = "0x81DcF68dB2a0E03BAB0d4705E14282C4cDec64B8";
 
 const Locks: React.FC = () => {
-  const { activateBrowserWallet, account, deactivate } = useEthers();
-
   const [locks] =
     useContractCall({
       abi: new Interface(TokenLock.abi),
@@ -27,14 +26,7 @@ const Locks: React.FC = () => {
 
   return (
     <Container p="1" textAlign="center">
-      <Button
-        onClick={account ? deactivate : () => activateBrowserWallet}
-        right="5px"
-        top="20"
-        position="absolute"
-      >
-        {account || "Connect Wallet"}
-      </Button>
+      <ConnectWallet />
       <Heading mb="2">Token Locks</Heading>
       <Text mx="1">
         These tokens are locked in{" "}
