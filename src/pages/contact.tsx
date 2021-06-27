@@ -59,7 +59,7 @@ export const Contact: React.FC = () => {
                     </ExtLink>
                   </div>
                 </PopoverTrigger>
-                <PopoverContent w="10rem" position="relative" left="7rem">
+                <PopoverContent w="10rem" position="relative" left="3rem">
                   <PopoverArrow />
                   <PopoverHeader textAlign="center">Copied!</PopoverHeader>
                 </PopoverContent>

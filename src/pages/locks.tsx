@@ -1,6 +1,5 @@
 import { Flex, Heading, Link, Text, Button, Spinner } from "@chakra-ui/react";
 import { useContractCall, useEthers } from "@usedapp/core";
-import { DappProvider } from "../components/DappProvider";
 import TokenLock from "../artifacts/TokenLock.json";
 import { Interface } from "@ethersproject/abi";
 import { LockBlock, iLock } from "../components/LockBlock";
@@ -8,12 +7,11 @@ import { Container } from "../components/Container";
 
 const lAddress = "0x81DcF68dB2a0E03BAB0d4705E14282C4cDec64B8";
 
-const LocksPage: React.FC = () => {
+const Locks: React.FC = () => {
   const { activateBrowserWallet, account, deactivate } = useEthers();
 
   const [locks] =
     useContractCall({
-      // @ts-expect-error
       abi: new Interface(TokenLock.abi),
       address: lAddress,
       args: [],
@@ -21,7 +19,6 @@ const LocksPage: React.FC = () => {
     }) ?? [];
   const [requests] =
     useContractCall({
-      // @ts-expect-error
       abi: new Interface(TokenLock.abi),
       address: lAddress,
       args: [],
@@ -31,7 +28,7 @@ const LocksPage: React.FC = () => {
   return (
     <Container p="1" textAlign="center">
       <Button
-        onClick={account ? deactivate : activateBrowserWallet}
+        onClick={account ? deactivate : () => activateBrowserWallet}
         right="5px"
         top="20"
         position="absolute"
@@ -60,11 +57,5 @@ const LocksPage: React.FC = () => {
     </Container>
   );
 };
-
-const Locks: React.FC = () => (
-  <DappProvider>
-    <LocksPage />
-  </DappProvider>
-);
 
 export default Locks;
