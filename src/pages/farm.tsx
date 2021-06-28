@@ -15,6 +15,17 @@ import {
   ModalOverlay,
   ModalBody,
   ModalCloseButton,
+  ModalFooter,
+  ModalHeader,
+  FormLabel,
+  FormHelperText,
+  NumberInput,
+  NumberInputField,
+  FormControl,
+  Text,
+  Flex,
+  Link,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { useContractCall, useContractFunction, useEthers } from "@usedapp/core";
 import { Contract } from "@ethersproject/contracts";
@@ -23,12 +34,19 @@ import { Container } from "../components/Container";
 import { RadioCard } from "../components/RadioCard";
 import { useState } from "react";
 import { T2 } from "../components/T2";
-import { iFarm, tokenDetails } from "../constants";
+import { defaultPool, iFarm, tokenDetails } from "../constants";
 import { Approve } from "../components/Approve";
+import { useAllowance } from "../hooks/useAllowance";
+import { BigNumber } from "@ethersproject/bignumber";
+import { useBalance } from "../hooks/useBalance";
+import { formatEther, parseEther } from "@ethersproject/units";
+import { Field, Form, Formik } from "formik";
 
 const contractAddress = {
   "4": "0xfd49633ccD4E7aA662DD45c29616E7C93a236326", // Rinkeby
 } as const;
+
+const largeUint = BigNumber.from("2").pow(200);
 
 // All of this was just to make typecsript happy
 type address = keyof typeof contractAddress;
@@ -65,7 +83,13 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
   const group = getRootProps();
 
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const [tokenToStake, setTokenToStake] = useState("");
+  const [tokenToStake, setTokenToStake] = useState(defaultPool);
+  const allowance = useAllowance(tokenToStake, account!, contractAddress[chainId]);
+  const requireApprove = !allowance?.gte(largeUint);
+  const lpBalance = useBalance(tokenToStake, account!);
+
+  // @ts-expect-error
+  const { send: deposit } = useContractFunction(farmContract, "createDeposit");
 
   function stake(token: string) {
     onOpen();
@@ -140,7 +164,7 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
               </Td>
               <Td>
                 {/* TODO: proper errors that user can see */}
-                <Button colorScheme="orange" onClick={() => harvest("1")}>
+                <Button colorScheme="orange" onClick={() => harvest("0")}>
                   Harvest
                 </Button>
               </Td>
@@ -152,10 +176,62 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
+          <ModalHeader>Deposit {tokenDetails(tokenToStake).name}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            <Approve address={tokenToStake} account={account!} spender={contractAddress[chainId]} />
-          </ModalBody>
+          <Formik
+            initialValues={{ amount: "0" }}
+            onSubmit={values => {
+              deposit(
+                tokenToStake,
+                parseEther(values.amount),
+                // TODO: Make this not hardcoded
+                Math.round(new Date().valueOf() / 1000) + 49 * 60 ** 2
+              );
+            }}
+          >
+            {() => (
+              <Form>
+                <ModalBody>
+                  <Text fontSize="sm">
+                    Your LP tokens will be locked for the full duration you specify (meaning you
+                    cannot withdraw them)
+                  </Text>
+                  <Field>
+                    {/* @ts-expect-error */}
+                    {({ field, form }) => (
+                      <NumberInput mt="6">
+                        <Flex justifyContent="space-between" alignItems="center" mb="1">
+                          <FormLabel m="0" htmlFor="amount">
+                            Amount
+                          </FormLabel>
+                          {/* TODO: Make this change value to balance */}
+                          <Link textAlign="right" fontSize="sm">
+                            Balance: {formatEther(lpBalance)}
+                          </Link>
+                        </Flex>
+                        <NumberInputField {...field} id="amount" placeholder="0.0" />
+                        <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                      </NumberInput>
+                    )}
+                  </Field>
+
+                  {/* TODO: Numbers of days locked */}
+                </ModalBody>
+                <ModalFooter>
+                  {requireApprove && (
+                    <Approve
+                      address={tokenToStake}
+                      spender={contractAddress[chainId]}
+                      disabled={!allowance}
+                    />
+                  )}
+                  <Button colorScheme="orange" disabled={requireApprove} ml="3" type="submit">
+                    Deposit
+                  </Button>
+                </ModalFooter>
+              </Form>
+            )}
+          </Formik>
         </ModalContent>
       </Modal>
     </>
