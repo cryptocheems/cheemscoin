@@ -9,21 +9,25 @@ import {
   useRadioGroup,
   HStack,
   Spinner,
+  Modal,
+  ModalContent,
+  useDisclosure,
+  ModalOverlay,
+  ModalBody,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 import { useContractCall, useContractFunction, useEthers } from "@usedapp/core";
-import { Interface } from "@ethersproject/abi";
-import { BigNumber } from "@ethersproject/bignumber";
 import { Contract } from "@ethersproject/contracts";
 import { ConnectWallet } from "../components/ConnectWallet";
 import { Container } from "../components/Container";
 import { RadioCard } from "../components/RadioCard";
-import CheemscoinFarm from "../artifacts/CheemscoinFarm.json";
 import { useState } from "react";
 import { T2 } from "../components/T2";
+import { iFarm, tokenDetails } from "../constants";
+import { Approve } from "../components/Approve";
 
-const iFarm = new Interface(CheemscoinFarm.abi);
 const contractAddress = {
-  "4": "0x2A0Bf862A8514F28553b6D5DcB6F4A0EEF6F7968", // Rinkeby
+  "4": "0xfd49633ccD4E7aA662DD45c29616E7C93a236326", // Rinkeby
 } as const;
 
 // All of this was just to make typecsript happy
@@ -35,32 +39,22 @@ interface FarmPageProps {
 }
 
 const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
+  const { account } = useEthers();
+
   validateChainId(chainId);
   // TODO: Use contractAddress[chainId] later
-  const farmContract = new Contract("0x2A0Bf862A8514F28553b6D5DcB6F4A0EEF6F7968", iFarm);
+  const farmContract = new Contract("0xfd49633ccD4E7aA662DD45c29616E7C93a236326", iFarm);
 
   // @ts-expect-error
   const { send: harvest } = useContractFunction(farmContract, "withdrawRewards");
 
-  // * After coding for a while I realised hard coding the pools is probably better
-  const [poolLength]: BigNumber[] = useContractCall({
-    abi: iFarm,
-    address: contractAddress[chainId],
-    args: [],
-    method: "poolLength",
-  }) ?? [BigNumber.from(1)];
-
-  const pools = [];
-  for (let i = 0; i < poolLength.toNumber(); i++) {
-    const pool =
-      useContractCall({
-        abi: iFarm,
-        address: contractAddress[chainId],
-        args: [i],
-        method: "getPoolByIndex",
-      }) ?? []; // [address, allocation, lastRewardTimestamp, accHsfPerShare, totalShares]
-    pools.push(pool);
-  }
+  const [pools] =
+    useContractCall({
+      abi: iFarm,
+      address: contractAddress[chainId],
+      args: [],
+      method: "getAllPools",
+    }) ?? [];
 
   const [currentPage, setCurrentPage] = useState("Opportunities");
   const pages = ["Opportunities", "My Deposits"];
@@ -70,10 +64,16 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
   });
   const group = getRootProps();
 
-  return (
-    <Container>
-      <ConnectWallet />
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const [tokenToStake, setTokenToStake] = useState("");
 
+  function stake(token: string) {
+    onOpen();
+    setTokenToStake(token);
+  }
+
+  return (
+    <>
       <HStack {...group}>
         {pages.map(value => {
           // @ts-expect-error
@@ -86,10 +86,8 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
         })}
       </HStack>
 
-      {pools[0].map(p => (
-        <div key={p.toString()}>{p.toString()}</div>
-      ))}
-
+      {/* {pools && pools.map((pool: any[]) => <div key={pool[0]}>{pool.join(", ")}</div>)} */}
+      {/* TODO: Make Stats for Nerds toggle that shows other stats */}
       {currentPage === "Opportunities" ? (
         <Table>
           <Thead>
@@ -100,20 +98,21 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
             </Tr>
           </Thead>
           <Tbody>
-            <Tr>
-              <T2 primary="CHEEMS - XDAI LP" secondary="Honeyswap" />
-              <Td>1000%</Td>
-              <Td>
-                <Button colorScheme="orange">Stake</Button>
-              </Td>
-            </Tr>
-            <Tr>
-              <T2 primary="CHEEMS - XDAI LP" secondary="Sushiswap" />
-              <Td>500%</Td>
-              <Td>
-                <Button colorScheme="orange">Stake</Button>
-              </Td>
-            </Tr>
+            {pools &&
+              pools.map((pool: any[]) => (
+                <Tr key={pool[0]}>
+                  <T2
+                    primary={tokenDetails(pool[0]).name}
+                    secondary={tokenDetails(pool[0]).exchange}
+                  />
+                  <Td>XXX%</Td>
+                  <Td>
+                    <Button colorScheme="orange" onClick={() => stake(pool[0])}>
+                      Stake
+                    </Button>
+                  </Td>
+                </Tr>
+              ))}
           </Tbody>
         </Table>
       ) : (
@@ -123,7 +122,7 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
               <Th>Deposit Asset</Th>
               <Th>Deposit Balance</Th>
               <Th>Unlock Date</Th>
-              <Th>Reward Balance</Th>
+              <Th>Unclaimed Cheems</Th>
               <Th></Th>
               <Th></Th>
             </Tr>
@@ -149,7 +148,17 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
           </Tbody>
         </Table>
       )}
-    </Container>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalBody>
+            <Approve address={tokenToStake} account={account!} spender={contractAddress[chainId]} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 
@@ -157,7 +166,12 @@ const Farm: React.FC = () => {
   const { chainId } = useEthers();
   const chainIdString = chainId?.toString() ?? "";
 
-  return chainIdString in contractAddress ? <FarmPage chainId={chainIdString} /> : <Spinner />;
+  return (
+    <Container>
+      <ConnectWallet />
+      {chainIdString in contractAddress ? <FarmPage chainId={chainIdString} /> : <Spinner />}
+    </Container>
+  );
 };
 
 export default Farm;
