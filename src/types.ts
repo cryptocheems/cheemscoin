@@ -22,4 +22,5 @@ export interface DepositDetails extends Details {
 export interface LPDetails {
   name: string;
   exchange: string;
+  url: string; // Link to add liquidity
 }
