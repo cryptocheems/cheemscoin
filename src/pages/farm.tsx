@@ -18,10 +18,8 @@ import {
   ModalFooter,
   ModalHeader,
   FormLabel,
-  FormHelperText,
   NumberInput,
   NumberInputField,
-  FormControl,
   Text,
   Flex,
   Link,
@@ -31,19 +29,20 @@ import { useContractCall, useContractFunction, useEthers } from "@usedapp/core";
 import { Contract } from "@ethersproject/contracts";
 import { ConnectWallet } from "../components/ConnectWallet";
 import { Container } from "../components/Container";
-import { RadioCard } from "../components/RadioCard";
+import { RadioCard } from "../components/farm/RadioCard";
 import { useState } from "react";
-import { T2 } from "../components/T2";
 import { defaultPool, iFarm, tokenDetails } from "../constants";
-import { Approve } from "../components/Approve";
+import { Approve } from "../components/farm/Approve";
 import { useAllowance } from "../hooks/useAllowance";
 import { BigNumber } from "@ethersproject/bignumber";
 import { useBalance } from "../hooks/useBalance";
 import { formatEther, parseEther } from "@ethersproject/units";
 import { Field, Form, Formik } from "formik";
+import { Asset } from "../components/farm/Asset";
+import { DepositDetails, PoolDetails } from "../types";
 
 const contractAddress = {
-  "4": "0xfd49633ccD4E7aA662DD45c29616E7C93a236326", // Rinkeby
+  "4": "0xB2505eb72706434070324802b67AE65d4601F7a5", // Rinkeby
 } as const;
 
 const largeUint = BigNumber.from("2").pow(200);
@@ -61,17 +60,22 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
 
   validateChainId(chainId);
   // TODO: Use contractAddress[chainId] later
-  const farmContract = new Contract("0xfd49633ccD4E7aA662DD45c29616E7C93a236326", iFarm);
+  const farmContract = new Contract("0xB2505eb72706434070324802b67AE65d4601F7a5", iFarm);
 
-  // @ts-expect-error
-  const { send: harvest } = useContractFunction(farmContract, "withdrawRewards");
-
-  const [pools] =
+  const [pools]: PoolDetails[][] =
     useContractCall({
       abi: iFarm,
       address: contractAddress[chainId],
       args: [],
       method: "getAllPools",
+    }) ?? [];
+
+  const [accountDeposits]: DepositDetails[][] =
+    useContractCall({
+      abi: iFarm,
+      address: contractAddress[chainId],
+      args: [account],
+      method: "getAccountDeposits",
     }) ?? [];
 
   const [currentPage, setCurrentPage] = useState("Opportunities");
@@ -86,10 +90,16 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
   const [tokenToStake, setTokenToStake] = useState(defaultPool);
   const allowance = useAllowance(tokenToStake, account!, contractAddress[chainId]);
   const requireApprove = !allowance?.gte(largeUint);
+  // TODO: Make a useBalances to get all of the LP balances at once
   const lpBalance = useBalance(tokenToStake, account!);
 
+  // Idk why these have errors
   // @ts-expect-error
   const { send: deposit } = useContractFunction(farmContract, "createDeposit");
+  // @ts-expect-error
+  const { send: withdraw } = useContractFunction(farmContract, "closeDeposit");
+  // @ts-expect-error
+  const { send: harvest } = useContractFunction(farmContract, "withdrawRewards");
 
   function stake(token: string) {
     onOpen();
@@ -116,22 +126,20 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
         <Table>
           <Thead>
             <Tr>
-              <Th>Asset</Th>
+              <Th>Deposit Asset</Th>
               <Th>APY</Th>
               <Th></Th>
             </Tr>
           </Thead>
           <Tbody>
             {pools &&
-              pools.map((pool: any[]) => (
-                <Tr key={pool[0]}>
-                  <T2
-                    primary={tokenDetails(pool[0]).name}
-                    secondary={tokenDetails(pool[0]).exchange}
-                  />
+              pools.map(pool => (
+                <Tr key={pool.poolToken}>
+                  <Asset asset={pool} />
                   <Td>XXX%</Td>
                   <Td>
-                    <Button colorScheme="orange" onClick={() => stake(pool[0])}>
+                    {/* TODO: Disable if no balance */}
+                    <Button colorScheme="orange" onClick={() => stake(pool.poolToken)}>
                       Stake
                     </Button>
                   </Td>
@@ -152,23 +160,36 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
             </Tr>
           </Thead>
           <Tbody>
-            <Tr>
-              <T2 primary="CHEEMS - XDAI LP" secondary="Honeyswap" />
-              {/* TODO: use T2 and show dollar amount as well 
+            {accountDeposits &&
+              accountDeposits.map((d, i) => {
+                const unlockTime = new Date(d.unlockTime.toNumber() * 1000);
+
+                return (
+                  <Tr key={i}>
+                    <Asset asset={d} />
+                    {/* TODO: use T2 and show dollar amount as well 
               TODO: Make a Tc element that has less padding*/}
-              <Td>0.01</Td>
-              <Td>2021-10-11 8:10 AM</Td>
-              <Td>23</Td>
-              <Td>
-                <Button colorScheme="orange">Withdraw</Button>
-              </Td>
-              <Td>
-                {/* TODO: proper errors that user can see */}
-                <Button colorScheme="orange" onClick={() => harvest("0")}>
-                  Harvest
-                </Button>
-              </Td>
-            </Tr>
+                    <Td>{formatEther(d.balance)}</Td>
+                    <Td>{unlockTime.toLocaleString()}</Td>
+                    <Td>{formatEther(d.pendingReward)}</Td>
+                    <Td>
+                      <Button
+                        colorScheme="orange"
+                        onClick={() => withdraw(d.id)}
+                        disabled={unlockTime.valueOf() > new Date().valueOf()}
+                      >
+                        Withdraw
+                      </Button>
+                    </Td>
+                    <Td>
+                      {/* TODO: proper errors that user can see */}
+                      <Button colorScheme="orange" onClick={() => harvest(d.id)}>
+                        Harvest
+                      </Button>
+                    </Td>
+                  </Tr>
+                );
+              })}
           </Tbody>
         </Table>
       )}

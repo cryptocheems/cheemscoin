@@ -1,12 +1,10 @@
 import CheemscoinFarm from "./artifacts/CheemscoinFarm.json";
 import { Interface } from "@ethersproject/abi";
+import { LPDetails } from "./types";
 export const iFarm = new Interface(CheemscoinFarm.abi);
 export const defaultPool = "0xbd8B3bdce99424a957eFe338ef52d6FDC0Aef417";
-interface asset {
-  name: string;
-  exchange: string;
-}
-export const tokenDetails = (address: string): asset => {
+
+export const tokenDetails = (address: string): LPDetails => {
   switch (address) {
     case defaultPool:
       return { name: "CHEEMS - XDAI LP", exchange: "Honeyswap" };
