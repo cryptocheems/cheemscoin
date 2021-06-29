@@ -7,7 +7,7 @@ export interface Details {
 export interface PoolDetails extends Details {
   allocation: BigNumber;
   lastRewardTimestamp: BigNumber;
-  accHsfPerShare: BigNumber;
+  accHsfPerShare: BigNumber; //only updates when interact with contract
   totalShares: BigNumber;
 }
 

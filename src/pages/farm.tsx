@@ -130,7 +130,7 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
           <Thead>
             <Tr>
               <Th>Deposit Asset</Th>
-              <Th>APY</Th>
+              <Th></Th>
               <Th></Th>
             </Tr>
           </Thead>
@@ -139,7 +139,8 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
               pools.map(pool => (
                 <Tr key={pool.poolToken}>
                   <Asset asset={pool} />
-                  <Td>XXX%</Td>
+                  <Th></Th>
+
                   <Td>
                     {/* TODO: Disable if no balance */}
                     <Button colorScheme="orange" onClick={() => stake(pool.poolToken)}>
