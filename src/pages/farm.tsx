@@ -42,7 +42,10 @@ import { useBalance } from "../hooks/useBalance";
 import { formatEther, parseEther } from "@ethersproject/units";
 import { Field, FieldProps, Form, Formik } from "formik";
 import { Asset } from "../components/farm/Asset";
+import { TPrice } from "../components/farm/TPrice";
 import { DepositDetails, PoolDetails } from "../types";
+import { useCheemsPrice } from "../hooks/useCheemsPrice";
+import { usePrice } from "../hooks/usePrice";
 
 const contractAddress = {
   "4": "0xB2505eb72706434070324802b67AE65d4601F7a5", // Rinkeby
@@ -173,9 +176,9 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
                     <Asset asset={d} />
                     {/* TODO: use T2 and show dollar amount as well 
               TODO: Make a Tc element that has less padding*/}
-                    <Td>{formatEther(d.balance)}</Td>
+                    <TPrice amount={d.balance} priceFn={usePrice} priceArgs={[d.poolToken]} />
                     <Td>{unlockTime.toLocaleString()}</Td>
-                    <Td>{formatEther(d.pendingReward)}</Td>
+                    <TPrice amount={d.pendingReward} priceFn={useCheemsPrice} />
                     <Td>
                       <Button
                         colorScheme="orange"
