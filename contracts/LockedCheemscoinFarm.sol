@@ -1,5 +1,7 @@
+/* Note: This contract was never deployed. Actual deployed contract is
+https://github.com/cryptocheems/farm-contracts/blob/master/contracts/CheemscoinFarm.sol */
+
 // SPDX-License-Identifier: GPL-3.0-or-later
-// https://cheemsco.in
 pragma solidity ^0.7.4;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -27,10 +29,6 @@ struct stakeableToken {
   uint256 minDuration;
   uint256 minAmount;
 }
-
-// TODO: Add flash loans
-// TODO: Format this file https://docs.soliditylang.org/en/v0.7.4/style-guide.html
-// TODO: Add events
 
 /// @title Transferable Token Staker
 /// @author kowasaur

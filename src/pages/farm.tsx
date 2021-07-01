@@ -29,15 +29,14 @@ import {
   SliderThumb,
 } from "@chakra-ui/react";
 import { useContractCall, useContractFunction, useEthers } from "@usedapp/core";
-import { Contract } from "@ethersproject/contracts";
 import { ConnectWallet } from "../components/ConnectWallet";
 import { Container } from "../components/Container";
 import { RadioCard } from "../components/farm/RadioCard";
 import { useState } from "react";
-import { defaultPool, iFarm, tokenDetails } from "../constants";
+import { defaultPool, farmAddress, iFarm, tokenDetails, farmContract } from "../constants";
 import { Approve } from "../components/farm/Approve";
 import { useAllowance } from "../hooks/useAllowance";
-import { BigNumber } from "@ethersproject/bignumber";
+import { BigNumber, FixedNumber } from "@ethersproject/bignumber";
 import { useBalance } from "../hooks/useBalance";
 import { formatEther, parseEther } from "@ethersproject/units";
 import { Field, FieldProps, Form, Formik } from "formik";
@@ -46,9 +45,10 @@ import { TPrice } from "../components/farm/TPrice";
 import { DepositDetails, PoolDetails } from "../types";
 import { useCheemsPrice } from "../hooks/useCheemsPrice";
 import { usePrice } from "../hooks/usePrice";
+import { TYield } from "../components/farm/TYield";
 
 const contractAddress = {
-  "4": "0xB2505eb72706434070324802b67AE65d4601F7a5", // Rinkeby
+  "4": farmAddress, // Rinkeby
 } as const;
 
 const largeUint = BigNumber.from("2").pow(200);
@@ -65,8 +65,6 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
   const { account } = useEthers();
 
   validateChainId(chainId);
-  // TODO: Use contractAddress[chainId] later
-  const farmContract = new Contract("0xB2505eb72706434070324802b67AE65d4601F7a5", iFarm);
 
   const [pools]: PoolDetails[][] =
     useContractCall({
@@ -94,8 +92,10 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
 
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [tokenToStake, setTokenToStake] = useState(defaultPool);
+  // TODO: Maybe useTokenAllowance instead
   const allowance = useAllowance(tokenToStake, account!, contractAddress[chainId]);
   const requireApprove = !allowance?.gte(largeUint);
+  // TODO: Maybe useTokenBalance instead
   // TODO: Make a useBalances to get all of the LP balances at once
   const lpBalance = useBalance(tokenToStake, account!);
 
@@ -126,14 +126,15 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
         })}
       </HStack>
 
-      {/* {pools && pools.map((pool: any[]) => <div key={pool[0]}>{pool.join(", ")}</div>)} */}
       {/* TODO: Make Stats for Nerds toggle that shows other stats */}
       {currentPage === "Opportunities" ? (
         <Table>
           <Thead>
             <Tr>
               <Th>Deposit Asset</Th>
-              <Th></Th>
+              <Th>Cheems 24hr</Th>
+              <Th>Yield 24hr</Th>
+              <Th>Yield 1y</Th>
               <Th></Th>
             </Tr>
           </Thead>
@@ -142,8 +143,9 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
               pools.map(pool => (
                 <Tr key={pool.poolToken}>
                   <Asset asset={pool} />
-                  <Th></Th>
-
+                  <Td>{FixedNumber.fromValue(pool.hsfInDay, 18).round(2).toString()}</Td>
+                  <TYield pool={pool} days={1} />
+                  <TYield pool={pool} days={365} />
                   <Td>
                     {/* TODO: Disable if no balance */}
                     <Button colorScheme="orange" onClick={() => stake(pool.poolToken)}>
@@ -176,7 +178,12 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
                     <Asset asset={d} />
                     {/* TODO: use T2 and show dollar amount as well 
               TODO: Make a Tc element that has less padding*/}
-                    <TPrice amount={d.balance} priceFn={usePrice} priceArgs={[d.poolToken]} />
+                    <TPrice
+                      amount={d.balance}
+                      priceFn={usePrice}
+                      priceArgs={[d.poolToken]}
+                      decimals={6}
+                    />
                     <Td>{unlockTime.toLocaleString()}</Td>
                     <TPrice amount={d.pendingReward} priceFn={useCheemsPrice} />
                     <Td>

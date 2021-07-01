@@ -1,7 +1,11 @@
 import CheemscoinFarm from "./artifacts/CheemscoinFarm.json";
 import { Interface } from "@ethersproject/abi";
 import { LPDetails } from "./types";
+import { Contract } from "@ethersproject/contracts";
+
+export const farmAddress = "0x155A65C64C80A5Bd6a294403eb22dEc2226B51E8";
 export const iFarm = new Interface(CheemscoinFarm.abi);
+export const farmContract = new Contract(farmAddress, iFarm);
 export const defaultPool = "0xbd8B3bdce99424a957eFe338ef52d6FDC0Aef417";
 
 // TODO: Make URLs and addresses correct

@@ -6,12 +6,18 @@ interface TPriceProps {
   amount: BigNumber;
   priceFn: (...args: any[]) => number;
   priceArgs?: any[];
+  decimals?: number;
 }
 
-export const TPrice: React.FC<TPriceProps> = ({ amount, priceFn, priceArgs = [] }) => {
+export const TPrice: React.FC<TPriceProps> = ({
+  amount,
+  priceFn,
+  priceArgs = [],
+  decimals = 3,
+}) => {
   const p = priceFn(...priceArgs);
   const a = FixedNumber.fromValue(amount, 18);
-  const amountStr = a.round(2).toString();
+  const amountStr = a.round(decimals).toString();
   if (!p) return <Td>{amountStr}</Td>;
 
   const price = FixedNumber.from(p.toString());
