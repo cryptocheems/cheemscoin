@@ -1,7 +1,7 @@
 import { Heading, Box, Text } from "@chakra-ui/react";
 import { Container } from "../components/Container";
 
-export default () => {
+const fourOfour = () => {
   return (
     <Container justifyContent="center">
       <Box>
@@ -11,3 +11,5 @@ export default () => {
     </Container>
   );
 };
+
+export default fourOfour;

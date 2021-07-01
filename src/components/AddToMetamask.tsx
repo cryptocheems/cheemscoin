@@ -25,7 +25,7 @@ const AddCheemsToMetamask: React.FC = () => {
   );
 };
 
-const AddXdaiToMetamask: React.FC = () => {
+export const AddXdaiToMetamask: React.FC = () => {
   async function add() {
     // @ts-expect-error
     await window.ethereum.request({

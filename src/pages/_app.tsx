@@ -9,9 +9,11 @@ import { Footer } from "../components/Footer";
 import { ChainId, Config, DAppProvider } from "@usedapp/core";
 
 const config: Config = {
-  readOnlyChainId: ChainId.xDai,
+  // TODO: Switch to xDai
+  readOnlyChainId: ChainId.Rinkeby,
   readOnlyUrls: {
     [ChainId.xDai]: "https://rpc.xdaichain.com/",
+    [ChainId.Rinkeby]: "https://eth-rinkeby.alchemyapi.io/v2/VvgG6hNi1jLgE338wg0Q6epKFfAWASqP",
   },
   supportedChains: [ChainId.xDai, ChainId.Rinkeby],
 };

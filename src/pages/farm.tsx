@@ -30,7 +30,7 @@ import {
   SliderFilledTrack,
   SliderThumb,
 } from "@chakra-ui/react";
-import { useContractCall, useContractFunction, useEthers } from "@usedapp/core";
+import { ChainId, useContractCall, useContractFunction, useEthers } from "@usedapp/core";
 import { ConnectWallet } from "../components/ConnectWallet";
 import { Container } from "../components/Container";
 import { RadioCard } from "../components/farm/RadioCard";
@@ -49,30 +49,18 @@ import { usePrice } from "../hooks/usePrice";
 import { TYield } from "../components/farm/TYield";
 import { calcMultiplier, now } from "../utils";
 import { useBalances } from "../hooks/useBalances";
-
-const contractAddress = {
-  "4": farmAddress, // Rinkeby
-} as const;
+import { AddXdaiToMetamask } from "../components/AddToMetamask";
 
 const largeUint = BigNumber.from("2").pow(200);
 
-// All of this was just to make typecsript happy
-type address = keyof typeof contractAddress;
-function validateChainId(_id?: string): asserts _id is address {}
-
-interface FarmPageProps {
-  chainId: string;
-}
-
-const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
-  const { account } = useEthers();
-
-  validateChainId(chainId);
+const FarmPage: React.FC = () => {
+  const { account: accountOrNull } = useEthers();
+  const account = accountOrNull ?? "0x000000000000000000000000000000000000dEaD";
 
   const [pools]: PoolDetails[][] =
     useContractCall({
       abi: iFarm,
-      address: contractAddress[chainId],
+      address: farmAddress,
       args: [],
       method: "getAllPools",
     }) ?? [];
@@ -80,13 +68,13 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
   const [accountDeposits]: DepositDetails[][] =
     useContractCall({
       abi: iFarm,
-      address: contractAddress[chainId],
+      address: farmAddress,
       args: [account],
       method: "getAccountDeposits",
     }) ?? [];
 
   const [currentPage, setCurrentPage] = useState("Opportunities");
-  const pages = ["Opportunities", "My Deposits"];
+  const pages = accountOrNull ? ["Opportunities", "My Deposits"] : ["Opportunities"];
   const { getRootProps, getRadioProps } = useRadioGroup({
     defaultValue: "Opportunities",
     onChange: setCurrentPage,
@@ -97,10 +85,12 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
   const [poolIndexToStake, setPoolIndexToStake] = useState(0);
   const tokenToStake = pools ? pools[poolIndexToStake].poolToken : defaultPool;
   // TODO: Maybe useTokenAllowance instead
-  const allowance = useAllowance(tokenToStake, account!, contractAddress[chainId]);
+  const allowance = useAllowance(tokenToStake, account!, farmAddress);
   const requireApprove = !allowance?.gte(largeUint);
   const lpBalances = useBalances(pools?.map(pool => pool.poolToken) ?? [], account!);
-  const currentLpBalance = formatEther(lpBalances[poolIndexToStake]![0]);
+  const currentLpBalance = lpBalances[poolIndexToStake]
+    ? formatEther(lpBalances[poolIndexToStake]![0])
+    : "0";
 
   // Idk why these have errors
   // @ts-expect-error
@@ -115,7 +105,7 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
     setPoolIndexToStake(index);
   }
 
-  return (
+  return pools ? (
     <>
       <HStack {...group} mb="5">
         {pages.map(value => {
@@ -321,11 +311,7 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
                 </ModalBody>
                 <ModalFooter>
                   {requireApprove && (
-                    <Approve
-                      address={tokenToStake}
-                      spender={contractAddress[chainId]}
-                      disabled={!allowance}
-                    />
+                    <Approve address={tokenToStake} spender={farmAddress} disabled={!allowance} />
                   )}
                   <Button
                     colorScheme="orange"
@@ -342,17 +328,26 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
         </ModalContent>
       </Modal>
     </>
+  ) : (
+    <Spinner />
   );
 };
 
 const Farm: React.FC = () => {
   const { chainId } = useEthers();
-  const chainIdString = chainId?.toString() ?? "";
 
   return (
     <Container>
       <ConnectWallet />
-      {chainIdString in contractAddress ? <FarmPage chainId={chainIdString} /> : <Spinner />}
+      {/* TODO: Switch to xDai */}
+      {chainId === ChainId.Rinkeby ? (
+        <FarmPage />
+      ) : (
+        <>
+          <Text mb="5">Unsupported network. Please switch to xDai</Text>
+          <AddXdaiToMetamask />
+        </>
+      )}
     </Container>
   );
 };
