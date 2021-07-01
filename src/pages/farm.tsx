@@ -18,6 +18,8 @@ import {
   ModalFooter,
   ModalHeader,
   FormLabel,
+  FormErrorMessage,
+  FormControl,
   NumberInput,
   NumberInputField,
   Text,
@@ -37,15 +39,16 @@ import { defaultPool, farmAddress, iFarm, tokenDetails, farmContract } from "../
 import { Approve } from "../components/farm/Approve";
 import { useAllowance } from "../hooks/useAllowance";
 import { BigNumber, FixedNumber } from "@ethersproject/bignumber";
-import { useBalance } from "../hooks/useBalance";
 import { formatEther, parseEther } from "@ethersproject/units";
-import { Field, FieldProps, Form, Formik } from "formik";
+import { Field, FieldProps, Form, Formik, FormikErrors } from "formik";
 import { Asset } from "../components/farm/Asset";
 import { TPrice } from "../components/farm/TPrice";
 import { DepositDetails, PoolDetails } from "../types";
 import { useCheemsPrice } from "../hooks/useCheemsPrice";
 import { usePrice } from "../hooks/usePrice";
 import { TYield } from "../components/farm/TYield";
+import { calcMultiplier, now } from "../utils";
+import { useBalances } from "../hooks/useBalances";
 
 const contractAddress = {
   "4": farmAddress, // Rinkeby
@@ -91,13 +94,13 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
   const group = getRootProps();
 
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const [tokenToStake, setTokenToStake] = useState(defaultPool);
+  const [poolIndexToStake, setPoolIndexToStake] = useState(0);
+  const tokenToStake = pools ? pools[poolIndexToStake].poolToken : defaultPool;
   // TODO: Maybe useTokenAllowance instead
   const allowance = useAllowance(tokenToStake, account!, contractAddress[chainId]);
   const requireApprove = !allowance?.gte(largeUint);
-  // TODO: Maybe useTokenBalance instead
-  // TODO: Make a useBalances to get all of the LP balances at once
-  const lpBalance = useBalance(tokenToStake, account!);
+  const lpBalances = useBalances(pools?.map(pool => pool.poolToken) ?? [], account!);
+  const currentLpBalance = formatEther(lpBalances[poolIndexToStake]![0]);
 
   // Idk why these have errors
   // @ts-expect-error
@@ -107,9 +110,9 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
   // @ts-expect-error
   const { send: harvest } = useContractFunction(farmContract, "withdrawRewards");
 
-  function stake(token: string) {
+  function stake(index: number) {
     onOpen();
-    setTokenToStake(token);
+    setPoolIndexToStake(index);
   }
 
   return (
@@ -140,15 +143,18 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
           </Thead>
           <Tbody>
             {pools &&
-              pools.map(pool => (
+              pools.map((pool, index) => (
                 <Tr key={pool.poolToken}>
                   <Asset asset={pool} />
                   <Td>{FixedNumber.fromValue(pool.hsfInDay, 18).round(2).toString()}</Td>
                   <TYield pool={pool} days={1} />
                   <TYield pool={pool} days={365} />
                   <Td>
-                    {/* TODO: Disable if no balance */}
-                    <Button colorScheme="orange" onClick={() => stake(pool.poolToken)}>
+                    <Button
+                      colorScheme="orange"
+                      onClick={() => stake(index)}
+                      disabled={!lpBalances[index] || lpBalances[index]![0].isZero()}
+                    >
                       Stake
                     </Button>
                   </Td>
@@ -176,8 +182,6 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
                 return (
                   <Tr key={i}>
                     <Asset asset={d} />
-                    {/* TODO: use T2 and show dollar amount as well 
-              TODO: Make a Tc element that has less padding*/}
                     <TPrice
                       amount={d.balance}
                       priceFn={usePrice}
@@ -190,7 +194,7 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
                       <Button
                         colorScheme="orange"
                         onClick={() => withdraw(d.id)}
-                        disabled={unlockTime.valueOf() > new Date().valueOf()}
+                        disabled={d.unlockTime.toNumber() > now()}
                       >
                         Withdraw
                       </Button>
@@ -219,13 +223,22 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
               const duration = Number(values.duration);
               // So Metamask doesn't freak out
               const adjustment = duration == 2 ? 60 : duration == 180 ? -20 : 0;
-              const now = Math.floor(new Date().valueOf() / 1000);
-              const endTime = now + duration * 24 * 60 ** 2 + adjustment;
+              const endTime = now() + duration * 24 * 60 ** 2 + adjustment;
 
               deposit(tokenToStake, parseEther(values.amount), endTime);
             }}
+            validate={values => {
+              const errors: FormikErrors<typeof values> = {};
+              const amount = Number(values.amount);
+              if (amount <= 0 || values.amount === "-") {
+                errors.amount = "Positive amount required";
+              } else if (amount > Number(currentLpBalance)) {
+                errors.amount = "Insufficient balance";
+              }
+              return errors;
+            }}
           >
-            {() => (
+            {({ isValid }) => (
               <Form>
                 <ModalBody>
                   <Text fontSize="sm">
@@ -233,58 +246,75 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
                     cannot withdraw them)
                   </Text>
                   <Field name="amount">
-                    {({ field }: FieldProps) => (
-                      <NumberInput mt="6">
+                    {({ field, form }: FieldProps) => (
+                      <FormControl isInvalid={!!form.errors.amount} mt="6">
                         <Flex justifyContent="space-between" alignItems="center" mb="1">
                           <FormLabel m="0" htmlFor="amount">
                             Amount
                           </FormLabel>
-                          {/* TODO: Make this change value to balance */}
-                          <Link textAlign="right" fontSize="sm">
-                            Balance: {formatEther(lpBalance)}
+                          <Link
+                            textAlign="right"
+                            fontSize="sm"
+                            onClick={() => form.setFieldValue("amount", currentLpBalance)}
+                          >
+                            Balance: {currentLpBalance}
                           </Link>
                         </Flex>
-                        <NumberInputField {...field} id="amount" placeholder="0.0" />
-                      </NumberInput>
+                        <NumberInput value={form.values.amount}>
+                          <NumberInputField {...field} id="amount" placeholder="0.0" />
+                        </NumberInput>
+                        <FormErrorMessage>{form.errors.amount}</FormErrorMessage>
+                      </FormControl>
                     )}
                   </Field>
-                  <FormLabel htmlFor="duration" mt="4" mb="1">
-                    Lock Duration (Days)
-                  </FormLabel>
                   <Field name="duration">
                     {({ field, form }: FieldProps) => {
-                      const value = form.values.duration;
+                      const value: string = form.values.duration;
                       const handleChange = (value: string | number) => {
                         form.setFieldValue("duration", String(value));
                       };
 
                       return (
-                        <Flex>
-                          <NumberInput
-                            maxW="3.8rem"
-                            mr="1rem"
-                            value={value}
-                            onChange={handleChange}
-                            min={2}
-                            max={180}
-                          >
-                            <NumberInputField {...field} id="duration" pr="3" placeholder="2" />
-                          </NumberInput>
-                          <Slider
-                            colorScheme="green"
-                            min={2}
-                            max={180}
-                            defaultValue={2}
-                            value={Number(value)}
-                            focusThumbOnChange={false}
-                            onChange={handleChange}
-                          >
-                            <SliderTrack>
-                              <SliderFilledTrack />
-                            </SliderTrack>
-                            <SliderThumb />
-                          </Slider>
-                        </Flex>
+                        <>
+                          <Flex justifyContent="space-between" alignItems="center" mb="1" mt="5">
+                            <FormLabel htmlFor="duration" mt="4" m="0">
+                              Lock Duration (Days)
+                            </FormLabel>
+                            {/* TODO: Make this change value to balance */}
+                            <Link textAlign="right" fontSize="sm">
+                              Multiplier: {calcMultiplier(value)}x
+                            </Link>
+                          </Flex>
+
+                          <Flex>
+                            <NumberInput
+                              maxW="3.8rem"
+                              mr="1rem"
+                              value={value}
+                              onChange={handleChange}
+                              min={2}
+                              max={180}
+                            >
+                              <NumberInputField {...field} id="duration" pr="3" placeholder="2" />
+                            </NumberInput>
+                            <Slider
+                              colorScheme="green"
+                              min={2}
+                              // TODO: Change this back
+                              // max={180}
+                              max={4}
+                              defaultValue={2}
+                              value={Number(value)}
+                              focusThumbOnChange={false}
+                              onChange={handleChange}
+                            >
+                              <SliderTrack>
+                                <SliderFilledTrack />
+                              </SliderTrack>
+                              <SliderThumb />
+                            </Slider>
+                          </Flex>
+                        </>
                       );
                     }}
                   </Field>
@@ -297,7 +327,12 @@ const FarmPage: React.FC<FarmPageProps> = ({ chainId }) => {
                       disabled={!allowance}
                     />
                   )}
-                  <Button colorScheme="orange" disabled={requireApprove} ml="3" type="submit">
+                  <Button
+                    colorScheme="orange"
+                    disabled={requireApprove || !isValid}
+                    ml="3"
+                    type="submit"
+                  >
                     Deposit
                   </Button>
                 </ModalFooter>
