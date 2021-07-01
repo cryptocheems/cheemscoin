@@ -22,7 +22,7 @@ export const TPrice: React.FC<TPriceProps> = ({
 
   const price = FixedNumber.from(p.toString());
   const total = a.mulUnsafe(price);
-  const dollarStr = total.round(2).toString();
+  const dollarStr = total.round(3).toString();
 
   return <T2 primary={amountStr} secondary={`$${dollarStr}`} />;
 };

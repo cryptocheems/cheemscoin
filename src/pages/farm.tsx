@@ -47,9 +47,10 @@ import { DepositDetails, PoolDetails } from "../types";
 import { useCheemsPrice } from "../hooks/useCheemsPrice";
 import { usePrice } from "../hooks/usePrice";
 import { TYield } from "../components/farm/TYield";
-import { calcMultiplier, now } from "../utils";
+import { calcApr, calcMultiplier, now } from "../utils";
 import { useBalances } from "../hooks/useBalances";
 import { AddXdaiToMetamask } from "../components/AddToMetamask";
+import { ExtLink } from "../components/ExtLink";
 
 const largeUint = BigNumber.from("2").pow(200);
 
@@ -225,105 +226,122 @@ const FarmPage: React.FC = () => {
               } else if (amount > Number(currentLpBalance)) {
                 errors.amount = "Insufficient balance";
               }
+              if (values.duration === "") errors.duration = "Duration is required";
               return errors;
             }}
           >
-            {({ isValid }) => (
-              <Form>
-                <ModalBody>
-                  <Text fontSize="sm">
-                    Your LP tokens will be locked for the full duration you specify (meaning you
-                    cannot withdraw them)
-                  </Text>
-                  <Field name="amount">
-                    {({ field, form }: FieldProps) => (
-                      <FormControl isInvalid={!!form.errors.amount} mt="6">
-                        <Flex justifyContent="space-between" alignItems="center" mb="1">
-                          <FormLabel m="0" htmlFor="amount">
-                            Amount
-                          </FormLabel>
-                          <Link
-                            textAlign="right"
-                            fontSize="sm"
-                            onClick={() => form.setFieldValue("amount", currentLpBalance)}
-                          >
-                            Balance: {currentLpBalance}
-                          </Link>
-                        </Flex>
-                        <NumberInput value={form.values.amount}>
-                          <NumberInputField {...field} id="amount" placeholder="0.0" />
-                        </NumberInput>
-                        <FormErrorMessage>{form.errors.amount}</FormErrorMessage>
-                      </FormControl>
-                    )}
-                  </Field>
-                  <Field name="duration">
-                    {({ field, form }: FieldProps) => {
-                      const value: string = form.values.duration;
-                      const handleChange = (value: string | number) => {
-                        form.setFieldValue("duration", String(value));
-                      };
-
-                      return (
-                        <>
-                          <Flex justifyContent="space-between" alignItems="center" mb="1" mt="5">
-                            <FormLabel htmlFor="duration" mt="4" m="0">
-                              Lock Duration (Days)
+            {({ isValid, values, errors, setFieldValue }) => {
+              const { apr, baseApr, lockApr } = calcApr(pools[poolIndexToStake], values.duration);
+              return (
+                <Form>
+                  <ModalBody>
+                    <Text fontSize="15">
+                      Your LP tokens will be locked for the full duration you specify (meaning you
+                      cannot withdraw them until the full time has passed)
+                    </Text>
+                    <Field name="amount">
+                      {({ field }: FieldProps) => (
+                        <FormControl isInvalid={!!errors.amount} mt="4">
+                          <Flex justifyContent="space-between" alignItems="center" mb="1">
+                            <FormLabel m="0" htmlFor="amount">
+                              Amount
                             </FormLabel>
-                            {/* TODO: Make this change value to balance */}
-                            <Link textAlign="right" fontSize="sm">
-                              Multiplier: {calcMultiplier(value)}x
+                            <Link
+                              textAlign="right"
+                              fontSize="sm"
+                              onClick={() => setFieldValue("amount", currentLpBalance)}
+                            >
+                              Balance: {currentLpBalance}
                             </Link>
                           </Flex>
+                          <NumberInput value={values.amount}>
+                            <NumberInputField {...field} id="amount" placeholder="0.0" />
+                          </NumberInput>
+                          <FormErrorMessage>{errors.amount}</FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+                    <Field name="duration">
+                      {({ field }: FieldProps) => {
+                        const value: string = values.duration;
+                        const handleChange = (value: string | number) => {
+                          setFieldValue("duration", String(value));
+                        };
 
-                          <Flex>
-                            <NumberInput
-                              maxW="3.8rem"
-                              mr="1rem"
-                              value={value}
-                              onChange={handleChange}
-                              min={2}
-                              max={180}
-                            >
-                              <NumberInputField {...field} id="duration" pr="3" placeholder="2" />
-                            </NumberInput>
-                            <Slider
-                              colorScheme="green"
-                              min={2}
-                              // TODO: Change this back
-                              // max={180}
-                              max={4}
-                              defaultValue={2}
-                              value={Number(value)}
-                              focusThumbOnChange={false}
-                              onChange={handleChange}
-                            >
-                              <SliderTrack>
-                                <SliderFilledTrack />
-                              </SliderTrack>
-                              <SliderThumb />
-                            </Slider>
-                          </Flex>
-                        </>
-                      );
-                    }}
-                  </Field>
-                </ModalBody>
-                <ModalFooter>
-                  {requireApprove && (
-                    <Approve address={tokenToStake} spender={farmAddress} disabled={!allowance} />
-                  )}
-                  <Button
-                    colorScheme="orange"
-                    disabled={requireApprove || !isValid}
-                    ml="3"
-                    type="submit"
-                  >
-                    Deposit
-                  </Button>
-                </ModalFooter>
-              </Form>
-            )}
+                        return (
+                          <>
+                            <Flex justifyContent="space-between" alignItems="center" mb="1" mt="5">
+                              <FormLabel htmlFor="duration" mt="4" m="0">
+                                Lock Duration (Days)
+                              </FormLabel>
+                              {/* TODO: Make this change value to balance */}
+                              <Text textAlign="right" fontSize="sm">
+                                Multiplier: {calcMultiplier(value)}x
+                              </Text>
+                            </Flex>
+
+                            <Flex>
+                              <NumberInput
+                                maxW="3.8rem"
+                                mr="1rem"
+                                value={value}
+                                onChange={handleChange}
+                                min={2}
+                                max={180}
+                              >
+                                <NumberInputField {...field} id="duration" pr="3" placeholder="2" />
+                              </NumberInput>
+                              <Slider
+                                colorScheme="green"
+                                min={2}
+                                // TODO: Change this back
+                                // max={180}
+                                max={4}
+                                defaultValue={2}
+                                value={Number(value)}
+                                focusThumbOnChange={false}
+                                onChange={handleChange}
+                              >
+                                <SliderTrack>
+                                  <SliderFilledTrack />
+                                </SliderTrack>
+                                <SliderThumb />
+                              </Slider>
+                            </Flex>
+                          </>
+                        );
+                      }}
+                    </Field>
+                    <Text fontSize="smaller" mt="6">
+                      Using the current stats, your deposit will initially have an APR of {lockApr}%
+                      for {values.duration} days. After that, it will have an APR of {baseApr}%.
+                      Thus, the average APR for 180 days will be {apr}%. All of these APRs are
+                      variable (meaning they can change drastically) and depend on a variety of
+                      factors. There is no guarantee you will profit in dollar value and it is
+                      possible that your LP tokens will lose value. See the{" "}
+                      {/* TODO: update link to be specific */}
+                      <ExtLink plainbg href="https://docs.cheemsco.in/">
+                        docs
+                      </ExtLink>{" "}
+                      for more information.
+                    </Text>
+                  </ModalBody>
+                  <ModalFooter>
+                    {requireApprove && (
+                      <Approve address={tokenToStake} spender={farmAddress} disabled={!allowance} />
+                    )}
+                    <Button
+                      colorScheme="orange"
+                      disabled={requireApprove || !isValid}
+                      ml="3"
+                      type="submit"
+                    >
+                      Deposit
+                    </Button>
+                  </ModalFooter>
+                </Form>
+              );
+            }}
           </Formik>
         </ModalContent>
       </Modal>
