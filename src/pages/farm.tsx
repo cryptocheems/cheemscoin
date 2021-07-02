@@ -29,13 +29,27 @@ import {
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
+  useToast,
 } from "@chakra-ui/react";
-import { ChainId, useContractCall, useContractFunction, useEthers } from "@usedapp/core";
+import {
+  ChainId,
+  useContractCall,
+  useContractFunction,
+  useEthers,
+  useNotifications,
+} from "@usedapp/core";
 import { ConnectWallet } from "../components/ConnectWallet";
 import { Container } from "../components/Container";
 import { RadioCard } from "../components/farm/RadioCard";
 import { useState } from "react";
-import { defaultPool, farmAddress, iFarm, tokenDetails, farmContract } from "../constants";
+import {
+  defaultPool,
+  farmAddress,
+  iFarm,
+  tokenDetails,
+  farmContract,
+  notificationInfo,
+} from "../constants";
 import { Approve } from "../components/farm/Approve";
 import { useAllowance } from "../hooks/useAllowance";
 import { BigNumber, FixedNumber } from "@ethersproject/bignumber";
@@ -95,16 +109,36 @@ const FarmPage: React.FC = () => {
 
   // Idk why these have errors
   // @ts-expect-error
-  const { send: deposit } = useContractFunction(farmContract, "createDeposit");
+  const { send: deposit } = useContractFunction(farmContract, "createDeposit", {
+    transactionName: "Deposit",
+  });
   // @ts-expect-error
-  const { send: withdraw } = useContractFunction(farmContract, "closeDeposit");
+  const { send: withdraw } = useContractFunction(farmContract, "closeDeposit", {
+    transactionName: "Withdrawal",
+  });
   // @ts-expect-error
-  const { send: harvest } = useContractFunction(farmContract, "withdrawRewards");
+  const { send: harvest } = useContractFunction(farmContract, "withdrawRewards", {
+    transactionName: "Harvest",
+  });
 
   function stake(index: number) {
     onOpen();
     setPoolIndexToStake(index);
   }
+
+  const { notifications } = useNotifications();
+  const toast = useToast();
+  notifications.forEach(n => {
+    !toast.isActive(n.id) &&
+      toast({
+        title: notificationInfo(n).title,
+        description: notificationInfo(n).description,
+        status: notificationInfo(n).status,
+        id: n.id,
+        isClosable: true,
+        position: "bottom-left",
+      });
+  });
 
   return pools ? (
     <>

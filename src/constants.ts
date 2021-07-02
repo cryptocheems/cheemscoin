@@ -1,7 +1,8 @@
 import CheemscoinFarm from "./artifacts/CheemscoinFarm.json";
 import { Interface } from "@ethersproject/abi";
-import { LPDetails } from "./types";
+import { LPDetails, Notification, notificationDetails } from "./types";
 import { Contract } from "@ethersproject/contracts";
+import { TxHash } from "./components/TxHash";
 
 export const farmAddress = "0x155A65C64C80A5Bd6a294403eb22dEc2226B51E8";
 export const iFarm = new Interface(CheemscoinFarm.abi);
@@ -31,6 +32,29 @@ export const tokenDetails = (address: string): LPDetails => {
       };
     default:
       return { name: address, exchange: "Unknown", url: "" };
+  }
+};
+
+export const notificationInfo = (notification: Notification): notificationDetails => {
+  switch (notification.type) {
+    case "walletConnected":
+      return { status: "success", title: "Wallet Connected" };
+    case "transactionStarted":
+      return {
+        status: "info",
+        title: notification.transactionName + " Pending",
+        description: TxHash({ notification }),
+      };
+    case "transactionSucceed":
+      return {
+        status: "success",
+        title: notification.transactionName + " Successful",
+        description: TxHash({ notification }),
+      };
+    case "transactionFailed":
+      return { status: "error", title: notification.transactionName + " Failed" };
+    default:
+      return { status: "error", title: "Unknown error" };
   }
 };
 
