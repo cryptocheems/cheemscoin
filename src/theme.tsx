@@ -17,7 +17,7 @@ const theme = extendTheme({
   fonts,
   breakpoints,
   config: {
-    useSystemColorMode: true,
+    initialColorMode: "dark",
   },
 });
 

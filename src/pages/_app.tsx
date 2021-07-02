@@ -3,7 +3,7 @@ import "../styles.css";
 import theme from "../theme";
 import { AppProps } from "next/app";
 import { Container } from "../components/Container";
-import { NavBar } from "../components/navbar/NavBar";
+import { NavBar } from "../components/navbar";
 import Head from "next/head";
 import { Footer } from "../components/Footer";
 import { ChainId, Config, DAppProvider } from "@usedapp/core";

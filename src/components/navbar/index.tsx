@@ -59,7 +59,6 @@ export const NavBar: React.FC = ({}) => (
         />
         <NavLink href={buyLink}>Buy</NavLink>
         <NavLink href="/farm">Farm</NavLink>
-        <NavLink href="/locks">Locks</NavLink>
       </Box>
       <Box>
         <IconLink

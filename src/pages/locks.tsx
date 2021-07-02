@@ -33,7 +33,7 @@ const Locks: React.FC = () => {
         <Link href={"https://blockscout.com/xdai/mainnet/address/" + lAddress} isExternal>
           the TokenLock contract
         </Link>{" "}
-        and can not be withdrawn until the dates shown
+        and cannot be withdrawn until the dates shown
       </Text>
 
       <Flex mt="10" flexWrap="wrap">

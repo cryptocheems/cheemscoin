@@ -23,5 +23,5 @@ export function calcYield(pool: PoolDetails, days: number) {
 export const TYield: React.FC<TYieldProps> = ({ pool, days }) => {
   const result = calcYield(pool, days);
 
-  return <Td>{result.isZero() ? "" : result.round(2).toString()}%</Td>;
+  return <Td>{result.isZero() ? "" : result.round(2).toString() + "%"}</Td>;
 };

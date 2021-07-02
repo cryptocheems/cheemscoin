@@ -47,11 +47,15 @@ export const Footer: React.FC = () => (
       </FooterLink>
     </Stack>
     <Stack>
+      <FooterLink href="https://docs.cheemsco.in">Docs</FooterLink>
+      <FooterLink href={honeyswapLink}>Honeyswap</FooterLink>
+    </Stack>
+    <Stack>
       <FooterLink href="/contact">Contact</FooterLink>
       {/* TODO: Change back */}
       <FooterLink href={buyLink}>Buy</FooterLink>
+      <FooterLink href="/farm">Farm</FooterLink>
       <FooterLink href="/locks">Token Locks</FooterLink>
-      <FooterLink href={honeyswapLink}>Honeyswap</FooterLink>
     </Stack>
   </Flex>
 );

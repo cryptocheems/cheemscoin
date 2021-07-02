@@ -89,7 +89,10 @@ const FarmPage: React.FC = () => {
     }) ?? [];
 
   const [currentPage, setCurrentPage] = useState("Opportunities");
-  const pages = accountOrNull ? ["Opportunities", "My Deposits"] : ["Opportunities"];
+  // TODO: add Expired Locks page where you can downgrade deposits. Will probably require change in contract
+  const pages = accountOrNull
+    ? ["Opportunities", "My Deposits", "Stats"]
+    : ["Opportunities", "Stats"];
   const { getRootProps, getRadioProps } = useRadioGroup({
     defaultValue: "Opportunities",
     onChange: setCurrentPage,
@@ -137,6 +140,7 @@ const FarmPage: React.FC = () => {
         id: n.id,
         isClosable: true,
         position: "bottom-left",
+        duration: n.type === "walletConnected" ? 3000 : 10000,
       });
   });
 
@@ -187,7 +191,7 @@ const FarmPage: React.FC = () => {
               ))}
           </Tbody>
         </Table>
-      ) : (
+      ) : currentPage === "My Deposits" ? (
         <Table>
           <Thead>
             <Tr>
@@ -235,7 +239,7 @@ const FarmPage: React.FC = () => {
               })}
           </Tbody>
         </Table>
-      )}
+      ) : null}
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
