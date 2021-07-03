@@ -1,3 +1,4 @@
+import { FixedNumber } from "@ethersproject/bignumber";
 import { calcYield } from "./components/farm/TYield";
 import { PoolDetails } from "./types";
 
@@ -21,3 +22,5 @@ export function calcApr(pool: PoolDetails, duration: string) {
     apr: apr.toFixed(2),
   };
 }
+
+export const removeDecimal = (num: FixedNumber) => num.round(0).toString().split(".")[0];

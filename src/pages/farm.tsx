@@ -65,6 +65,7 @@ import { calcApr, calcMultiplier, now } from "../utils";
 import { useBalances } from "../hooks/useBalances";
 import { AddXdaiToMetamask } from "../components/AddToMetamask";
 import { ExtLink } from "../components/ExtLink";
+import { Stats } from "../components/farm/Stats";
 
 const largeUint = BigNumber.from("2").pow(200);
 
@@ -239,7 +240,9 @@ const FarmPage: React.FC = () => {
               })}
           </Tbody>
         </Table>
-      ) : null}
+      ) : (
+        <Stats pools={pools} />
+      )}
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
