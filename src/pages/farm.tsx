@@ -49,6 +49,7 @@ import {
   tokenDetails,
   farmContract,
   notificationInfo,
+  maxLock,
 } from "../constants";
 import { Approve } from "../components/farm/Approve";
 import { useAllowance } from "../hooks/useAllowance";
@@ -159,7 +160,6 @@ const FarmPage: React.FC = () => {
         })}
       </HStack>
 
-      {/* TODO: Make Stats for Nerds toggle that shows other stats */}
       {currentPage === "Opportunities" ? (
         <Table>
           <Thead>
@@ -230,7 +230,6 @@ const FarmPage: React.FC = () => {
                       </Button>
                     </Td>
                     <Td>
-                      {/* TODO: proper errors that user can see */}
                       <Button colorScheme="orange" onClick={() => harvest(d.id)}>
                         Harvest
                       </Button>
@@ -254,7 +253,7 @@ const FarmPage: React.FC = () => {
             onSubmit={values => {
               const duration = Number(values.duration);
               // So Metamask doesn't freak out
-              const adjustment = duration == 2 ? 60 : duration == 180 ? -20 : 0;
+              const adjustment = duration == 2 ? 60 : duration == maxLock ? -20 : 0;
               const endTime = now() + duration * 24 * 60 ** 2 + adjustment;
 
               deposit(tokenToStake, parseEther(values.amount), endTime);
@@ -315,7 +314,6 @@ const FarmPage: React.FC = () => {
                               <FormLabel htmlFor="duration" mt="4" m="0">
                                 Lock Duration (Days)
                               </FormLabel>
-                              {/* TODO: Make this change value to balance */}
                               <Text textAlign="right" fontSize="sm">
                                 Multiplier: {calcMultiplier(value)}x
                               </Text>
@@ -335,9 +333,7 @@ const FarmPage: React.FC = () => {
                               <Slider
                                 colorScheme="green"
                                 min={2}
-                                // TODO: Change this back
-                                // max={180}
-                                max={4}
+                                max={maxLock}
                                 defaultValue={2}
                                 value={Number(value)}
                                 focusThumbOnChange={false}

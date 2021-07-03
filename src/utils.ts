@@ -24,3 +24,16 @@ export function calcApr(pool: PoolDetails, duration: string) {
 }
 
 export const removeDecimal = (num: FixedNumber) => num.round(0).toString().split(".")[0];
+
+const padZero = (num: number) => (String(num).length === 1 ? "0" + String(num) : String(num));
+
+/** Convert seconds to days, hours, minutes and seconds */
+export function secondsToDays(seconds: number) {
+  const days = Math.floor(seconds / (24 * 3600));
+  const hours = Math.floor((seconds % (24 * 3600)) / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const s = Math.floor(seconds % 60);
+
+  const result = days > 0 ? days + (days == 1 ? " day, " : " days, ") : "";
+  return `${result}${padZero(hours)}:${padZero(minutes)}:${padZero(s)}`;
+}

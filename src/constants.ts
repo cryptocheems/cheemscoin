@@ -5,14 +5,14 @@ import { Contract } from "@ethersproject/contracts";
 import { TxHash } from "./components/TxHash";
 import { FixedNumber } from "@ethersproject/bignumber";
 
+// TODO: Make this right
+export const cheemsAddress = "0x060153c56952571389507aa373fc39343607373f";
 export const farmAddress = "0x155A65C64C80A5Bd6a294403eb22dEc2226B51E8";
 export const iFarm = new Interface(CheemscoinFarm.abi);
 export const farmContract = new Contract(farmAddress, iFarm);
 export const defaultPool = "0xbd8B3bdce99424a957eFe338ef52d6FDC0Aef417";
-
-// TODO: Make this right
-export const cheemsAddress = "0x060153c56952571389507aa373fc39343607373f";
 export const totalCheems = FixedNumber.from("140");
+export const maxLock = 7;
 
 // TODO: Make URLs and addresses correct
 export const tokenDetails = (address: string): LPDetails => {
