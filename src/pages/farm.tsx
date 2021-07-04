@@ -92,9 +92,10 @@ const FarmPage: React.FC = () => {
 
   const [currentPage, setCurrentPage] = useState("Opportunities");
   // TODO: add Expired Locks page where you can downgrade deposits. Will probably require change in contract
-  const pages = accountOrNull
-    ? ["Opportunities", "My Deposits", "Stats"]
-    : ["Opportunities", "Stats"];
+  const pages =
+    !accountDeposits || !accountDeposits[0]
+      ? ["Opportunities", "Stats"]
+      : ["Opportunities", "My Deposits", "Stats"];
   const { getRootProps, getRadioProps } = useRadioGroup({
     defaultValue: "Opportunities",
     onChange: setCurrentPage,
@@ -355,12 +356,12 @@ const FarmPage: React.FC = () => {
                       Thus, the average APR for 180 days will be {apr}%. All of these APRs are
                       variable (meaning they can change drastically) and depend on a variety of
                       factors. There is no guarantee you will profit in dollar value and it is
-                      possible that your LP tokens will lose value. See the{" "}
+                      possible that your LP tokens will lose value. Please read the{" "}
                       {/* TODO: update link to be specific */}
                       <ExtLink plainbg href="https://docs.cheemsco.in/">
                         docs
                       </ExtLink>{" "}
-                      for more information.
+                      before depositing.
                     </Text>
                   </ModalBody>
                   <ModalFooter>
@@ -394,8 +395,8 @@ const Farm: React.FC = () => {
   return (
     <Container>
       <ConnectWallet />
-      {/* TODO: Switch to xDai */}
-      {chainId === ChainId.Rinkeby ? (
+      {/* {chainId === ChainId.Rinkeby ? ( */}
+      {chainId === ChainId.xDai ? (
         <FarmPage />
       ) : (
         <>

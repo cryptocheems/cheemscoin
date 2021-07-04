@@ -1,24 +1,21 @@
 import { ChainId, useEthers } from "@usedapp/core";
 import { request, gql } from "graphql-request";
 import { useEffect, useMemo, useState } from "react";
-
-// https://api.thegraph.com/subgraphs/name/sushiswap/xdai-exchange
+import { graphDetails } from "../constants";
 
 // Modelled after https://github.com/1Hive/tulip-frontend/blob/master/src/hooks/usePools.js
 
 async function queryPrice(address: string) {
-  // TODO: remove in production
-  address = "0xce5382ff31b7a6f24797a46c307351fde135c0fd";
+  const graph = graphDetails(address);
   const query = gql`
   {
-    pair(id:"${address}") {
+    pair(id:"${graph.address.toLowerCase()}") {
       totalSupply
       reserveUSD
     }
   }`;
 
-  // TODO: Change url depending on token
-  const r = await request("https://api.thegraph.com/subgraphs/name/1hive/honeyswap-xdai", query);
+  const r = await request(graph.url, query);
 
   if (r.pair === null) return 0;
 
@@ -32,9 +29,8 @@ export function usePrice(address: string) {
   const { chainId } = useEthers();
 
   useEffect(() => {
-    if (chainId !== ChainId.Rinkeby) return;
-    // TODO: Change to this
-    // if (chainId !== ChainId.xDai) return
+    // if (chainId !== ChainId.Rinkeby) return;
+    if (chainId !== ChainId.xDai) return;
     (async () => setPrice(await queryPrice(address)))();
   }, [chainId]);
 

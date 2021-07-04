@@ -5,10 +5,11 @@ import { PoolDetails } from "./types";
 /** Get current time in seconds */
 export const now = () => Math.round(Date.now() / 1000);
 
-// TODO: This is probably wrong, fix it
 const calcMultiplierNum = (duration: string) => Number(duration) * (5 / 180) + 1;
 export const calcMultiplier = (duration: string) => calcMultiplierNum(duration).toFixed(2);
 
+// TODO: Factor in that the entire duration is only 180 days
+// TODO: Warn the user if they lock for longer than the remaining time
 export function calcApr(pool: PoolDetails, duration: string) {
   const yield24Hr = calcYield(pool, 1).toUnsafeFloat();
   const multiplier = calcMultiplierNum(duration);
