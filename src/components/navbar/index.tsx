@@ -59,12 +59,25 @@ export const NavBar: React.FC = ({}) => (
         />
         <NavLink href={buyLink}>Buy</NavLink>
         <NavLink href="/farm">Farm</NavLink>
+        <NavLink href="https://docs.cheemsco.in">Documentation</NavLink>
       </Box>
       <Box>
         <IconLink
           href="http://discord.cheemsco.in"
           icon={<FaDiscord size="25" />}
           aria-label="Discord"
+          mr="3"
+        />
+        <IconLink
+          href="http://github.cheemsco.in"
+          icon={<FaGithub size="25" />}
+          aria-label="GitHub"
+          mr="3"
+        />
+        <IconLink
+          href="http://reddit.cheemsco.in"
+          icon={<FaReddit size="25" />}
+          aria-label="Official subreddit"
           mr="3"
         />
         <DarkModeSwitch />
