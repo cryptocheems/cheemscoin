@@ -58,10 +58,10 @@ export const tokenDetails = (address: string): LPDetails => {
 };
 
 export const graphDetails = (address: string) => {
-  switch (address) {
+  switch (address.toLowerCase()) {
     case "0x972dec20648f57a350d8fe09acd22805fe246c84":
       return { address, url: "https://api.thegraph.com/subgraphs/name/luzzif/swapr-xdai" };
-    case "0x58D86fA82be09B3456d931fd8CD3Babcd4118C4B":
+    case "0x58d86fa82be09b3456d931fd8cd3babcd4118c4b":
       return {
         address: "0x80d34220522E129230354B6B5679Ae9F2349d4b0",
         // TODO: Find subraph that works

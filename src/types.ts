@@ -17,6 +17,11 @@ export interface DepositDetails extends Details {
   id: BigNumber;
 }
 
+export interface ExpiredDespoit extends Details {
+  id: BigNumber;
+  reward: BigNumber;
+}
+
 // Used in tokenDetails()
 export interface LPDetails {
   name: string;

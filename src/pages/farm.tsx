@@ -67,6 +67,7 @@ import { useBalances } from "../hooks/useBalances";
 import { AddXdaiToMetamask } from "../components/AddToMetamask";
 import { ExtLink } from "../components/ExtLink";
 import { Stats } from "../components/farm/Stats";
+import { Expired } from "../components/farm/Expired";
 
 const largeUint = BigNumber.from("2").pow(200);
 
@@ -91,11 +92,10 @@ const FarmPage: React.FC = () => {
     }) ?? [];
 
   const [currentPage, setCurrentPage] = useState("Opportunities");
-  // TODO: add Expired Locks page where you can downgrade deposits. Will probably require change in contract
   const pages =
     !accountDeposits || !accountDeposits[0]
       ? ["Opportunities", "Stats"]
-      : ["Opportunities", "My Deposits", "Stats"];
+      : ["Opportunities", "My Deposits", "Stats", "Expired Locks"];
   const { getRootProps, getRadioProps } = useRadioGroup({
     defaultValue: "Opportunities",
     onChange: setCurrentPage,
@@ -105,7 +105,7 @@ const FarmPage: React.FC = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [poolIndexToStake, setPoolIndexToStake] = useState(0);
   const tokenToStake = pools ? pools[poolIndexToStake].poolToken : defaultPool;
-  // TODO: Maybe useTokenAllowance instead
+
   const allowance = useAllowance(tokenToStake, account!, farmAddress);
   const requireApprove = !allowance?.gte(largeUint);
   const lpBalances = useBalances(pools?.map(pool => pool.poolToken) ?? [], account!);
@@ -217,9 +217,9 @@ const FarmPage: React.FC = () => {
                       amount={d.balance}
                       priceFn={usePrice}
                       priceArgs={[d.poolToken]}
-                      decimals={6}
+                      decimals={7}
                     />
-                    <Td>{unlockTime.toLocaleString()}</Td>
+                    <Td>{`${unlockTime.toDateString()}, ${unlockTime.toLocaleTimeString()}`}</Td>
                     <TPrice amount={d.pendingReward} priceFn={useCheemsPrice} />
                     <Td>
                       <Button
@@ -240,8 +240,10 @@ const FarmPage: React.FC = () => {
               })}
           </Tbody>
         </Table>
-      ) : (
+      ) : currentPage === "Stats" ? (
         <Stats pools={pools} />
+      ) : (
+        <Expired />
       )}
 
       <Modal isOpen={isOpen} onClose={onClose}>
