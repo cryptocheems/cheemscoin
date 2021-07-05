@@ -1,4 +1,4 @@
-import { Td } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
 import { FixedNumber } from "@ethersproject/bignumber";
 import { useCheemsPrice } from "../../hooks/useCheemsPrice";
 import { usePrice } from "../../hooks/usePrice";
@@ -23,5 +23,5 @@ export function calcYield(pool: PoolDetails, days: number) {
 export const TYield: React.FC<TYieldProps> = ({ pool, days }) => {
   const result = calcYield(pool, days);
 
-  return <Td>{result.isZero() ? "" : result.round(2).toString() + "%"}</Td>;
+  return <Text fontSize="lg">{result.isZero() ? "" : result.round(2).toString() + "%"}</Text>;
 };

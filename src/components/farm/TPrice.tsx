@@ -1,4 +1,4 @@
-import { Td } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
 import { BigNumber, FixedNumber } from "@ethersproject/bignumber";
 import { T2 } from "./T2";
 
@@ -20,7 +20,7 @@ export const TPrice: React.FC<TPriceProps> = ({
   const p = priceFn(...priceArgs);
   const a = FixedNumber.fromValue(amount, 18);
   const amountStr = a.round(decimals).toString();
-  if (!p) return <Td fontSize="xl">{amountStr}</Td>;
+  if (!p) return <Text fontSize="xl">{amountStr}</Text>;
 
   const price = FixedNumber.from(p.toString());
   const total = a.mulUnsafe(price);

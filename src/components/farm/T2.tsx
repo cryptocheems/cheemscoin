@@ -1,4 +1,4 @@
-import { Td, Text } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
 import { ReactChild } from "react";
 
 interface T2Props {
@@ -7,14 +7,14 @@ interface T2Props {
 }
 
 // A table cell with 2 parts
+// Future edit: now it's not actually a table cell
 export const T2: React.FC<T2Props> = ({ primary, secondary }) => {
   return (
-    <Td fontSize="xl">
-      {primary}
-
+    <>
+      <Text fontSize="xl">{primary}</Text>
       <Text fontSize="sm" textColor="grey">
         {secondary}
       </Text>
-    </Td>
+    </>
   );
 };

@@ -1,10 +1,11 @@
 import { useContractCall, useContractFunction } from "@usedapp/core";
 import { farmAddress, farmContract, iFarm } from "../../constants";
 import { ExpiredDespoit } from "../../types";
-import { Code, Spinner, Text, Table, Thead, Tbody, Tr, Th, Button, Td } from "@chakra-ui/react";
+import { Code, Spinner, Text, Button } from "@chakra-ui/react";
 import { Asset } from "./Asset";
 import { TPrice } from "./TPrice";
 import { usePrice } from "../../hooks/usePrice";
+import { DataList } from "./DataList";
 
 export const Expired: React.FC = ({}) => {
   const [deposits]: ExpiredDespoit[][] =
@@ -28,7 +29,7 @@ export const Expired: React.FC = ({}) => {
 
   return (
     <>
-      <Text maxW="50rem" mb="4" mt="1" fontSize="15">
+      <Text maxW="50rem" mb="4" mt="1" fontSize="15" px="2">
         The smart contract does not know to stop giving the multiplied reward to a deposit once the
         lock has expired unless it is manually told. It's told whenever the deposit is harvested
         from or when the <Code>downgradeExpired()</Code> function is called. To incentivise this,
@@ -39,36 +40,23 @@ export const Expired: React.FC = ({}) => {
           Looks like there aren't any expired locks right now.
         </Text>
       ) : (
-        <Table>
-          <Thead>
-            <Tr>
-              <Th>ID</Th>
-              <Th>Asset</Th>
-              <Th>Reward</Th>
-              <Th></Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {expiredDeposits.map(d => (
-              <Tr>
-                <Td fontSize="lg">{d.id.toString()}</Td>
-                <Asset asset={d} />
-                <TPrice
-                  amount={d.reward}
-                  priceFn={usePrice}
-                  priceArgs={[d.poolToken]}
-                  decimals={7}
-                  dollarDecimals={6}
-                />
-                <Td>
-                  <Button colorScheme="orange" onClick={() => downgrade(d.id)}>
-                    Claim
-                  </Button>
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
+        <DataList
+          headings={["Id", "Asset", "Reward", ""]}
+          items={expiredDeposits.map(d => [
+            d.id.toString(),
+            <Asset asset={d} />,
+            <TPrice
+              amount={d.reward}
+              priceFn={usePrice}
+              priceArgs={[d.poolToken]}
+              decimals={7}
+              dollarDecimals={6}
+            />,
+            <Button colorScheme="orange" onClick={() => downgrade(d.id)}>
+              Claim
+            </Button>,
+          ])}
+        />
       )}
     </>
   );

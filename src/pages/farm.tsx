@@ -1,13 +1,6 @@
 import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
   Button,
   useRadioGroup,
-  HStack,
   Spinner,
   Modal,
   ModalContent,
@@ -68,6 +61,7 @@ import { AddXdaiToMetamask } from "../components/AddToMetamask";
 import { ExtLink } from "../components/ExtLink";
 import { Stats } from "../components/farm/Stats";
 import { Expired } from "../components/farm/Expired";
+import { DataList } from "../components/farm/DataList";
 
 const largeUint = BigNumber.from("2").pow(200);
 
@@ -149,7 +143,7 @@ const FarmPage: React.FC = () => {
 
   return pools ? (
     <>
-      <HStack {...group} mb="5">
+      <Flex {...group} mb="5" mt="2" flexWrap="wrap" justifyContent="center">
         {pages.map(value => {
           // @ts-expect-error
           const radio = getRadioProps({ value });
@@ -159,87 +153,54 @@ const FarmPage: React.FC = () => {
             </RadioCard>
           );
         })}
-      </HStack>
+      </Flex>
 
       {currentPage === "Opportunities" ? (
-        <Table>
-          <Thead>
-            <Tr>
-              <Th>Deposit Asset</Th>
-              <Th>Cheems 24hr</Th>
-              <Th>Yield 24hr</Th>
-              <Th>Yield 1y</Th>
-              <Th></Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {pools &&
-              pools.map((pool, index) => (
-                <Tr key={pool.poolToken}>
-                  <Asset asset={pool} />
-                  <Td>{FixedNumber.fromValue(pool.hsfInDay, 18).round(2).toString()}</Td>
-                  <TYield pool={pool} days={1} />
-                  <TYield pool={pool} days={365} />
-                  <Td>
-                    <Button
-                      colorScheme="orange"
-                      onClick={() => stake(index)}
-                      disabled={!lpBalances[index] || lpBalances[index]![0].isZero()}
-                    >
-                      Stake
-                    </Button>
-                  </Td>
-                </Tr>
-              ))}
-          </Tbody>
-        </Table>
+        <DataList
+          headings={["Deposit Asset", "Cheems 24hr", "Yield 24hr", "Yield 1y", ""]}
+          items={pools.map((pool, index) => [
+            <Asset asset={pool} />,
+            FixedNumber.fromValue(pool.hsfInDay, 18).round(2).toString(),
+            <TYield pool={pool} days={1} />,
+            <TYield pool={pool} days={365} />,
+            <Button
+              colorScheme="orange"
+              onClick={() => stake(index)}
+              disabled={!lpBalances[index] || lpBalances[index]![0].isZero()}
+            >
+              Stake
+            </Button>,
+          ])}
+        />
       ) : currentPage === "My Deposits" ? (
-        <Table>
-          <Thead>
-            <Tr>
-              <Th>Deposit Asset</Th>
-              <Th>Deposit Balance</Th>
-              <Th>Unlock Date</Th>
-              <Th>Unclaimed Cheems</Th>
-              <Th></Th>
-              <Th></Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {accountDeposits &&
-              accountDeposits.map((d, i) => {
-                const unlockTime = new Date(d.unlockTime.toNumber() * 1000);
+        <DataList
+          headings={["Deposit Asset", "Deposit Balance", "Unlock Date", "Unclaimed Cheems", "", ""]}
+          items={accountDeposits.map(d => {
+            const unlockTime = new Date(d.unlockTime.toNumber() * 1000);
 
-                return (
-                  <Tr key={i}>
-                    <Asset asset={d} />
-                    <TPrice
-                      amount={d.balance}
-                      priceFn={usePrice}
-                      priceArgs={[d.poolToken]}
-                      decimals={7}
-                    />
-                    <Td>{`${unlockTime.toDateString()}, ${unlockTime.toLocaleTimeString()}`}</Td>
-                    <TPrice amount={d.pendingReward} priceFn={useCheemsPrice} />
-                    <Td>
-                      <Button
-                        colorScheme="orange"
-                        onClick={() => withdraw(d.id)}
-                        disabled={d.unlockTime.toNumber() > now()}
-                      >
-                        Withdraw
-                      </Button>
-                    </Td>
-                    <Td>
-                      <Button colorScheme="orange" onClick={() => harvest(d.id)}>
-                        Harvest
-                      </Button>
-                    </Td>
-                  </Tr>
-                );
-              })}
-          </Tbody>
-        </Table>
+            return [
+              <Asset asset={d} />,
+              <TPrice
+                amount={d.balance}
+                priceFn={usePrice}
+                priceArgs={[d.poolToken]}
+                decimals={7}
+              />,
+              `${unlockTime.toDateString()}, ${unlockTime.toLocaleTimeString()}`,
+              <TPrice amount={d.pendingReward} priceFn={useCheemsPrice} />,
+              <Button
+                colorScheme="orange"
+                onClick={() => withdraw(d.id)}
+                disabled={d.unlockTime.toNumber() > now()}
+              >
+                Withdraw
+              </Button>,
+              <Button colorScheme="orange" onClick={() => harvest(d.id)}>
+                Harvest
+              </Button>,
+            ];
+          })}
+        />
       ) : currentPage === "Stats" ? (
         <Stats pools={pools} />
       ) : (

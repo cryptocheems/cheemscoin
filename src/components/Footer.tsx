@@ -27,6 +27,7 @@ export const Footer: React.FC = () => (
     pt="5rem"
     pb="3rem"
     px="5"
+    flexWrap="wrap"
     justifyContent="space-evenly"
     boxShadow="0 0 6px 6px rgba(0, 0, 0, 0.1),0 0 4px 3px rgba(0, 0, 0, 0.06)"
     // ! This is just temporary while there's no stats thing

@@ -8,6 +8,8 @@ export const RadioCard: React.FC<UseRadioProps> = props => {
 
   return (
     <Button
+      mt="2"
+      ml="2"
       as="label"
       cursor="pointer"
       variant={props.isChecked ? "solid" : "outline"}
