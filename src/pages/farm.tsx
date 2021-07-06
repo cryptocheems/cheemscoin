@@ -88,7 +88,9 @@ const FarmPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState("Opportunities");
   const pages =
     !accountDeposits || !accountDeposits[0]
-      ? ["Opportunities", "Stats"]
+      ? accountOrNull
+        ? ["Opportunities", "Stats", "Expired Locks"]
+        : ["Opportunities", "Stats"]
       : ["Opportunities", "My Deposits", "Stats", "Expired Locks"];
   const { getRootProps, getRadioProps } = useRadioGroup({
     defaultValue: "Opportunities",
@@ -236,6 +238,8 @@ const FarmPage: React.FC = () => {
           >
             {({ isValid, values, errors, setFieldValue }) => {
               const { apr, baseApr, lockApr } = calcApr(pools[poolIndexToStake], values.duration);
+              const price = usePrice(pools[poolIndexToStake].poolToken);
+              const value = "$" + (price * Number(values.amount)).toFixed(2);
               return (
                 <Form>
                   <ModalBody>
@@ -314,12 +318,12 @@ const FarmPage: React.FC = () => {
                       }}
                     </Field>
                     <Text fontSize="smaller" mt="6">
-                      Using the current stats, your deposit will initially have an APR of {lockApr}%
-                      for {values.duration} days. After that, it will have an APR of {baseApr}%.
-                      Thus, the average APR for 180 days will be {apr}%. All of these APRs are
-                      variable (meaning they can change drastically) and depend on a variety of
-                      factors. There is no guarantee you will profit in dollar value and it is
-                      possible that your LP tokens will lose value. Please read the{" "}
+                      Using the current stats, your deposit worth {value} will initially have an APR
+                      of {lockApr}% for {values.duration} days. After that, it will have an APR of{" "}
+                      {baseApr}%. Thus, the average APR for 180 days will be {apr}%. All of these
+                      APRs are variable (meaning they can change drastically) and depend on a
+                      variety of factors. There is no guarantee you will profit in dollar value and
+                      it is possible that your LP tokens will lose value. Please read the{" "}
                       {/* TODO: update link to be specific */}
                       <ExtLink plainbg href="https://docs.cheemsco.in/">
                         docs
