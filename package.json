@@ -23,7 +23,7 @@
     "@ethersproject/units": "^5.1.0",
     "@openzeppelin/contracts": "^3.4.0",
     "@truffle/hdwallet-provider": "^1.2.1",
-    "@usedapp/core": "^0.3.24",
+    "@usedapp/core": "^0.4.2",
     "dotenv": "^8.2.0",
     "formik": "^2.2.6",
     "framer-motion": "^4.1.13",
