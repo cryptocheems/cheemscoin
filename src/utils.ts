@@ -9,15 +9,13 @@ export const now = () => Math.round(Date.now() / 1000);
 const calcMultiplierNum = (duration: string) => Number(duration) * (5 / maxLock) + 1;
 export const calcMultiplier = (duration: string) => calcMultiplierNum(duration).toFixed(2);
 
-// TODO: Factor in that the entire duration is only 90 days
-// TODO: Warn the user if they lock for longer than the remaining time
-export function calcApr(pool: PoolDetails, duration: string) {
+export function calcApr(pool: PoolDetails, duration: string, days: number) {
   const yield24Hr = calcYield(pool, 1).toUnsafeFloat();
   const multiplier = calcMultiplierNum(duration);
   const nDuration = Number(duration);
   const baseApr = yield24Hr * 365;
   const lockApr = baseApr * multiplier;
-  const apr = (nDuration * yield24Hr * multiplier + (180 - nDuration) * yield24Hr) * (365 / 180);
+  const apr = (nDuration * yield24Hr * multiplier + (days - nDuration) * yield24Hr) * (365 / days);
   return {
     baseApr: baseApr.toFixed(2),
     lockApr: lockApr.toFixed(2),

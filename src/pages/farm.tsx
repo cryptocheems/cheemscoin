@@ -23,6 +23,7 @@ import {
   SliderFilledTrack,
   SliderThumb,
   useToast,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import {
   ChainId,
@@ -265,7 +266,12 @@ const FarmPage: React.FC = () => {
             }}
           >
             {({ isValid, values, errors, setFieldValue }) => {
-              const { apr, baseApr, lockApr } = calcApr(pools[poolIndexToStake], values.duration);
+              const rewardDays = Math.min(daysRemaining, 90);
+              const { apr, baseApr, lockApr } = calcApr(
+                pools[poolIndexToStake],
+                values.duration,
+                rewardDays
+              );
               const price = usePrice(pools[poolIndexToStake].poolToken);
               const value = "$" + (price * Number(values.amount)).toFixed(2);
               return (
@@ -341,6 +347,12 @@ const FarmPage: React.FC = () => {
                                 <SliderThumb />
                               </Slider>
                             </Flex>
+                            {Number(values.duration) > rewardDays && (
+                              <Text mt="2" color={useColorModeValue("red.500", "red.300")}>
+                                This duration is longer than the remaining reward time. You won't
+                                receive more rewards after the reward time has finished.
+                              </Text>
+                            )}
                           </>
                         );
                       }}
@@ -348,8 +360,8 @@ const FarmPage: React.FC = () => {
                     <Text fontSize="smaller" mt="6">
                       Using the current stats, your deposit worth {value} will initially have an APR
                       of {lockApr}% for {values.duration} days. After that, it will have an APR of{" "}
-                      {baseApr}%. Thus, the average APR for 180 days will be {apr}%. All of these
-                      APRs are variable (meaning they can change drastically) and depend on a
+                      {baseApr}%. Thus, the average APR for {rewardDays} days will be {apr}%. All of
+                      these APRs are variable (meaning they can change drastically) and depend on a
                       variety of factors. There is no guarantee you will profit in dollar value and
                       it is possible that your LP tokens will lose value. Please read the{" "}
                       {/* TODO: update link to be specific */}
