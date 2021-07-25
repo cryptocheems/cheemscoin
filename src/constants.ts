@@ -14,7 +14,7 @@ export const iFarm = new Interface(CheemscoinFarm.abi);
 export const farmContract = new Contract(farmAddress, iFarm);
 export const defaultPool = "0xbd8B3bdce99424a957eFe338ef52d6FDC0Aef417";
 // export const defaultPool = "0xce5382ff31b7a6F24797A46c307351FDE135C0Fd";
-export const totalCheems = FixedNumber.from("175605");
+export const totalCheems = FixedNumber.from("172605");
 export const maxLock = 90;
 
 export const tokenDetails = (address: string): LPDetails => {
@@ -45,30 +45,17 @@ export const tokenDetails = (address: string): LPDetails => {
         exchange: "Swapr",
         url: "https://swapr.eth.link/#/add/0x6a023ccd1ff6f2045c3309768ead9e68f978f6e1/0xeaf7b3376173df8bc0c22ad6126943cc8353c1ee?chainId=100",
       };
-    case "0x58D86fA82be09B3456d931fd8CD3Babcd4118C4B":
-      return {
-        name: "CHEEMS - BNB LP",
-        exchange: "PancakeSwap",
-        // TODO: Change to url of tutorial
-        url: "https://exchange.pancakeswap.finance/#/add/0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c/0xf2d86f9198a8373ad433496fcb2951248db1c79d",
-      };
     default:
       return { name: address, exchange: "", url: "" };
   }
 };
 
-export const graphDetails = (address: string) => {
+export const graphUrl = (address: string) => {
   switch (address.toLowerCase()) {
     case "0x972dec20648f57a350d8fe09acd22805fe246c84":
-      return { address, url: "https://api.thegraph.com/subgraphs/name/luzzif/swapr-xdai" };
-    case "0x58d86fa82be09b3456d931fd8cd3babcd4118c4b":
-      return {
-        address: "0x80d34220522E129230354B6B5679Ae9F2349d4b0",
-        // TODO: Find subraph that works
-        url: "https://api.thegraph.com/subgraphs/name/1hive/honeyswap-xdai",
-      };
+      return "https://api.thegraph.com/subgraphs/name/luzzif/swapr-xdai";
     default:
-      return { address, url: "https://api.thegraph.com/subgraphs/name/1hive/honeyswap-xdai" };
+      return "https://api.thegraph.com/subgraphs/name/1hive/honeyswap-xdai";
   }
 };
 

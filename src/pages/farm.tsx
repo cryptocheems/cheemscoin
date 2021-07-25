@@ -62,6 +62,7 @@ import { ExtLink } from "../components/ExtLink";
 import { Stats } from "../components/farm/Stats";
 import { Expired } from "../components/farm/Expired";
 import { DataList } from "../components/farm/DataList";
+import { Countdown } from "../components/farm/Countdown";
 
 const largeUint = BigNumber.from("2").pow(200);
 
@@ -76,7 +77,6 @@ const FarmPage: React.FC = () => {
       args: [],
       method: "getAllPools",
     }) ?? [];
-
   const [accountDeposits]: DepositDetails[][] =
     useContractCall({
       abi: iFarm,
@@ -84,6 +84,13 @@ const FarmPage: React.FC = () => {
       args: [account],
       method: "getAccountDeposits",
     }) ?? [];
+  const [endTime]: BigNumber[] = useContractCall({
+    abi: iFarm,
+    address: farmAddress,
+    args: [],
+    method: "endTime",
+  }) ?? [BigNumber.from(now() + maxLock * 24 * 3600)];
+  const daysRemaining = Math.ceil((endTime.toNumber() - now()) / (24 * 3600));
 
   const [currentPage, setCurrentPage] = useState("Opportunities");
   const pages =
@@ -156,6 +163,10 @@ const FarmPage: React.FC = () => {
         })}
       </Flex>
 
+      {daysRemaining > maxLock && (
+        <Countdown adjustDays={maxLock} endTime={endTime} text={"Rewards start in"} mb="6" />
+      )}
+
       {currentPage === "Opportunities" ? (
         <DataList
           headings={["Deposit Asset", "Cheems 24hr", "Yield 24hr", "Yield 1y", ""]}
@@ -221,7 +232,7 @@ const FarmPage: React.FC = () => {
           />
         </>
       ) : currentPage === "Stats" ? (
-        <Stats pools={pools} />
+        <Stats pools={pools} endTime={endTime} />
       ) : (
         <Expired />
       )}
