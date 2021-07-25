@@ -16,7 +16,6 @@ export const Expired: React.FC = ({}) => {
       method: "getExpiredDepositIds",
     }) ?? [];
 
-  // @ts-expect-error
   const { send: downgrade } = useContractFunction(farmContract, "downgradeExpired", {
     transactionName: "Claim ",
   });

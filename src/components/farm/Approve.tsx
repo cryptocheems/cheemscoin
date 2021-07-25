@@ -12,9 +12,7 @@ interface ApproveProps {
 const maxUint = BigNumber.from("2").pow(256).sub(1);
 
 export const Approve: React.FC<ApproveProps> = ({ address, spender, disabled }) => {
-  // @ts-expect-error
   const contract = new Contract(address, ERC20Interface);
-  // @ts-expect-error
   const { send: approve } = useContractFunction(contract, "approve", {
     transactionName: "Approval",
   });

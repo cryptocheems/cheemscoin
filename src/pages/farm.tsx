@@ -109,18 +109,17 @@ const FarmPage: React.FC = () => {
     ? formatEther(lpBalances[poolIndexToStake]![0])
     : "0";
 
-  // Idk why these have errors
-  // @ts-expect-error
   const { send: deposit } = useContractFunction(farmContract, "createDeposit", {
     transactionName: "Deposit",
   });
-  // @ts-expect-error
   const { send: withdraw } = useContractFunction(farmContract, "closeDeposit", {
     transactionName: "Withdrawal",
   });
-  // @ts-expect-error
   const { send: harvest } = useContractFunction(farmContract, "withdrawRewards", {
     transactionName: "Harvest",
+  });
+  const { send: harvestAll } = useContractFunction(farmContract, "multiWithdraw", {
+    transactionName: "Harvest All",
   });
 
   function stake(index: number) {
@@ -175,34 +174,52 @@ const FarmPage: React.FC = () => {
           ])}
         />
       ) : currentPage === "My Deposits" ? (
-        <DataList
-          headings={["Deposit Asset", "Deposit Balance", "Unlock Date", "Unclaimed Cheems", "", ""]}
-          items={accountDeposits.map(d => {
-            const unlockTime = new Date(d.unlockTime.toNumber() * 1000);
+        <>
+          <Button
+            colorScheme="orange"
+            mb="3"
+            py="1.5em"
+            px="1.2em"
+            onClick={() => harvestAll(accountDeposits.map(d => d.id))}
+          >
+            Harvest All Rewards
+          </Button>
+          <DataList
+            headings={[
+              "Deposit Asset",
+              "Deposit Balance",
+              "Unlock Date",
+              "Unclaimed Cheems",
+              "",
+              "",
+            ]}
+            items={accountDeposits.map(d => {
+              const unlockTime = new Date(d.unlockTime.toNumber() * 1000);
 
-            return [
-              <Asset asset={d} />,
-              <TPrice
-                amount={d.balance}
-                priceFn={usePrice}
-                priceArgs={[d.poolToken]}
-                decimals={7}
-              />,
-              `${unlockTime.toDateString()}, ${unlockTime.toLocaleTimeString()}`,
-              <TPrice amount={d.pendingReward} priceFn={useCheemsPrice} />,
-              <Button
-                colorScheme="orange"
-                onClick={() => withdraw(d.id)}
-                disabled={d.unlockTime.toNumber() > now()}
-              >
-                Withdraw
-              </Button>,
-              <Button colorScheme="orange" onClick={() => harvest(d.id)}>
-                Harvest
-              </Button>,
-            ];
-          })}
-        />
+              return [
+                <Asset asset={d} />,
+                <TPrice
+                  amount={d.balance}
+                  priceFn={usePrice}
+                  priceArgs={[d.poolToken]}
+                  decimals={7}
+                />,
+                `${unlockTime.toDateString()}, ${unlockTime.toLocaleTimeString()}`,
+                <TPrice amount={d.pendingReward} priceFn={useCheemsPrice} />,
+                <Button
+                  colorScheme="orange"
+                  onClick={() => withdraw(d.id)}
+                  disabled={d.unlockTime.toNumber() > now()}
+                >
+                  Withdraw
+                </Button>,
+                <Button colorScheme="orange" onClick={() => harvest(d.id)}>
+                  Harvest
+                </Button>,
+              ];
+            })}
+          />
+        </>
       ) : currentPage === "Stats" ? (
         <Stats pools={pools} />
       ) : (
@@ -294,7 +311,7 @@ const FarmPage: React.FC = () => {
                                 value={value}
                                 onChange={handleChange}
                                 min={2}
-                                max={180}
+                                max={maxLock}
                               >
                                 <NumberInputField {...field} id="duration" pr="3" placeholder="2" />
                               </NumberInput>
@@ -362,8 +379,8 @@ const Farm: React.FC = () => {
   return (
     <Container>
       <ConnectWallet />
-      {/* {chainId === ChainId.Rinkeby ? ( */}
-      {chainId === ChainId.xDai ? (
+      {chainId === ChainId.Rinkeby ? (
+        // {chainId === ChainId.xDai ? (
         <FarmPage />
       ) : (
         <>

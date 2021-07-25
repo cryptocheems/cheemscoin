@@ -29,7 +29,6 @@ export function usePrice(address: string) {
   const { chainId } = useEthers();
 
   useEffect(() => {
-    // if (chainId !== ChainId.Rinkeby) return;
     if (chainId !== ChainId.xDai) return;
     (async () => setPrice(await queryPrice(address)))();
   }, [chainId]);

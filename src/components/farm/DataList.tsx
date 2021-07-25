@@ -40,23 +40,25 @@ export const DataList: React.FC<DataListProps> = ({ headings, items }) => {
       ))}
     </Box>
   ) : (
-    <Table>
-      <Thead>
-        <Tr>
-          {headings.map((heading, i) => (
-            <Th key={i}>{heading}</Th>
-          ))}
-        </Tr>
-      </Thead>
-      <Tbody>
-        {items.map((nodes, i) => (
-          <Tr key={i}>
-            {nodes.map((node, j) => (
-              <Td key={j}>{node}</Td>
+    <Box overflow="auto">
+      <Table>
+        <Thead>
+          <Tr>
+            {headings.map((heading, i) => (
+              <Th key={i}>{heading}</Th>
             ))}
           </Tr>
-        ))}
-      </Tbody>
-    </Table>
+        </Thead>
+        <Tbody>
+          {items.map((nodes, i) => (
+            <Tr key={i}>
+              {nodes.map((node, j) => (
+                <Td key={j}>{node}</Td>
+              ))}
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
+    </Box>
   );
 };
