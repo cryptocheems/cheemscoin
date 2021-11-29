@@ -51,7 +51,6 @@ const Index = () => {
             />
           </PopoverTrigger>
           <PopoverContent>
-            {/* TODO: look like the close button on this  is broken */}
             <PopoverHeader textAlign="center">whamt the fumk</PopoverHeader>
             <PopoverArrow />
             <PopoverCloseButton />

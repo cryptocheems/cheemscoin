@@ -1,7 +1,7 @@
 import CheemscoinFarm from "./artifacts/CheemscoinFarm.json";
 import { Interface } from "@ethersproject/abi";
 import { LPDetails, Notification, notificationDetails } from "./types";
-import { Contract } from "@ethersproject/contracts";
+import { Contract } from "@usedapp/core/node_modules/@ethersproject/contracts";
 import { TxHash } from "./components/TxHash";
 import { FixedNumber } from "@ethersproject/bignumber";
 
@@ -14,8 +14,8 @@ export const iFarm = new Interface(CheemscoinFarm.abi);
 export const farmContract = new Contract(farmAddress, iFarm);
 export const defaultPool = "0xbd8B3bdce99424a957eFe338ef52d6FDC0Aef417";
 // export const defaultPool = "0xce5382ff31b7a6F24797A46c307351FDE135C0Fd";
-export const totalCheems = FixedNumber.from("172605");
-export const maxLock = 90;
+export const totalCheems = FixedNumber.from("345210");
+export const maxLock = 30;
 
 export const tokenDetails = (address: string): LPDetails => {
   switch (address) {

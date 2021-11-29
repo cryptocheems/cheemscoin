@@ -154,7 +154,6 @@ const FarmPage: React.FC = () => {
     <>
       <Flex {...group} mb="5" mt="2" flexWrap="wrap" justifyContent="center">
         {pages.map(value => {
-          // @ts-expect-error
           const radio = getRadioProps({ value });
           return (
             <RadioCard key={value} {...radio}>
@@ -266,7 +265,7 @@ const FarmPage: React.FC = () => {
             }}
           >
             {({ isValid, values, errors, setFieldValue }) => {
-              const rewardDays = Math.min(daysRemaining, 90);
+              const rewardDays = Math.min(daysRemaining, maxLock);
               const { apr, baseApr, lockApr } = calcApr(
                 pools[poolIndexToStake],
                 values.duration,
@@ -364,8 +363,7 @@ const FarmPage: React.FC = () => {
                       these APRs are variable (meaning they can change drastically) and depend on a
                       variety of factors. There is no guarantee you will profit in dollar value and
                       it is possible that your LP tokens will lose value. Please read the{" "}
-                      {/* TODO: update link to be specific */}
-                      <ExtLink plainbg href="https://docs.cheemsco.in/">
+                      <ExtLink plainbg href="https://docs.cheemsco.in/farming/apr-calculation">
                         docs
                       </ExtLink>{" "}
                       before depositing.

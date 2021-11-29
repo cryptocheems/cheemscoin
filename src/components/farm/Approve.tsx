@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/react";
 import { BigNumber } from "@ethersproject/bignumber";
-import { Contract } from "@ethersproject/contracts";
+import { Contract } from "@usedapp/core/node_modules/@ethersproject/contracts";
 import { ERC20Interface, useContractFunction } from "@usedapp/core";
 
 interface ApproveProps {
