@@ -363,7 +363,7 @@ const FarmPage: React.FC = () => {
                       these APRs are variable (meaning they can change drastically) and depend on a
                       variety of factors. There is no guarantee you will profit in dollar value and
                       it is possible that your LP tokens will lose value. Please read the{" "}
-                      <ExtLink plainbg href="https://docs.cheemsco.in/farming/apr-calculation">
+                      <ExtLink plainbg href="https://docs.cheemsco.in/farming/rewards-calculation">
                         docs
                       </ExtLink>{" "}
                       before depositing.
@@ -400,8 +400,8 @@ const Farm: React.FC = () => {
   return (
     <Container>
       <ConnectWallet />
-      {chainId === ChainId.Rinkeby ? (
-        // {chainId === ChainId.xDai ? (
+      {/* {chainId === ChainId.Rinkeby ? ( */}
+      {chainId === ChainId.xDai ? (
         <FarmPage />
       ) : (
         <>

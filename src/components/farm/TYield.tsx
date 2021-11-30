@@ -10,7 +10,8 @@ interface TYieldProps {
 }
 
 export function calcYield(pool: PoolDetails, days: number) {
-  const cheemsPrice = FixedNumber.from((useCheemsPrice() * days).toString());
+  // It's multiplied by 100 because it's a percentage
+  const cheemsPrice = FixedNumber.from((100 * useCheemsPrice() * days).toString());
   const cheemsAmount = FixedNumber.from(pool.hsfInDay);
   const lpPrice = FixedNumber.from(usePrice(pool.poolToken).toString());
   const lpBalance = FixedNumber.from(pool.poolTokenBalance);
