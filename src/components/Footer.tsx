@@ -50,10 +50,12 @@ export const Footer: React.FC = () => (
     <Stack>
       <FooterLink href="https://docs.cheemsco.in">Docs</FooterLink>
       <FooterLink href={honeyswapLink}>Honeyswap</FooterLink>
+      <FooterLink href="https://dxstats.eth.link/#/token/0xeaf7b3376173df8bc0c22ad6126943cc8353c1ee?chainId=100">
+        Swapr
+      </FooterLink>
     </Stack>
     <Stack>
       <FooterLink href="/contact">Contact</FooterLink>
-      {/* TODO: Change back */}
       <FooterLink href={buyLink}>Buy</FooterLink>
       <FooterLink href="/farm">Farm</FooterLink>
       <FooterLink href="/locks">Token Locks</FooterLink>
