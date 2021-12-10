@@ -399,7 +399,7 @@ const Farm: React.FC = () => {
 
   return (
     <Container>
-      {false ? (<><ConnectWallet />
+      <ConnectWallet />
 
       {chainId === ChainId.xDai ? (
         <FarmPage />
@@ -408,7 +408,7 @@ const Farm: React.FC = () => {
           <Text mb="5">Unsupported network. Please switch to xDai</Text>
           <AddXdaiToMetamask />
         </>
-      )}</>)  : "Coming Soon"}
+      )}
       
      
     </Container>

@@ -5,14 +5,10 @@ import { Contract } from "@usedapp/core/node_modules/@ethersproject/contracts";
 import { TxHash } from "./components/TxHash";
 import { FixedNumber } from "@ethersproject/bignumber";
 
-// TODO: Make this right
-// export const cheemsAddress = "0x060153c56952571389507aa373fc39343607373f";
 export const cheemsAddress = "0xeaf7b3376173df8bc0c22ad6126943cc8353c1ee";
-// export const farmAddress = "0xd1cE73E8595077f82E55eDa8Bc6fEbB4bcE92cB6";
-export const farmAddress = "0xa67053D86b1bF52fd8391384c9dfC23EC6D9d1fd";
+export const farmAddress = "0x8E9Bba528f4B689dd1B8747875a69D4280Aa33e9";
 export const iFarm = new Interface(CheemscoinFarm.abi);
 export const farmContract = new Contract(farmAddress, iFarm);
-// export const defaultPool = "0xbd8B3bdce99424a957eFe338ef52d6FDC0Aef417";
 export const defaultPool = "0xce5382ff31b7a6F24797A46c307351FDE135C0Fd";
 export const totalCheems = FixedNumber.from("345210");
 export const maxLock = 30;
