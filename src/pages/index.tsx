@@ -123,15 +123,12 @@ const Index = () => {
         <Box maxW="container.sm" mb="5" mx="2">
           <Heading d="flex" alignItems="center">
             Yield Farming
-            <Text ml="2" fontSize="sm">
-              Coming Soon
-            </Text>
           </Heading>
           <Text>
-            On the <ExtLink href="farm">farming</ExtLink> page, you will be able to despoit Cheemscoin 
-            Liquidity Provider tokens in a smart contract and then gradually earn Cheemscoin. You will
-            be required to lock the LP tokens for at least 2 days, but you can lock it for longer to
-            increase your rewards. A total of 345,210 Cheemscoin (half of the total supply) will be
+            On the <ExtLink href="farm">farm</ExtLink> page, you can despoit Cheemscoin Liquidity
+            Provider tokens in a smart contract and then gradually earn Cheemscoin. You are required
+            to lock the LP tokens for at least 2 days, but you can lock them for longer to increase
+            your rewards. A total of 345,210 Cheemscoin (half of the total supply) will be
             distributed through this over the 30 days. You can find more technical details in the{" "}
             <ExtLink href="https://docs.cheemsco.in/farming/changes">docs</ExtLink>.
           </Text>
