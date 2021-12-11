@@ -1,7 +1,7 @@
 import { Heading, Spinner, Stack } from "@chakra-ui/react";
 import { BigNumber, FixedNumber } from "@ethersproject/bignumber";
 import { useTokenBalance } from "@usedapp/core";
-import { cheemsAddress, farmAddress, totalCheems } from "../../constants";
+import { cheemsAddress, farmAddress } from "../../constants";
 import { useBalances } from "../../hooks/useBalances";
 import { usePrice } from "../../hooks/usePrice";
 import { PoolDetails } from "../../types";
@@ -31,15 +31,10 @@ export const Stats: React.FC<StatsProps> = ({ pools, endTime }) => {
 
   if (tvl.isZero() || !cheems) return <Spinner />;
 
-  const remaining = FixedNumber.fromValue(cheems, 18);
-  const harvested = totalCheems.subUnsafe(remaining);
-
   return (
     <>
       <Stack spacing="3" mb="5" px="2">
         <Heading mb="1">Total Value Locked: ${removeDecimal(tvl)}</Heading>
-        <Heading fontSize="2xl">Cheemscoin Harvested: {removeDecimal(harvested)}</Heading>
-        <Heading fontSize="2xl">Cheemscoin Remaining: {removeDecimal(remaining)}</Heading>
         <Countdown fontSize="2xl" endTime={endTime} text={"Time Remaining"} />
       </Stack>
       <DataList

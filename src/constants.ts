@@ -6,7 +6,7 @@ import { TxHash } from "./components/TxHash";
 import { FixedNumber } from "@ethersproject/bignumber";
 
 export const cheemsAddress = "0xeaf7b3376173df8bc0c22ad6126943cc8353c1ee";
-export const farmAddress = "0x8E9Bba528f4B689dd1B8747875a69D4280Aa33e9";
+export const farmAddress = "0xa67053D86b1bF52fd8391384c9dfC23EC6D9d1fd";
 export const iFarm = new Interface(CheemscoinFarm.abi);
 export const farmContract = new Contract(farmAddress, iFarm);
 export const defaultPool = "0xce5382ff31b7a6F24797A46c307351FDE135C0Fd";
