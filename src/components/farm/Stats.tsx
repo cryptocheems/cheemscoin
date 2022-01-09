@@ -8,14 +8,13 @@ import { PoolDetails } from "../../types";
 import { removeDecimal } from "../../utils";
 import { Asset } from "./Asset";
 import { DataList } from "./DataList";
-import { Countdown } from "./Countdown";
 
 interface StatsProps {
   pools: PoolDetails[];
   endTime: BigNumber;
 }
 
-export const Stats: React.FC<StatsProps> = ({ pools, endTime }) => {
+export const Stats: React.FC<StatsProps> = ({ pools }) => {
   const prices = pools
     .map(pool => usePrice(pool.poolToken))
     .map(p => FixedNumber.from(p.toString()));
@@ -40,7 +39,6 @@ export const Stats: React.FC<StatsProps> = ({ pools, endTime }) => {
         <Heading mb="1">Total Value Locked: ${removeDecimal(tvl)}</Heading>
         <Heading fontSize="2xl">Cheemscoin Harvested: {removeDecimal(harvested)}</Heading>
         <Heading fontSize="2xl">Cheemscoin Remaining: {removeDecimal(remaining)}</Heading>
-        <Countdown fontSize="2xl" endTime={endTime} text={"Time Remaining"} />
       </Stack>
       <DataList
         headings={["Asset", "Amount Deposited", "Total Value"]}

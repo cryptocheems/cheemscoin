@@ -24,6 +24,7 @@ import {
   SliderThumb,
   useToast,
   useColorModeValue,
+  Heading,
 } from "@chakra-ui/react";
 import {
   ChainId,
@@ -400,6 +401,8 @@ const Farm: React.FC = () => {
   return (
     <Container>
       <ConnectWallet />
+
+      <Heading>Farming is now over</Heading>
 
       {chainId === ChainId.xDai ? (
         <FarmPage />
