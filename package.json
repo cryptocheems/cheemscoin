@@ -20,7 +20,7 @@
     "@ethersproject/abi": "^5.0.7",
     "@ethersproject/bignumber": "^5.1.0",
     "@ethersproject/units": "^5.1.0",
-    "@openzeppelin/contracts": "^3.4.2",
+    "@openzeppelin/contracts": "^4.7.2",
     "@truffle/hdwallet-provider": "^1.2.1",
     "@usedapp/core": "^0.4.2",
     "dotenv": "^8.2.0",
